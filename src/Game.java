@@ -29,6 +29,7 @@ class Player
 	int playerID;
 	Location currentLoc;
 	boolean isAlive;
+	boolean isConnected;
 	boolean wasMoved;
 	ArrayList<Deck.Card> hand;
 };
@@ -57,7 +58,7 @@ public class Game
 	
 	public Game()
 	{
-		
+		InitBoard();
 	}
 	
 	public void InitBoard()
@@ -129,9 +130,22 @@ public class Game
 		}
 	}
 
-	public void addPlayer()
+	public void addPlayer(int aPlayerId)
 	{
-	
+		if(players[aPlayerId] != null)
+		{
+			//Say that player is already taken
+		}
+		else
+		{
+			players[aPlayerId].playerID = aPlayerId;
+			players[aPlayerId].isAlive = true;
+			players[aPlayerId].isConnected = true;
+			players[aPlayerId].wasMoved = false;
+			numLivePlayers++;
+		}
+		
+		// Announce that a new player joined
 	}
 	
 	public void runFirstTurn()
@@ -145,30 +159,34 @@ public class Game
 		homeLocations[4] = board[4][1];
 		homeLocations[5] = board[4][3];
 		
-		for(int currPlayer = 0; currPlayer < numLivePlayers; currPlayer++)
+		for(int currPlayer = 0; currPlayer < numPlayers; currPlayer++)
 		{
-			//sendMsg(currentPlayer, "Your first turn must be to your home square");
-			players[currPlayer].currentLoc = homeLocations[currPlayer];
-			
-			// Its a real player
-			players[currPlayer].isAlive = true;
+			if(players[currPlayer].isAlive)
+			{
+				//sendMsg(currentPlayer, "Your first turn must be to your home square");
+				players[currPlayer].currentLoc = homeLocations[currPlayer];
+			}
 		}
 		
 		// Deal hands to live players
 		Deck deck = new Deck(numPlayers, numRooms, numWeapons);
 		caseFile = deck.caseFile;
 		
-		for(int currCard = 0, currPlayer = 0; 
+		int currCard = 0;
+		for(int currPlayer = 0; 
 				currCard < deck.deck.size(); 
-				currCard++, currPlayer = (currPlayer + 1) % numLivePlayers)
+				currPlayer = (currPlayer + 1) % numPlayers)
 		{
-			players[currPlayer].hand.add(deck.deck.get(currCard));
+			if(players[currPlayer].isAlive)
+			{
+				players[currPlayer].hand.add(deck.deck.get(currCard++));
+			}
 		}
 		
 		//SendTurnUpdates;
 	}
 	
-	public void onReceiveAccusation(int aPlayerID, Deck.Card[] aAccusation)
+	public void onReceiveAccusation(int aPlayerId, Deck.Card[] aAccusation)
 	{
 		if( aAccusation[0].equals(caseFile[0]) &&
 			aAccusation[1].equals(caseFile[1]) &&
@@ -178,12 +196,15 @@ public class Game
 		}
 		else
 		{
+			players[aPlayerId].isAlive = false;
 			//Announce loser
 		}
 	}
 	
 	public void onReceiveSuggestion(int aPlayerID, Deck.Card[] aSuggestion)
 	{
+		// First send message to everyone what the suggestion was		
+		
 		// Move player and weapon to that room
 		Location loc = board[aSuggestion[1].cardID % board.length][aSuggestion[1].cardID / board.length];
 		
@@ -198,7 +219,7 @@ public class Game
 		
 		for(int i = aPlayerID, count = 0; count < numPlayers; i=(i+1)%numPlayers, count++)
 		{
-			// Skip plyer who made suggestion
+			// Skip player who made suggestion
 			if(players[i].playerID != aPlayerID)
 			{
 				// Find matches in that players hand if they exist
@@ -213,7 +234,18 @@ public class Game
 				
 				if(!matches.isEmpty())
 				{
-					// Enable player to choose one, then send it, and end loop
+					if(players[i].isConnected)
+					{
+						// Send message to player choose one
+					}
+					else
+					{
+						// Send this random one since the player is dead and gone
+						int randomCard = (int)Math.random()*matches.size();
+						matches.get(randomCard);
+					}
+					// Receive card, then show it to suggestor
+					// announce to everyone this player showed a card					
 					break;
 				}
 			}
@@ -244,7 +276,7 @@ public class Game
 					availableMoves.add(nextMove);
 				}
 			}
-			// Show available moves (graphics, text list, etc)
+			// Send available moves
 			
 			if(availableMoves.isEmpty())
 			{
@@ -258,7 +290,8 @@ public class Game
 				}
 			}
 			
-			// Maybe add timeout if they dont do anything?		
+			// Wait for responses for a certain timeout, then process message
+			//TimedBlockingReceiveProcessMessage();
 			
 		}
 	}

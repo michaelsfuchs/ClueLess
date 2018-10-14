@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 
 public class Deck
 {
@@ -24,6 +25,7 @@ public class Deck
 		{
 			return (this.type == other.type && this.cardID == other.cardID);
 		}
+		
 	};
 	
 	ArrayList<Card> deck;
