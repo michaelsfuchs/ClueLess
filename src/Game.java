@@ -8,14 +8,31 @@ enum LocType
 	ROOM,
 }
 
+class Point
+{
+	int x;
+	int y;
+	
+	Point(int x,int y)
+	{
+		this.x = x;
+		this.y = y;
+	}
+};
+
 class Location
 {
 	int locID;
-	int x;
-	int y;
+	Point loc;
 	LocType type;
 	ArrayList<Player> occupancy;
 	ArrayList<Location> connections;
+	
+	Location()
+	{
+		this.occupancy = new ArrayList<Player>();
+		this.connections = new ArrayList<Location>();
+	}
 };
 
 class Weapon
@@ -32,12 +49,13 @@ class Player
 	boolean isConnected;
 	boolean wasMoved;
 	ArrayList<Deck.Card> hand;
+	
+	Player()
+	{
+		hand = new ArrayList<Deck.Card>();
+	}
 };
 
-class TurnOptions
-{
-	ArrayList<Deck.Card> availableMoves;
-}
 
 public class Game
 {
@@ -58,16 +76,35 @@ public class Game
 	
 	public Game()
 	{
+		for(int p = 0; p < numPlayers; p++)
+		{
+			players[p] = new Player();
+
+		}
+		for(int w = 0; w < numWeapons; w++)
+		{
+			weapons[w] = new Weapon();
+
+		}
+		for(int y = 0; y < 5; y++)
+		{
+			for(int x = 0; x < 5; x++)
+			{	
+				board[x][y] = new Location();
+			}
+		}
+		
 		InitBoard();
 	}
 	
 	public void InitBoard()
 	{
 		int roomID = 0, hallwayID = 0;
+		
 		for(int y = 0; y < 5; y++)
 		{
 			for(int x = 0; x < 5; x++)
-			{
+			{				
 				// Clear occupancy
 				board[x][y].occupancy.clear();
 				
@@ -104,11 +141,13 @@ public class Game
 				{
 					board[x][y].type = LocType.ROOM;
 					board[x][y].locID = roomID++;
+					board[x][y].loc = new Point(x,y);
 				}
 				else if(x%2==0 || y%2==0)
 				{
 					board[x][y].type = LocType.HALLWAY;
 					board[x][y].locID = hallwayID++;
+					board[x][y].loc = new Point(x,y);
 				}
 				else
 				{
@@ -120,6 +159,7 @@ public class Game
 		// Init weapon IDs, can start them randomly if you want?
 		for(int i = 0; i < numWeapons; i++)
 		{
+			weapons[i] = new Weapon();
 			weapons[i].weaponID = i;
 		}
 		
@@ -132,12 +172,17 @@ public class Game
 
 	public void addPlayer(int aPlayerId)
 	{
-		if(players[aPlayerId] != null)
+		if(numLivePlayers == 6)
 		{
-			//Say that player is already taken
+			//Say the game is full
+		}
+		else if(players[aPlayerId] != null)
+		{
+			// Say that player is taken
 		}
 		else
 		{
+			players[aPlayerId] = new Player();
 			players[aPlayerId].playerID = aPlayerId;
 			players[aPlayerId].isAlive = true;
 			players[aPlayerId].isConnected = true;
@@ -184,6 +229,7 @@ public class Game
 		}
 		
 		//SendTurnUpdates;
+		//Send all players their hands
 	}
 	
 	public void onReceiveAccusation(int aPlayerId, Deck.Card[] aAccusation)
@@ -241,9 +287,11 @@ public class Game
 					else
 					{
 						// Send this random one since the player is dead and gone
-						int randomCard = (int)Math.random()*matches.size();
+						// and is now a "Bot"
+						int randomCard = (int)Math.floor(Math.random()*matches.size());
 						matches.get(randomCard);
 					}
+					
 					// Receive card, then show it to suggestor
 					// announce to everyone this player showed a card					
 					break;
@@ -252,7 +300,7 @@ public class Game
 		}
 	}
 	
-	public void runGame()
+	public void runGame() throws InterruptedException
 	{
 		currentPlayer = 0;
 		
@@ -276,23 +324,16 @@ public class Game
 					availableMoves.add(nextMove);
 				}
 			}
-			// Send available moves
 			
-			if(availableMoves.isEmpty())
+			if(p.wasMoved)
 			{
-				if(p.wasMoved)
-				{
-					// Enable option to make suggestion for that room
-				}
-				else
-				{
-					// Sorry, no moves for you
-				}
+				// Enable option to make suggestion for that room
 			}
+			//Send moves
 			
 			// Wait for responses for a certain timeout, then process message
 			//TimedBlockingReceiveProcessMessage();
-			
+			Thread.sleep(3000);
 		}
 	}
 };

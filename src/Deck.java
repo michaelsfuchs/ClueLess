@@ -28,7 +28,7 @@ public class Deck
 		
 	};
 	
-	ArrayList<Card> deck;
+	ArrayList<Card> deck = new ArrayList<Card>();
 	Card[] caseFile = new Card[3];
 	
 	// make 3 decks of each type, shuffle them, take top card as case file
