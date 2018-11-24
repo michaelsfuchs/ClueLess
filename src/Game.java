@@ -18,6 +18,7 @@ class Point
 		this.x = x;
 		this.y = y;
 	}
+	
 };
 
 class Location
@@ -159,7 +160,6 @@ public class Game
 		// Init weapon IDs, can start them randomly if you want?
 		for(int i = 0; i < numWeapons; i++)
 		{
-			weapons[i] = new Weapon();
 			weapons[i].weaponID = i;
 		}
 		
@@ -174,11 +174,11 @@ public class Game
 	{
 		if(numLivePlayers == 6)
 		{
-			//Say the game is full
+			//System.out.println("Game Full");
 		}
-		else if(players[aPlayerId] != null)
+		else if(players[aPlayerId].isAlive)
 		{
-			// Say that player is taken
+			//System.out.println("Player Taken");
 		}
 		else
 		{
@@ -188,6 +188,8 @@ public class Game
 			players[aPlayerId].isConnected = true;
 			players[aPlayerId].wasMoved = false;
 			numLivePlayers++;
+			
+			//System.out.println("Player " + aPlayerId + " Added");
 		}
 		
 		// Announce that a new player joined
@@ -331,6 +333,12 @@ public class Game
 			}
 			//Send moves
 			
+			System.out.print("Player "+currentPlayer+" Move options: ");
+			for(Location move : availableMoves)
+			{
+				System.out.print(move.x+","+move.y+"\t");
+			}
+			System.out.println("Enable Suggestion: "+p.wasMoved);
 			// Wait for responses for a certain timeout, then process message
 			//TimedBlockingReceiveProcessMessage();
 			Thread.sleep(3000);

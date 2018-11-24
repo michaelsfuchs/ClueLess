@@ -18,7 +18,7 @@ public class Deck
 		Card(CardType aType, int aCardID)
 		{
 			type = aType;
-			aCardID = cardID;
+			cardID = aCardID;
 		}
 		
 		public boolean equals(Card other)
