@@ -7,7 +7,7 @@ package masterui;
 
 /**
  *
- * @author swagg
+ * @author Alisha R. Hunt
  */
 public class GameBoard extends javax.swing.JFrame {
 
@@ -18,7 +18,7 @@ public class GameBoard extends javax.swing.JFrame {
         initComponents();
         closeRoomSelection();
         //openRoomSelection(1);
-        
+
     }
 
     /**
@@ -1000,20 +1000,51 @@ public class GameBoard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GameBoard().setVisible(true);
+                // create new gameBoard and set visible
+                GameBoard gb = new GameBoard();
+                gb.setVisible(true);
                 
-                // add cards the user is given to the list.
+                setupGameBoard(gb);
+
                 
-                
+                // On a user's turn allow selection of available rooms by ID
+                int openMoves[]= {2,6,21};
+                gb.openRoomSelection(openMoves[0]);
+                gb.openRoomSelection(openMoves[1]);
+                gb.openRoomSelection(openMoves[2]);
             }
         });
     }
+    
+    /**
+     * This function initializes the suspect list with the player names and 
+     * updates the cards shown for each user to reflect those dealt to them.
+     * @param GB 
+     */
+    public static void setupGameBoard(GameBoard GB){
+        
+        GB.jTextArea1.setEditable(false);
+        GB.jTextArea1.setText("Writing out game updates");
+        
+        // Initialize the suspect list in Detective Notes
+        GB.DNsuspect1.setText("Mrs. Maraple");
+        GB.DNsuspect2.setText("Dr. Who");
+        GB.DNsuspect3.setText("Hello");
+        GB.DNsuspect4.setText("Dragons");
+        GB.DNsuspect5.setText("Pusshhh~!");
+        GB.DNsuspect6.setText("finallee");
+        
+        // Display cards given to the user
+        String cards[] = {"Conservatory","Rope","Mrs. Maraple","Dragons"};
+        GB.jList1.setListData(cards);
+    }
+    
     /**
      * This function takes the room ID and activates the buttons corresponding
      * to the valid locations a player may move.
      * @param roomID 
      */
-    private void openRoomSelection(int roomID){
+    public void openRoomSelection(int roomID){
         switch(roomID){
             case 1: 
                 Study.setEnabled(true);
