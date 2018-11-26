@@ -1,0 +1,18 @@
+What I did:
+1.  clone the MasterUI branch into eclipse via egit
+2.  Imported the MasterUI branch from git into eclipse workspace via "import projects"
+3.  Moved Gameboard.java into the src folder
+4.  Commented out "package masterui" from the top of the file
+5.  Run Gameboard.java
+6.  Saw a window pop-up containing
+    * Map
+    * Notes
+    * Cards held by player
+    * list of checkboxes for each player character
+    * list of checkboxes for 9 rooms
+    * list of checkboxes for 6 weapons
+    
+Things that may need fixing:
+1.  Vertical hallways are misaligned
+
+-Gideon
