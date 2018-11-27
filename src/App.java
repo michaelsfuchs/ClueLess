@@ -15,16 +15,7 @@ public class App
 		game.runFirstTurn();
 		
 		System.out.println("Ran First Turn");
-//
-//		for(Player p : game.players)
-//		{
-//			for(Deck.Card c : p.hand)
-//			{
-//				System.out.print(c.cardID + "," + c.type + " : ");
-//			}
-//			System.out.println();
-//		}
-		
+
 		try
 		{
 			game.runGame();

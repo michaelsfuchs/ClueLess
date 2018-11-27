@@ -16,9 +16,24 @@ public class Card
 		cardID = aCardID;
 	}
 	
-	public boolean equals(Card other)
+	public boolean equals(Object other)
 	{
-		return (this.type == other.type && this.cardID == other.cardID);
+		if(other == null)
+		{
+			return false;
+		}
+		if(other instanceof Card)
+		{
+			Card otherCard = (Card)other;
+			return (this.type == otherCard.type && this.cardID == otherCard.cardID);
+		}
+		return false;
 	}
 	
+	public int hashCode() {
+        int hash = 7;
+        Integer id = (Integer)(this.cardID);
+        hash = 17 * hash + (id != null ? id.hashCode() : 0);
+        return hash;
+    }
 };

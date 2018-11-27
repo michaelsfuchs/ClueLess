@@ -127,7 +127,7 @@ public class Game
 	public void onReceiveMove(int aPlayerId, int locId)
 	{
 		players[aPlayerId].currentLoc.occupancy--;
-		players[aPlayerId].currentLoc = map.cardId2Point.get(locId);
+		players[aPlayerId].currentLoc = map.locId2Point.get(locId);
 		players[aPlayerId].currentLoc.occupancy++;
 	}
 			
@@ -153,7 +153,7 @@ public class Game
 		
 		// move from old room to new room
 		Player p = players[aSuspect.cardID];
-		Location l = map.cardId2Point.get(aLocation.cardID);
+		Location l = map.locId2Point.get(aLocation.cardID);
 		p.currentLoc.occupancy--;
 		p.currentLoc = l;
 		
@@ -162,11 +162,14 @@ public class Game
 		// Enable that player's "was moved" field
 		p.wasMoved = true;
 		
-		for(int i = aPlayerID, count = 0; count < numPlayers; i=(i+1)%numPlayers, count++)
+		for(int i = aPlayerID+1, count = 0; count < numPlayers-1; i=(i+1)%numPlayers, count++)
 		{
-			// Skip player who made suggestion
-			if(players[i].playerID != aPlayerID)
+			System.out.println("Player "+i+" next : ");
+
+			if(players[i].isAlive)
 			{
+				System.out.println("Player "+i+" alive");
+				
 				// Find matches in that players hand if they exist
 				ArrayList<Card> matches = new ArrayList<Card>(3);
 				if(players[i].hand.contains(aSuspect))
@@ -187,6 +190,8 @@ public class Game
 					if(players[i].isConnected)
 					{
 						// Send message to player choose one
+						System.out.println("Player "+i+" Choose a card from your hand");
+						int response = stdin.nextInt();
 					}
 					else
 					{
@@ -233,11 +238,11 @@ public class Game
 				}
 				//Send moves
 				
-				System.out.print("Player "+(currentPlayer+1)+" Move options: ");
+				System.out.print("Player "+(currentPlayer+1)+" CurrentLoc: "+p.currentLoc.locId+"  Move options: ");
 				System.out.print("Enable Suggestion: "+p.wasMoved+" Locations: ");
 				for(Location move : availableMoves)
 				{
-					System.out.print(move.type + " " + move.locId + "\t");
+					System.out.print(move.locId + " ");
 				}
 				System.out.println();
 				
@@ -250,10 +255,10 @@ public class Game
 				int response = stdin.nextInt();
 				if(response == 0)
 				{
-//					onReceiveSuggestion(currentPlayer,
-//							new Card(CardType.SUSPECT, 1),
-//							new Card(CardType.ROOM, 1),
-//							new Card(CardType.WEAPON, 1));
+					onReceiveSuggestion(currentPlayer,
+							new Card(CardType.SUSPECT, 1),
+							new Card(CardType.ROOM, 1),
+							new Card(CardType.WEAPON, 1));
 				}
 				else
 				{

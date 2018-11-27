@@ -3,17 +3,17 @@ import java.util.HashMap;
 public class Map
 {
 	Location[][] board;
-	HashMap<Integer,Location> cardId2Point;
+	HashMap<Integer,Location> locId2Point;
 	
 	Map(int aSize)
 	{
 		board = new Location[aSize][aSize];
-		cardId2Point = new HashMap<Integer,Location>();
+		locId2Point = new HashMap<Integer,Location>(21);
 	}
 	
 	public void InitBoard()
 	{
-		int roomID = 0, hallwayID = 0;
+		int roomID = 0, hallID = 9;
 		
 		for(int y = 0; y < 5; y++)
 		{
@@ -49,12 +49,13 @@ public class Map
 				{
 					board[x][y].type = Location.Type.ROOM;
 					board[x][y].locId = roomID++;
-					cardId2Point.put(board[x][y].locId, board[x][y]);
+					locId2Point.put(board[x][y].locId, board[x][y]);
 				}
 				else if(x%2==0 || y%2==0)
 				{
 					board[x][y].type = Location.Type.HALLWAY;
-					board[x][y].locId = hallwayID++;
+					board[x][y].locId = hallID++;
+					locId2Point.put(board[x][y].locId, board[x][y]);
 				}
 				else
 				{
