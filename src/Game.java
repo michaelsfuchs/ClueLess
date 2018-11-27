@@ -1,65 +1,14 @@
 import java.util.*;
 import java.io.*;
-
-
-enum LocType
-{
-	HALLWAY,
-	ROOM,
-}
-
-class Point
-{
-	int x;
-	int y;
-	
-	Point(int x,int y)
-	{
-		this.x = x;
-		this.y = y;
-	}
-	
-};
-
-class Location
-{
-	int locID;
-	Point loc;
-	LocType type;
-	ArrayList<Player> occupancy;
-	ArrayList<Location> connections;
-	
-	Location()
-	{
-		this.occupancy = new ArrayList<Player>();
-		this.connections = new ArrayList<Location>();
-	}
-};
-
-class Weapon
-{
-	int weaponID;
-	Location currentLoc;
-};
-
-class Player
-{
-	int playerID;
-	Location currentLoc;
-	boolean isAlive;
-	boolean isConnected;
-	boolean wasMoved;
-	ArrayList<Deck.Card> hand;
-	
-	Player()
-	{
-		hand = new ArrayList<Deck.Card>();
-	}
-};
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 
 public class Game
 {
+	static BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));	
+	static Scanner stdin = new Scanner(System.in);
+	
 	int numPlayers = 6;
 	int numRooms = 9;
 	int numWeapons = 6;
@@ -69,9 +18,9 @@ public class Game
 	
 	Player[] players = new Player[numPlayers];
 	Weapon[] weapons = new Weapon[numWeapons];
-	Location[][] board = new Location[5][5];
+	Map map = new Map(5);
 	
-	Deck.Card[] caseFile = new Deck.Card[3];
+	Card[] caseFile = new Card[3];
 	
 	boolean isGameRunning = true;
 	
@@ -91,71 +40,11 @@ public class Game
 		{
 			for(int x = 0; x < 5; x++)
 			{	
-				board[x][y] = new Location();
+				map.board[x][y] = new Location();
 			}
 		}
 		
-		InitBoard();
-	}
-	
-	public void InitBoard()
-	{
-		int roomID = 0, hallwayID = 0;
-		
-		for(int y = 0; y < 5; y++)
-		{
-			for(int x = 0; x < 5; x++)
-			{				
-				// Clear occupancy
-				board[x][y].occupancy.clear();
-				
-				// Make valid connections to the other locations
-				// Valid left
-				if(x>0 && y%2==0)
-				{
-					board[x][y].connections.add(board[x-1][y]);
-				}
-				// Valid right
-				if(x<4 && y%2==0)
-				{
-					board[x][y].connections.add(board[x+1][y]);
-				}
-				// Valid Up
-				if(y>0 && x%2==0)
-				{
-					board[x][y].connections.add(board[x][y-1]);
-				}
-				// Valid Down
-				if(y<4 && x%2==0)
-				{
-					board[x][y].connections.add(board[x][y+1]);
-				}
-				
-				// Add the secret passages
-				board[0][0].connections.add(board[4][4]);
-				board[4][4].connections.add(board[0][0]);
-				board[4][0].connections.add(board[0][4]);
-				board[0][4].connections.add(board[4][0]);
-				
-				// Set Room type and IDs
-				if(x%2==0 && y%2==0)
-				{
-					board[x][y].type = LocType.ROOM;
-					board[x][y].locID = roomID++;
-					board[x][y].loc = new Point(x,y);
-				}
-				else if(x%2==0 || y%2==0)
-				{
-					board[x][y].type = LocType.HALLWAY;
-					board[x][y].locID = hallwayID++;
-					board[x][y].loc = new Point(x,y);
-				}
-				else
-				{
-					// Not a real location
-				}
-			}
-		}
+		map.InitBoard();
 		
 		// Init weapon IDs, can start them randomly if you want?
 		for(int i = 0; i < numWeapons; i++)
@@ -169,7 +58,7 @@ public class Game
 			p.isAlive = false;
 		}
 	}
-
+	
 	public void addPlayer(int aPlayerId)
 	{
 		if(numLivePlayers == 6)
@@ -199,12 +88,12 @@ public class Game
 	{
 		// Live players must move automatically to the hallway next to their home square
 		Location[] homeLocations = new Location[6];
-		homeLocations[0] = board[0][3];
-		homeLocations[1] = board[1][1];
-		homeLocations[2] = board[1][4];
-		homeLocations[3] = board[3][0];
-		homeLocations[4] = board[4][1];
-		homeLocations[5] = board[4][3];
+		homeLocations[0] = map.board[0][3];
+		homeLocations[1] = map.board[1][0];
+		homeLocations[2] = map.board[1][4];
+		homeLocations[3] = map.board[3][0];
+		homeLocations[4] = map.board[4][1];
+		homeLocations[5] = map.board[4][3];
 		
 		for(int currPlayer = 0; currPlayer < numPlayers; currPlayer++)
 		{
@@ -212,6 +101,7 @@ public class Game
 			{
 				//sendMsg(currentPlayer, "Your first turn must be to your home square");
 				players[currPlayer].currentLoc = homeLocations[currPlayer];
+				players[currPlayer].currentLoc.occupancy++;
 			}
 		}
 		
@@ -234,11 +124,18 @@ public class Game
 		//Send all players their hands
 	}
 	
-	public void onReceiveAccusation(int aPlayerId, Deck.Card[] aAccusation)
+	public void onReceiveMove(int aPlayerId, int locId)
 	{
-		if( aAccusation[0].equals(caseFile[0]) &&
-			aAccusation[1].equals(caseFile[1]) &&
-			aAccusation[2].equals(caseFile[2]))
+		players[aPlayerId].currentLoc.occupancy--;
+		players[aPlayerId].currentLoc = map.cardId2Point.get(locId);
+		players[aPlayerId].currentLoc.occupancy++;
+	}
+			
+	public void onReceiveAccusation(int aPlayerId, Card aSuspect, Card aLocation, Card aWeapon)
+	{
+		if( aSuspect.equals(caseFile[0]) &&
+			aLocation.equals(caseFile[1]) &&
+			aWeapon.equals(caseFile[2]))
 		{
 			// Announce player winner
 		}
@@ -249,21 +146,21 @@ public class Game
 		}
 	}
 	
-	public void onReceiveSuggestion(int aPlayerID, Deck.Card[] aSuggestion)
+	// Card[] order is Player, Room, Weapon
+	public void onReceiveSuggestion(int aPlayerID, Card aSuspect, Card aLocation, Card aWeapon)
 	{
 		// First send message to everyone what the suggestion was		
 		
-		// Move player and weapon to that room
-		Location loc = board[aSuggestion[1].cardID % board.length][aSuggestion[1].cardID / board.length];
+		// move from old room to new room
+		Player p = players[aSuspect.cardID];
+		Location l = map.cardId2Point.get(aLocation.cardID);
+		p.currentLoc.occupancy--;
+		p.currentLoc = l;
 		
-		weapons[aSuggestion[2].cardID].currentLoc = loc;
+		weapons[aWeapon.cardID].currentLoc = l;
 		
-		Player p = players[aSuggestion[0].cardID];
-		p.currentLoc = loc;
-		if(!loc.occupancy.contains(p))
-		{
-			loc.occupancy.add(p);
-		}
+		// Enable that player's "was moved" field
+		p.wasMoved = true;
 		
 		for(int i = aPlayerID, count = 0; count < numPlayers; i=(i+1)%numPlayers, count++)
 		{
@@ -271,13 +168,18 @@ public class Game
 			if(players[i].playerID != aPlayerID)
 			{
 				// Find matches in that players hand if they exist
-				ArrayList<Deck.Card> matches = new ArrayList<Deck.Card>(3);
-				for(int j = 0; j < 3; j++)
+				ArrayList<Card> matches = new ArrayList<Card>(3);
+				if(players[i].hand.contains(aSuspect))
 				{
-					if(players[i].hand.contains(aSuggestion[j]))
-					{
-						matches.add(aSuggestion[i]);
-					}		
+					matches.add(aSuspect);
+				}		
+				if(players[i].hand.contains(aLocation))
+				{
+					matches.add(aLocation);
+				}
+				if(players[i].hand.contains(aWeapon))
+				{
+					matches.add(aWeapon);
 				}
 				
 				if(!matches.isEmpty())
@@ -310,38 +212,57 @@ public class Game
 		{
 			// current player
 			Player p = players[currentPlayer];
-			if(!p.isAlive)
+			if(p.isAlive)
 			{
-				continue;
-			}
 			
-			// Get available moves
-			Location l = p.currentLoc;
-			ArrayList<Location> availableMoves = new ArrayList<Location>(4);
-			for(Location nextMove : l.connections)
-			{
-				if(nextMove.occupancy.isEmpty() ||  nextMove.type == LocType.ROOM)
+				// Get available moves
+				Location l = p.currentLoc;
+				ArrayList<Location> availableMoves = new ArrayList<Location>(4);
+				for(Location nextMove : l.connections)
 				{
-					// Add location to message
-					availableMoves.add(nextMove);
+					if(nextMove.occupancy == 0 ||  nextMove.type == Location.Type.ROOM)
+					{
+						// Add location to message
+						availableMoves.add(nextMove);
+					}
+				}
+				
+				if(p.wasMoved)
+				{
+					// Enable option to make suggestion for that room
+				}
+				//Send moves
+				
+				System.out.print("Player "+(currentPlayer+1)+" Move options: ");
+				System.out.print("Enable Suggestion: "+p.wasMoved+" Locations: ");
+				for(Location move : availableMoves)
+				{
+					System.out.print(move.type + " " + move.locId + "\t");
+				}
+				System.out.println();
+				
+				// Wait for responses for a certain timeout, then process message
+				//TimedBlockingReceiveProcessMessage();
+				//Thread.sleep(3000);
+				
+
+				System.out.println("Choose Option");
+				int response = stdin.nextInt();
+				if(response == 0)
+				{
+//					onReceiveSuggestion(currentPlayer,
+//							new Card(CardType.SUSPECT, 1),
+//							new Card(CardType.ROOM, 1),
+//							new Card(CardType.WEAPON, 1));
+				}
+				else
+				{
+					onReceiveMove(currentPlayer, availableMoves.get(response-1).locId);
 				}
 			}
 			
-			if(p.wasMoved)
-			{
-				// Enable option to make suggestion for that room
-			}
-			//Send moves
-			
-			System.out.print("Player "+currentPlayer+" Move options: ");
-			for(Location move : availableMoves)
-			{
-				System.out.print(move.x+","+move.y+"\t");
-			}
-			System.out.println("Enable Suggestion: "+p.wasMoved);
-			// Wait for responses for a certain timeout, then process message
-			//TimedBlockingReceiveProcessMessage();
-			Thread.sleep(3000);
+			currentPlayer = (currentPlayer+1) % numPlayers;
 		}
 	}
+
 };

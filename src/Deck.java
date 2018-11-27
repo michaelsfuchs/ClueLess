@@ -1,33 +1,7 @@
 import java.util.*;
-import java.io.*;
 
 public class Deck
 {
-	enum CardType
-	{
-		SUSPECT,
-		ROOM,
-		WEAPON,
-	}
-	
-	class Card
-	{
-		CardType type;
-		int cardID;
-		
-		Card(CardType aType, int aCardID)
-		{
-			type = aType;
-			cardID = aCardID;
-		}
-		
-		public boolean equals(Card other)
-		{
-			return (this.type == other.type && this.cardID == other.cardID);
-		}
-		
-	};
-	
 	ArrayList<Card> deck = new ArrayList<Card>();
 	Card[] caseFile = new Card[3];
 	

@@ -8,10 +8,13 @@ public class App
 		game.addPlayer(0);
 		game.addPlayer(1);
 		game.addPlayer(2);
-				
+//		game.addPlayer(3);
+//		game.addPlayer(4);
+//		game.addPlayer(5);
+
 		game.runFirstTurn();
 		
-//		System.out.println("Ran First Turn");
+		System.out.println("Ran First Turn");
 //
 //		for(Player p : game.players)
 //		{
@@ -22,8 +25,14 @@ public class App
 //			System.out.println();
 //		}
 		
-		game.runGame();
-	
+		try
+		{
+			game.runGame();
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error");
+		}
 	}
 
 }
