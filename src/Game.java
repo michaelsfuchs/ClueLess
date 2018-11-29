@@ -78,10 +78,10 @@ public class Game
 			players[aPlayerId].wasMoved = false;
 			numLivePlayers++;
 			
-			//System.out.println("Player " + aPlayerId + " Added");
 		}
 		
 		// Announce that a new player joined
+		//sendToAll("Player aPlayerId Joined");
 	}
 	
 	public void runFirstTurn()
@@ -122,6 +122,13 @@ public class Game
 		
 		//SendTurnUpdates;
 		//Send all players their hands
+		for(int playerIdx = 0; playerIdx < numPlayers; playerIdx++)
+		{
+			if(players[playerIdx].isAlive)
+			{
+				//sendToPlayer(msg.hand);
+			}
+		}
 	}
 	
 	public void onReceiveMove(int aPlayerId, int locId)
@@ -137,12 +144,16 @@ public class Game
 			aLocation.equals(caseFile[1]) &&
 			aWeapon.equals(caseFile[2]))
 		{
-			// Announce player winner
+			// Announce player winner, end game
+			//sendToAll("Player W Wins");
+			isGameRunning = false;
 		}
 		else
 		{
 			players[aPlayerId].isAlive = false;
 			//Announce loser
+			//sendToAll("Player L Loses");
+
 		}
 	}
 	
@@ -183,22 +194,25 @@ public class Game
 				
 				if(!matches.isEmpty())
 				{
+					int cardRcvd;
+					
 					if(players[i].isConnected)
 					{
 						// Send message to player choose one
-						System.out.println("Player "+i+" Choose a card from your hand: Matches: "+matches.size());
-						int response = stdin.nextInt();
 					}
 					else
 					{
 						// Send this random one since the player is dead and gone
 						// and is now a "Bot"
 						int randomCard = (int)Math.floor(Math.random()*matches.size());
-						matches.get(randomCard);
+						cardRcvd = matches.get(randomCard).cardID;
 					}
 					
 					// Receive card, then show it to suggestor
-					// announce to everyone this player showed a card					
+					// sendCardToSuggestor(i, cardRcvd);
+					
+					// announce to everyone this player showed a card
+					// sendToAll("Player X showed a Card");
 					break;
 				}
 			}
@@ -232,34 +246,28 @@ public class Game
 				{
 					// Enable option to make suggestion for that room
 				}
-				//Send moves
 				
-				System.out.print("Player "+(currentPlayer+1)+" CurrentLoc: "+p.currentLoc.locId+"  Move options: ");
-				System.out.print("Enable Suggestion: "+p.wasMoved+" Locations: ");
-				for(Location move : availableMoves)
-				{
-					System.out.print(move.locId + " ");
-				}
-				System.out.println();
+				//Send moves
 				
 				// Wait for responses for a certain timeout, then process message
 				//TimedBlockingReceiveProcessMessage();
 				//Thread.sleep(3000);
 				
+				// do wtvr it says, move accuse, suggest and call that method
+//				if(msg.id == MOVE)
+//				{
+//					onReceiveMove(currentPlayer, msg.newLocation)
+//				}
+//				else if(msg.id == SUGGEST)
+//				{
+//					onReceiveSuggestion(currentPlayer, msg.suspect, msg.room, msg.weapon);
+//				}
+//				else if(msg.id == ACCUSE)
+//				{
+//					onReceiveAccusation(currentPlayer, msg.suspect, msg.room, msg.weapon);
+//				}
 
-				System.out.println("Choose Option");
-				int response = stdin.nextInt();
-				if(response == 0)
-				{
-					onReceiveSuggestion(currentPlayer,
-							new Card(CardType.SUSPECT, 1),
-							new Card(CardType.ROOM, 1),
-							new Card(CardType.WEAPON, 1));
-				}
-				else
-				{
-					onReceiveMove(currentPlayer, availableMoves.get(response-1).locId);
-				}
+				
 			}
 			
 			currentPlayer = (currentPlayer+1) % numPlayers;
