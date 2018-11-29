@@ -164,12 +164,8 @@ public class Game
 		
 		for(int i = aPlayerID+1, count = 0; count < numPlayers-1; i=(i+1)%numPlayers, count++)
 		{
-			System.out.println("Player "+i+" next : ");
-
 			if(players[i].isAlive)
-			{
-				System.out.println("Player "+i+" alive");
-				
+			{				
 				// Find matches in that players hand if they exist
 				ArrayList<Card> matches = new ArrayList<Card>(3);
 				if(players[i].hand.contains(aSuspect))
@@ -190,7 +186,7 @@ public class Game
 					if(players[i].isConnected)
 					{
 						// Send message to player choose one
-						System.out.println("Player "+i+" Choose a card from your hand");
+						System.out.println("Player "+i+" Choose a card from your hand: Matches: "+matches.size());
 						int response = stdin.nextInt();
 					}
 					else
