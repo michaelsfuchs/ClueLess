@@ -250,23 +250,37 @@ public class Game
 				//Send moves
 				
 				// Wait for responses for a certain timeout, then process message
-				//TimedBlockingReceiveProcessMessage();
-				//Thread.sleep(3000);
-				
-				// do wtvr it says, move accuse, suggest and call that method
-//				if(msg.id == MOVE)
-//				{
-//					onReceiveMove(currentPlayer, msg.newLocation)
-//				}
-//				else if(msg.id == SUGGEST)
-//				{
-//					onReceiveSuggestion(currentPlayer, msg.suspect, msg.room, msg.weapon);
-//				}
-//				else if(msg.id == ACCUSE)
-//				{
-//					onReceiveAccusation(currentPlayer, msg.suspect, msg.room, msg.weapon);
-//				}
-
+				while(true)
+				{
+					//TimedBlockingReceiveProcessMessage();
+//					if(timeout)
+//					{
+//						p.isAlive = false;
+//						p.isConnected = false;
+//						break;
+//					}
+//
+//					if(msg.id == MOVE)
+//					{
+//						onReceiveMove(currentPlayer, msg.newLocation)
+//						if(Map.locId2Point.get(msg.newLocation).type == Location.Type.ROOM)
+//						{
+//							// Send enable suggestion again
+//						}
+//					}
+//					else if(msg.id == SUGGEST)
+//					{
+//						onReceiveSuggestion(currentPlayer, msg.suspect, msg.room, msg.weapon);
+//					}
+//					else if(msg.id == ACCUSE)
+//					{
+//						onReceiveAccusation(currentPlayer, msg.suspect, msg.room, msg.weapon);
+//					} 
+//					else if(msg.id == END_TURN)
+//					{
+//						break;
+//					}
+				}
 				
 			}
 			
