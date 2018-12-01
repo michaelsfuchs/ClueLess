@@ -10,8 +10,11 @@ public class Player
 	boolean wasMoved;
 	ArrayList<Card> hand;
 	
-	Player()
+	Player(int aPlayerId)
 	{
+		isAlive = false;
+		isConnected = false;
+		wasMoved = false;
 		hand = new ArrayList<Card>();
 	}
 };

@@ -25,38 +25,20 @@ public class Game
 	boolean isGameRunning = true;
 	
 	public Game()
-	{
+	{				
+		// Init players
 		for(int p = 0; p < numPlayers; p++)
 		{
-			players[p] = new Player();
-
+			players[p] = new Player(p);
 		}
+		
+		// Init weapons
 		for(int w = 0; w < numWeapons; w++)
 		{
-			weapons[w] = new Weapon();
+			// start all weapons in the center room which ID = 4
+			weapons[w] = new Weapon(w, map.locId2Point.get(4));
+		}
 
-		}
-		for(int y = 0; y < 5; y++)
-		{
-			for(int x = 0; x < 5; x++)
-			{	
-				map.board[x][y] = new Location();
-			}
-		}
-		
-		map.InitBoard();
-		
-		// Init weapon IDs, can start them randomly if you want?
-		for(int i = 0; i < numWeapons; i++)
-		{
-			weapons[i].weaponID = i;
-		}
-		
-		// Set all players as "dead" before they get added
-		for(Player p : players)
-		{
-			p.isAlive = false;
-		}
 	}
 	
 	public void addPlayer(int aPlayerId)
@@ -71,13 +53,9 @@ public class Game
 		}
 		else
 		{
-			players[aPlayerId] = new Player();
-			players[aPlayerId].playerID = aPlayerId;
 			players[aPlayerId].isAlive = true;
 			players[aPlayerId].isConnected = true;
-			players[aPlayerId].wasMoved = false;
-			numLivePlayers++;
-			
+			numLivePlayers++;			
 		}
 		
 		// Announce that a new player joined
