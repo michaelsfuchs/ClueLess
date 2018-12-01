@@ -5,10 +5,7 @@ import java.util.StringTokenizer;
 
 
 public class Game
-{
-	static BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));	
-	static Scanner stdin = new Scanner(System.in);
-	
+{	
 	int numPlayers = 6;
 	int numRooms = 9;
 	int numWeapons = 6;
@@ -24,39 +21,23 @@ public class Game
 	
 	boolean isGameRunning = true;
 	
+	cgserver.CGServer server = new cgserver.CGServer(12345);
+	
 	public Game()
-	{
+	{				
+		// Init players
 		for(int p = 0; p < numPlayers; p++)
 		{
-			players[p] = new Player();
-
+			players[p] = new Player(p);
 		}
+		
+		// Init weapons
 		for(int w = 0; w < numWeapons; w++)
 		{
-			weapons[w] = new Weapon();
+			// start all weapons in the center room which ID = 4
+			weapons[w] = new Weapon(w, map.locId2Point.get(4));
+		}
 
-		}
-		for(int y = 0; y < 5; y++)
-		{
-			for(int x = 0; x < 5; x++)
-			{	
-				map.board[x][y] = new Location();
-			}
-		}
-		
-		map.InitBoard();
-		
-		// Init weapon IDs, can start them randomly if you want?
-		for(int i = 0; i < numWeapons; i++)
-		{
-			weapons[i].weaponID = i;
-		}
-		
-		// Set all players as "dead" before they get added
-		for(Player p : players)
-		{
-			p.isAlive = false;
-		}
 	}
 	
 	public void addPlayer(int aPlayerId)
@@ -71,13 +52,9 @@ public class Game
 		}
 		else
 		{
-			players[aPlayerId] = new Player();
-			players[aPlayerId].playerID = aPlayerId;
 			players[aPlayerId].isAlive = true;
 			players[aPlayerId].isConnected = true;
-			players[aPlayerId].wasMoved = false;
-			numLivePlayers++;
-			
+			numLivePlayers++;			
 		}
 		
 		// Announce that a new player joined
@@ -250,23 +227,37 @@ public class Game
 				//Send moves
 				
 				// Wait for responses for a certain timeout, then process message
-				//TimedBlockingReceiveProcessMessage();
-				//Thread.sleep(3000);
-				
-				// do wtvr it says, move accuse, suggest and call that method
-//				if(msg.id == MOVE)
-//				{
-//					onReceiveMove(currentPlayer, msg.newLocation)
-//				}
-//				else if(msg.id == SUGGEST)
-//				{
-//					onReceiveSuggestion(currentPlayer, msg.suspect, msg.room, msg.weapon);
-//				}
-//				else if(msg.id == ACCUSE)
-//				{
-//					onReceiveAccusation(currentPlayer, msg.suspect, msg.room, msg.weapon);
-//				}
-
+				while(true)
+				{
+					//TimedBlockingReceiveProcessMessage();
+//					if(timeout)
+//					{
+//						p.isAlive = false;
+//						p.isConnected = false;
+//						break;
+//					}
+//
+//					if(msg.id == MOVE)
+//					{
+//						onReceiveMove(currentPlayer, msg.newLocation)
+//						if(Map.locId2Point.get(msg.newLocation).type == Location.Type.ROOM)
+//						{
+//							// Send enable suggestion again
+//						}
+//					}
+//					else if(msg.id == SUGGEST)
+//					{
+//						onReceiveSuggestion(currentPlayer, msg.suspect, msg.room, msg.weapon);
+//					}
+//					else if(msg.id == ACCUSE)
+//					{
+//						onReceiveAccusation(currentPlayer, msg.suspect, msg.room, msg.weapon);
+//					} 
+//					else if(msg.id == END_TURN)
+//					{
+//						break;
+//					}
+				}
 				
 			}
 			

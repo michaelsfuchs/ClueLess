@@ -7,8 +7,11 @@ public class Location
 	int occupancy;
 	ArrayList<Location> connections;
 	
-	Location()
+	Location(int aLocId, Type aType)
 	{
+		locId = aLocId;
+		type = aType;
+		occupancy = 0;
 		this.connections = new ArrayList<Location>();
 	}
 	
