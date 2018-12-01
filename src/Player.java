@@ -12,6 +12,8 @@ public class Player
 	
 	Player(int aPlayerId)
 	{
+		playerID = aPlayerId;
+		//currentLoc must wait to be set later
 		isAlive = false;
 		isConnected = false;
 		wasMoved = false;

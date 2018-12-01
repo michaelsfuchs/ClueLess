@@ -5,10 +5,7 @@ import java.util.StringTokenizer;
 
 
 public class Game
-{
-	static BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));	
-	static Scanner stdin = new Scanner(System.in);
-	
+{	
 	int numPlayers = 6;
 	int numRooms = 9;
 	int numWeapons = 6;
@@ -23,6 +20,8 @@ public class Game
 	Card[] caseFile = new Card[3];
 	
 	boolean isGameRunning = true;
+	
+	cgserver.CGServer server = new cgserver.CGServer(12345);
 	
 	public Game()
 	{				
