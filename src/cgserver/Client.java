@@ -59,9 +59,11 @@ public class Client extends Thread{
                   
                 // break the string into message and recipient part 
                 StringTokenizer st = new StringTokenizer(received, "#"); 
-                String MsgToSend = st.nextToken(); 
                 String recipient = st.nextToken(); 
-  
+                String MsgToSend = st.nextToken(); 
+                
+                System.out.println("RECIPIENT IS :"+recipient);
+                System.out.println("MSG IS:"+MsgToSend);
                 // search for the recipient in the connected devices list. 
                 // ar is the vector storing client of active users 
                 for (Client mc : CGServer.clients.values())  
@@ -70,8 +72,9 @@ public class Client extends Thread{
                     // output stream 
                     if (mc.userName.equals(recipient))  
                     { 
+                        System.out.println("USERNAME IS:"+ mc.userName);
                         CGServer.processRequest(MsgToSend);
-                        mc.out.writeUTF(MsgToSend); 
+                        mc.out.writeUTF(CGServer.processRequest(MsgToSend)); 
                         break; 
                     } 
                 } 

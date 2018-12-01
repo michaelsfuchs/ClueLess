@@ -25,47 +25,25 @@ public class CGServer extends Thread
     private int port = 0;
     public static HashMap<String,Client> clients=new HashMap<String,Client>();
     
-    /*public void runSV(){
-        // starts server and waits for a connection 
-        try
-        { 
-            // takes input from the client socket     
-            String line = ""; 
-            // reads message from client until "Over" is sent 
-            while (!line.contains(":W")) 
-            { 
-                try
-                { 
-                    System.out.println("Inside while loop");
-                    line = in.readUTF();   
-                    System.out.println(line); 
-                } 
-                catch(IOException i) 
-                { 
-                    System.out.println(i); 
-                } 
-            } 
-                       
-            out.writeUTF("Read all data");
-            
-            System.out.println("Closing connection"); 
-  
-            // close connection 
-            //socket.close(); 
-            //in.close(); 
-        } 
-        catch(IOException i) 
-        { 
-            System.out.println(i); 
-        }
-    }*/
-    
-    public static void processRequest(String inmsg) throws IOException {
-        
+    public static String processRequest(String inmsg) throws IOException {
+        String ret="Message type does not match any type";
         if(inmsg.contains("Acc")){
-            
+            //Accusation logic here
+            ret=new String("Accusation does not match. You Lose");
         }
-        
+        if(inmsg.contains("Sugg")){
+            //Accusation logic here
+            ret=new String("Accusation does not match. You Lose");
+        }
+        if(inmsg.contains("Acc1")){
+            //Accusation logic here
+            ret=new String("Accusation does not match. You Lose");
+        }
+        if(inmsg.contains("Acc2")){
+            //Accusation logic here
+            ret=new String("Accusation does not match. You Lose");
+        }
+        return ret;
     }
     // constructor with port 
     public CGServer(int port) 
@@ -109,7 +87,7 @@ public class CGServer extends Thread
     
     public static void main(String args[]) 
     { 
-        CGServer server = new CGServer(Integer.parseInt(args[0])); 
+        CGServer server = new CGServer(Integer.parseInt("5000")); 
         //server.runSV();
     } 
 } 
