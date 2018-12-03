@@ -1,16 +1,17 @@
+package game;
 enum CardType
 {
-	SUSPECT,
-	ROOM,
-	WEAPON,
+	SUSPECT,	// 0
+	ROOM,		// 1
+	WEAPON,		// 2
 }
 
 public class Card
 {
-	CardType type;
+	int type;
 	int cardID;
 	
-	Card(CardType aType, int aCardID)
+	Card(int aType, int aCardID)
 	{
 		type = aType;
 		cardID = aCardID;

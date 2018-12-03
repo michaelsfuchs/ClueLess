@@ -1,3 +1,4 @@
+package game;
 import java.util.*;
 
 public class Deck
@@ -12,7 +13,7 @@ public class Deck
 		ArrayList<Card> playerDeck = new ArrayList<Card>(aNumPlayers);
 		for(int p = 0; p < aNumPlayers; p++)
 		{
-			playerDeck.add(new Card(CardType.SUSPECT, p));
+			playerDeck.add(new Card(0, p));
 		}
 		Collections.shuffle(playerDeck);
 		caseFile[0] = playerDeck.get(0);
@@ -21,7 +22,7 @@ public class Deck
 		ArrayList<Card> roomDeck = new ArrayList<Card>(aNumRooms);
 		for(int r = 0; r < aNumRooms; r++)
 		{
-			roomDeck.add(new Card(CardType.ROOM, r));
+			roomDeck.add(new Card(1, r));
 		}
 		Collections.shuffle(roomDeck);
 		caseFile[1] = roomDeck.get(0);
@@ -30,7 +31,7 @@ public class Deck
 		ArrayList<Card> weaponDeck = new ArrayList<Card>(aNumWeapons);
 		for(int w = 0; w < aNumWeapons; w++)
 		{
-			weaponDeck.add(new Card(CardType.WEAPON, w));
+			weaponDeck.add(new Card(2, w));
 		}
 		Collections.shuffle(weaponDeck);
 		caseFile[2] = weaponDeck.get(0);

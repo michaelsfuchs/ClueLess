@@ -9,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +22,8 @@ public class Client extends Thread{
    public DataInputStream in=null;
    public DataOutputStream out=null;
    public Boolean isloggedin=true;
+   
+   public ArrayList<String> newMessages;
    
    public Client (String userName, String ipAddress, java.net.Socket socket) throws IOException
    {
@@ -50,12 +53,16 @@ public class Client extends Thread{
                 received = in.readUTF(); 
                   
                 System.out.println(received); 
-                  
-                if(received.equals("logout")){ 
-                    this.isloggedin=false; 
-                    this.socket.close(); 
+                 
+                if(received.equals("Start Game")){ 
+                    CGServer.startGame = true; 
                     break; 
                 } 
+                
+                newMessages.add(received);
+                
+                
+                
                   
                 // break the string into message and recipient part 
                 StringTokenizer st = new StringTokenizer(received, "#"); 

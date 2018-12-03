@@ -5,6 +5,8 @@
  */
 package cgserver;
 
+import game.*;
+
 /**
  *
  * @author nakulkar
@@ -23,7 +25,41 @@ public class CGServer extends Thread
     private DataInputStream in       =  null; 
     private DataOutputStream out     = null;
     private int port = 0;
-    public static HashMap<String,Client> clients=new HashMap<String,Client>();
+    //public static HashMap<String,Client> clients=new HashMap<String,Client>();
+    public static HashMap<Integer,Client> clients=new HashMap<Integer,Client>();
+
+    Game game = new Game();
+    static boolean startGame = false;
+    
+    // constructor with port 
+    public CGServer(int port) 
+    {
+        try{
+            this.port=port; 
+            server = new ServerSocket(port); 
+            System.out.println("Server started"); 
+            System.out.println("Waiting for a client ..."); 
+            int count = 0;    
+            while(count<6 || (count >=3 && startGame)){
+                socket = server.accept();
+                String uname=new String(socket.getInetAddress().getHostName());
+                String ipadd=new String(socket.getInetAddress().getHostAddress());
+                Client c=new Client(uname,ipadd,socket);
+                //clients.put(uname+":"+ipadd, c);
+                clients.put(count, c);
+                c.out.writeUTF("You are Player:" + count);
+                c.start();
+                
+                game.addPlayer(count);
+                
+                System.out.println("Client "+socket.getInetAddress().getHostName() +" accepted");
+                count+=1;
+            }
+        }
+        catch(Exception e){
+            
+        }
+    } 
     
     public static String processRequest(String inmsg) throws IOException {
         String ret="Message type does not match any type";
@@ -45,32 +81,8 @@ public class CGServer extends Thread
         }
         return ret;
     }
-    // constructor with port 
-    public CGServer(int port) 
-    { 
-        try{
-            this.port=port; 
-            server = new ServerSocket(port); 
-            System.out.println("Server started"); 
-            System.out.println("Waiting for a client ..."); 
-            int count = 0;    
-            while(count<6){
-                socket = server.accept();
-                String uname=new String(socket.getInetAddress().getHostName());
-                String ipadd=new String(socket.getInetAddress().getHostAddress());
-                Client c=new Client(uname,ipadd,socket);
-                clients.put(uname+":"+ipadd, c);
-                c.start();
-                System.out.println("Client "+socket.getInetAddress().getHostName() +" accepted");
-                count+=1;
-            }
-        }
-        catch(Exception e){
-            
-        }
-    } 
   
-    public void sendToOneClient (String userName, String ipAddress,String msg) throws IOException
+    public static void sendToOneClient (String userName, String ipAddress,String msg) throws IOException
     {
         Client c = (Client)clients.get(userName+":"+ipAddress);
         // Sending the response back to the client.
@@ -78,16 +90,17 @@ public class CGServer extends Thread
         c.out.writeUTF(msg);
     }
     
-    public void sendToAllClients(String msg) throws IOException
+    public static void sendToAllClients(String msg) throws IOException
     {
         for(Client c : clients.values()){
+        	
             c.writeMsg(msg);
         }
     }
     
-    public static void main(String args[]) 
-    { 
-        CGServer server = new CGServer(Integer.parseInt("5000")); 
-        //server.runSV();
+    public void run()
+    {         
+        game.runFirstTurn();
+        game.runGame();
     } 
 } 

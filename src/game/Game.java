@@ -1,6 +1,12 @@
+package game;
+
 import java.util.*;
 import java.io.*;
 import java.util.Scanner;
+import java.util.StringTokenizer;
+
+import cgserver.*;
+
 import java.util.StringTokenizer;
 
 
@@ -21,10 +27,8 @@ public class Game
 	
 	boolean isGameRunning = true;
 	
-	cgserver.CGServer server = new cgserver.CGServer(12345);
-	
 	public Game()
-	{				
+	{	
 		// Init players
 		for(int p = 0; p < numPlayers; p++)
 		{
@@ -54,6 +58,7 @@ public class Game
 		{
 			players[aPlayerId].isAlive = true;
 			players[aPlayerId].isConnected = true;
+			
 			numLivePlayers++;			
 		}
 		
@@ -108,34 +113,36 @@ public class Game
 		}
 	}
 	
-	public void onReceiveMove(int aPlayerId, int locId)
+	public void onReceiveMove(int aPlayerId, int locId) throws IOException
 	{
 		players[aPlayerId].currentLoc.occupancy--;
 		players[aPlayerId].currentLoc = map.locId2Point.get(locId);
 		players[aPlayerId].currentLoc.occupancy++;
+		
+		CGServer.sendToAllClients("0#1:" + aPlayerId + ":" + locId);
 	}
 			
-	public void onReceiveAccusation(int aPlayerId, Card aSuspect, Card aLocation, Card aWeapon)
+	public void onReceiveAccusation(int aPlayerId, Card aSuspect, Card aLocation, Card aWeapon) throws IOException
 	{
 		if( aSuspect.equals(caseFile[0]) &&
 			aLocation.equals(caseFile[1]) &&
 			aWeapon.equals(caseFile[2]))
 		{
 			// Announce player winner, end game
-			//sendToAll("Player W Wins");
+			CGServer.sendToAllClients("0#8:Player " + aPlayerId + " Has Won!");
 			isGameRunning = false;
 		}
 		else
 		{
 			players[aPlayerId].isAlive = false;
 			//Announce loser
-			//sendToAll("Player L Loses");
+			CGServer.sendToAllClients("0#8:Player " + aPlayerId + " Has Lost!");
 
 		}
 	}
 	
 	// Card[] order is Player, Room, Weapon
-	public void onReceiveSuggestion(int aPlayerID, Card aSuspect, Card aLocation, Card aWeapon)
+	public void onReceiveSuggestion(int aPlayerID, Card aSuspect, Card aLocation, Card aWeapon) throws IOException
 	{
 		// First send message to everyone what the suggestion was		
 		
@@ -171,33 +178,54 @@ public class Game
 				
 				if(!matches.isEmpty())
 				{
-					int cardRcvd;
-					
+					String msgOut = i + ":6:";
+							
 					if(players[i].isConnected)
 					{
+						Client disprovingPlayer = CGServer.clients.get(i);
+						
 						// Send message to player choose one
+						String message = "0:11";
+						for(Card c : matches)
+						{
+							message = message + ":" + c.type + ":" + c.cardID;
+						}
+						disprovingPlayer.out.writeUTF(message);
+						
+						// Wait for response
+						while(disprovingPlayer.newMessages.isEmpty());
+						String msg = disprovingPlayer.newMessages.get(0);
+						disprovingPlayer.newMessages.remove(0);
+						
+						int cardType = Integer.parseInt(msg.substring(msg.length()-3));
+						int cardID = Integer.parseInt(msg.substring(msg.length()-1));
+						msgOut = msgOut + cardType + ":" + cardID;
 					}
 					else
 					{
-						// Send this random one since the player is dead and gone
+						// Choose a random one since the player is dead and gone
 						// and is now a "Bot"
 						int randomCard = (int)Math.floor(Math.random()*matches.size());
-						cardRcvd = matches.get(randomCard).cardID;
+						Card c = matches.get(randomCard);
+						msgOut = msgOut + c.type + ":" + c.cardID;
 					}
 					
 					// Receive card, then show it to suggestor
-					// sendCardToSuggestor(i, cardRcvd);
+					Client suggestingPlayer = CGServer.clients.get(aPlayerID);
+					suggestingPlayer.out.writeUTF(msgOut);
 					
 					// announce to everyone this player showed a card
-					// sendToAll("Player X showed a Card");
+					CGServer.sendToAllClients("0#8:Player " + i + " disproved the suggestion");
 					break;
 				}
 			}
 		}
 	}
 	
-	public void runGame() throws InterruptedException
+	public void runGame()
 	{
+		try{
+			
 		currentPlayer = 0;
 		
 		while(isGameRunning)
@@ -206,7 +234,20 @@ public class Game
 			Player p = players[currentPlayer];
 			if(p.isAlive)
 			{
-			
+				Client currentPlayerClient = CGServer.clients.get(currentPlayer);
+				String availableMovesMessage = "0:2:";
+				
+				if(p.wasMoved)
+				{
+					// Enable option to make suggestion for that room
+					availableMovesMessage = availableMovesMessage + "1:";
+				}
+				else
+				{
+					// Disable option to make suggestion for that room
+					availableMovesMessage = availableMovesMessage + "0";
+				}
+				
 				// Get available moves
 				Location l = p.currentLoc;
 				ArrayList<Location> availableMoves = new ArrayList<Location>(4);
@@ -216,53 +257,76 @@ public class Game
 					{
 						// Add location to message
 						availableMoves.add(nextMove);
+						
+						// Add it to the message
+						availableMovesMessage = availableMovesMessage + ":" + nextMove.locId;
 					}
 				}
 				
-				if(p.wasMoved)
-				{
-					// Enable option to make suggestion for that room
-				}
-				
 				//Send moves
+				currentPlayerClient.out.writeUTF(availableMovesMessage);
 				
 				// Wait for responses for a certain timeout, then process message
-				while(true)
+				boolean playerTurn = true;
+				while(playerTurn)
 				{
-					//TimedBlockingReceiveProcessMessage();
-//					if(timeout)
-//					{
-//						p.isAlive = false;
-//						p.isConnected = false;
-//						break;
-//					}
-//
-//					if(msg.id == MOVE)
-//					{
-//						onReceiveMove(currentPlayer, msg.newLocation)
-//						if(Map.locId2Point.get(msg.newLocation).type == Location.Type.ROOM)
+					if(!currentPlayerClient.newMessages.isEmpty())
+					{
+//						TimedBlockingReceiveProcessMessage();
+//						if(timeout)
 //						{
-//							// Send enable suggestion again
+//							p.isAlive = false;
+//							p.isConnected = false;
+//							break;
 //						}
-//					}
-//					else if(msg.id == SUGGEST)
-//					{
-//						onReceiveSuggestion(currentPlayer, msg.suspect, msg.room, msg.weapon);
-//					}
-//					else if(msg.id == ACCUSE)
-//					{
-//						onReceiveAccusation(currentPlayer, msg.suspect, msg.room, msg.weapon);
-//					} 
-//					else if(msg.id == END_TURN)
-//					{
-//						break;
-//					}
+						
+						String msgIn = currentPlayerClient.newMessages.get(0);
+						
+						StringTokenizer st = new StringTokenizer(msgIn, ":"); 
+		                int source = Integer.parseInt(st.nextToken()); 
+		                int msgId = Integer.parseInt(st.nextToken()); 
+
+						switch(msgId)
+						{
+						case 3:
+							int newLoc = Integer.parseInt(st.nextToken());
+							onReceiveMove(currentPlayer, newLoc);
+							if(map.locId2Point.get(newLoc).type == Location.Type.ROOM)
+							{
+								// Send enable suggestion again
+							}
+							break;
+						case 4:
+							Card sugg[] = new Card[3];
+							for(int i=0;i<3;i++)
+							{
+								sugg[i] = new Card(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
+							}
+							
+							onReceiveSuggestion(source, sugg[0], sugg[1], sugg[2]);
+							break;
+						case 5:
+							Card acc[] = new Card[3];
+							for(int i=0;i<3;i++)
+							{
+								acc[i] = new Card(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
+							}
+							onReceiveAccusation(source, acc[0], acc[1], acc[2]);
+							playerTurn = false;
+							break;
+						case 9:
+							playerTurn = false;
+							break;
+						}
+					}
 				}
 				
 			}
 			
 			currentPlayer = (currentPlayer+1) % numPlayers;
 		}
+		} catch(IOException e){
+		
+		}
 	}
-
 };
