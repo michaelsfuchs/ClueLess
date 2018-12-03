@@ -5,6 +5,8 @@
  */
 package masterui;
 
+import com.clientconnect.*;
+
 /**
  *
  * @author Alisha R. Hunt
@@ -117,6 +119,20 @@ public class GameStartScreen extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //Send a new game message to the backend
+		System.out.println(evt.getActionCommand());
+        if(jTextField1.getText().equals("")){
+            System.out.println("Creating new server");
+            int port = ClientCon.connectMaster();
+            System.out.println("SERVER PORT IS :" + port);
+            ClientCon c=new ClientCon("localhost",port);
+            c.start();
+        }
+        else{
+            System.out.println("Connecting to existing server");
+            int port = Integer.parseInt(jTextField1.getText());
+            ClientCon c=new ClientCon("localhost",port);
+            c.start();
+        }
         System.out.println(evt.getActionCommand());
     }//GEN-LAST:event_jButton1ActionPerformed
 
