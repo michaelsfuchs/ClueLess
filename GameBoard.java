@@ -13,22 +13,26 @@ import java.util.HashMap;
  */
 public class GameBoard extends javax.swing.JFrame {
 
+    private int gameID;
+    private String userID;
+    
     /**
      * Creates new form GameBoard
      */
     public GameBoard() {
         initComponents();
         closeRoomSelection();
-        //openRoomSelection(1);
+        
+        
 
         // Creating a map for the room values
-        Map<String, String> rightHereMap = new HashMap<String, String>()
+        /*Map<String, String> rightHereMap = new HashMap<String, String>()
 {
     {
         put("key1", "value1");
         put("key2", "value2");
     }
-};
+};*/
     }
 
     /**
@@ -40,6 +44,16 @@ public class GameBoard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Welcome = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        EnterUserID = new javax.swing.JPanel();
+        userIDfield = new javax.swing.JTextField();
+        userIDprompt = new javax.swing.JLabel();
+        GameOps = new javax.swing.JPanel();
+        startNewGameButton = new javax.swing.JButton();
+        gameIDfield = new javax.swing.JTextField();
+        gameIDprompt = new javax.swing.JLabel();
         Gameboard = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -98,14 +112,15 @@ public class GameBoard extends javax.swing.JFrame {
         Hallway8 = new javax.swing.JButton();
         Hallway9 = new javax.swing.JButton();
         Hallway10 = new javax.swing.JButton();
-        Welcome = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         Lobby = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lobbyWelcome = new javax.swing.JLabel();
+        startGameBox = new javax.swing.JPanel();
+        startGamePrompt = new javax.swing.JLabel();
+        startGamePrompt1 = new javax.swing.JLabel();
+        startGameButton = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        playersInLobby = new javax.swing.JList<>();
         Winning = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         Losing = new javax.swing.JPanel();
@@ -113,6 +128,150 @@ public class GameBoard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.CardLayout());
+
+        jLabel4.setFont(new java.awt.Font("Old English Text MT", 0, 60)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Welcome to Clue-Less!!");
+
+        EnterUserID.setBackground(new java.awt.Color(153, 153, 153));
+        EnterUserID.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        userIDfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userIDfieldActionPerformed(evt);
+            }
+        });
+
+        userIDprompt.setText("Enter a name for yourself");
+
+        javax.swing.GroupLayout EnterUserIDLayout = new javax.swing.GroupLayout(EnterUserID);
+        EnterUserID.setLayout(EnterUserIDLayout);
+        EnterUserIDLayout.setHorizontalGroup(
+            EnterUserIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EnterUserIDLayout.createSequentialGroup()
+                .addGroup(EnterUserIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(EnterUserIDLayout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(userIDfield, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(EnterUserIDLayout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(userIDprompt, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 52, Short.MAX_VALUE))
+        );
+        EnterUserIDLayout.setVerticalGroup(
+            EnterUserIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(EnterUserIDLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userIDprompt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(userIDfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
+        );
+
+        GameOps.setBackground(new java.awt.Color(153, 153, 153));
+        GameOps.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        startNewGameButton.setText("Start a New Game");
+        startNewGameButton.setActionCommand("NewGame");
+        startNewGameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startNewGameButtonActionPerformed(evt);
+            }
+        });
+
+        gameIDfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gameIDfieldActionPerformed(evt);
+            }
+        });
+
+        gameIDprompt.setText("Or enter an existing Game ID");
+
+        javax.swing.GroupLayout GameOpsLayout = new javax.swing.GroupLayout(GameOps);
+        GameOps.setLayout(GameOpsLayout);
+        GameOpsLayout.setHorizontalGroup(
+            GameOpsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GameOpsLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(gameIDprompt, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 36, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GameOpsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(GameOpsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GameOpsLayout.createSequentialGroup()
+                        .addComponent(gameIDfield, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(75, 75, 75))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GameOpsLayout.createSequentialGroup()
+                        .addComponent(startNewGameButton)
+                        .addGap(62, 62, 62))))
+        );
+        GameOpsLayout.setVerticalGroup(
+            GameOpsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GameOpsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(startNewGameButton)
+                .addGap(26, 26, 26)
+                .addComponent(gameIDprompt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(gameIDfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(EnterUserID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(GameOps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(EnterUserID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel5Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(GameOps, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout WelcomeLayout = new javax.swing.GroupLayout(Welcome);
+        Welcome.setLayout(WelcomeLayout);
+        WelcomeLayout.setHorizontalGroup(
+            WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WelcomeLayout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(93, Short.MAX_VALUE))
+            .addGroup(WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(WelcomeLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        WelcomeLayout.setVerticalGroup(
+            WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(WelcomeLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(557, Short.MAX_VALUE))
+            .addGroup(WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(WelcomeLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        getContentPane().add(Welcome, "card3");
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 255));
 
@@ -835,101 +994,94 @@ public class GameBoard extends javax.swing.JFrame {
 
         getContentPane().add(Gameboard, "card2");
 
-        jLabel4.setFont(new java.awt.Font("Old English Text MT", 0, 60)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Welcome to Clue-Less!!");
+        lobbyWelcome.setFont(new java.awt.Font("Old English Text MT", 0, 60)); // NOI18N
+        lobbyWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lobbyWelcome.setText("Welcome:");
 
-        jPanel4.setBackground(new java.awt.Color(153, 153, 153));
-        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        startGameBox.setBackground(new java.awt.Color(153, 153, 153));
+        startGameBox.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton1.setText("Start a New Game");
-        jButton1.setActionCommand("NewGame");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        startGamePrompt.setText("Click start when you are ready to play!");
+
+        startGamePrompt1.setText("Note: you need at least 3 players");
+
+        startGameButton.setText("START GAME!!");
+        startGameButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                startGameButtonActionPerformed(evt);
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setText("Or enter an existing Game ID");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 36, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jButton1)
+        javax.swing.GroupLayout startGameBoxLayout = new javax.swing.GroupLayout(startGameBox);
+        startGameBox.setLayout(startGameBoxLayout);
+        startGameBoxLayout.setHorizontalGroup(
+            startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startGameBoxLayout.createSequentialGroup()
+                .addContainerGap(58, Short.MAX_VALUE)
+                .addGroup(startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(startGamePrompt, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startGameBoxLayout.createSequentialGroup()
+                        .addComponent(startGamePrompt1)
+                        .addGap(28, 28, 28)))
+                .addGap(46, 46, 46))
+            .addGroup(startGameBoxLayout.createSequentialGroup()
+                .addGap(123, 123, 123)
+                .addComponent(startGameButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        startGameBoxLayout.setVerticalGroup(
+            startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(startGameBoxLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(26, 26, 26)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(startGamePrompt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(startGamePrompt1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(startGameButton)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout WelcomeLayout = new javax.swing.GroupLayout(Welcome);
-        Welcome.setLayout(WelcomeLayout);
-        WelcomeLayout.setHorizontalGroup(
-            WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WelcomeLayout.createSequentialGroup()
-                .addGroup(WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(WelcomeLayout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(WelcomeLayout.createSequentialGroup()
-                        .addGap(343, 343, 343)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(93, Short.MAX_VALUE))
-        );
-        WelcomeLayout.setVerticalGroup(
-            WelcomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(WelcomeLayout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(144, 144, 144)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(253, Short.MAX_VALUE))
-        );
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel5.setText("Players currently in the game:");
 
-        getContentPane().add(Welcome, "card3");
-
-        jLabel3.setText("yayyy!!!");
+        playersInLobby.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        playersInLobby.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(playersInLobby);
 
         javax.swing.GroupLayout LobbyLayout = new javax.swing.GroupLayout(Lobby);
         Lobby.setLayout(LobbyLayout);
         LobbyLayout.setHorizontalGroup(
             LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LobbyLayout.createSequentialGroup()
-                .addGap(314, 314, 314)
-                .addComponent(jLabel3)
-                .addContainerGap(860, Short.MAX_VALUE))
+                .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LobbyLayout.createSequentialGroup()
+                        .addGap(226, 226, 226)
+                        .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lobbyWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(LobbyLayout.createSequentialGroup()
+                        .addGap(417, 417, 417)
+                        .addComponent(startGameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(241, Short.MAX_VALUE))
         );
         LobbyLayout.setVerticalGroup(
             LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LobbyLayout.createSequentialGroup()
-                .addGap(163, 163, 163)
-                .addComponent(jLabel3)
-                .addContainerGap(702, Short.MAX_VALUE))
+                .addGap(57, 57, 57)
+                .addComponent(lobbyWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(startGameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(301, Short.MAX_VALUE))
         );
 
         getContentPane().add(Lobby, "card4");
@@ -1159,15 +1311,42 @@ public class GameBoard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Hallway10ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void startNewGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewGameButtonActionPerformed
         //Send a new game message to the backend
-        System.out.println(evt.getActionCommand());
-    }//GEN-LAST:event_jButton1ActionPerformed
+        gameID = clueLess.startNewGame();
+        GameOps.setVisible(false);
+        gameIDfield.setVisible(false);
+        gameIDprompt.setVisible(false);
+        startNewGameButton.setVisible(false);
+        EnterUserID.setVisible(true);
+        userIDfield.setVisible(true);
+    }//GEN-LAST:event_startNewGameButtonActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void gameIDfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameIDfieldActionPerformed
         // Send Game ID to join a game. Need to verify that the game code is valid
         System.out.println(evt.getActionCommand());
-    }//GEN-LAST:event_jTextField1ActionPerformed
+        gameID = Integer.parseInt(gameIDfield.getText());
+        clueLess.joinGame(gameID);
+        GameOps.setVisible(false);
+        gameIDfield.setVisible(false);
+        gameIDprompt.setVisible(false);
+        startNewGameButton.setVisible(false);
+        EnterUserID.setVisible(true);
+        userIDfield.setVisible(true);
+    }//GEN-LAST:event_gameIDfieldActionPerformed
+
+    private void userIDfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userIDfieldActionPerformed
+        // TODO add your handling code here:
+        userID = userIDfield.getText();
+        clueLess.sendUserName(userID);
+        switchScreens("Lobby");
+        lobbyWelcome.setText("Welcome: "+ userID);
+    }//GEN-LAST:event_userIDfieldActionPerformed
+
+    private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
+        // TODO add your handling code here:
+        switchScreens("GameBoard");
+    }//GEN-LAST:event_startGameButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1204,6 +1383,11 @@ public class GameBoard extends javax.swing.JFrame {
                 
             }
         });
+    }
+    
+    public void addPlayer(String playerName){
+        //playersInLobby.add();
+        System.out.println("Need to add function to add players to lobby list");
     }
     
     /**
@@ -1252,6 +1436,13 @@ public class GameBoard extends javax.swing.JFrame {
                 Gameboard.setVisible(false);
                 Winning.setVisible(false);
                 Losing.setVisible(false);
+                // set all the fields on welcome screen to visible as appropriate
+                EnterUserID.setVisible(false);
+                userIDfield.setVisible(false);
+                GameOps.setVisible(true);
+                gameIDfield.setVisible(true);
+                gameIDprompt.setVisible(true);
+                startNewGameButton.setVisible(true);
                 break;
             case "Winning":
                 Winning.setVisible(true);
@@ -1403,6 +1594,8 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JCheckBox DNsuspect6;
     private javax.swing.JCheckBox DNwrench;
     private javax.swing.JButton DiningRoom;
+    private javax.swing.JPanel EnterUserID;
+    private javax.swing.JPanel GameOps;
     private javax.swing.JPanel Gameboard;
     private javax.swing.JButton Hall;
     private javax.swing.JButton Hallway1;
@@ -1425,12 +1618,12 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JButton Study;
     private javax.swing.JPanel Welcome;
     private javax.swing.JPanel Winning;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextField gameIDfield;
+    private javax.swing.JLabel gameIDprompt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1441,12 +1634,21 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lobbyWelcome;
+    private javax.swing.JList<String> playersInLobby;
+    private javax.swing.JPanel startGameBox;
+    private javax.swing.JButton startGameButton;
+    private javax.swing.JLabel startGamePrompt;
+    private javax.swing.JLabel startGamePrompt1;
+    private javax.swing.JButton startNewGameButton;
+    private javax.swing.JTextField userIDfield;
+    private javax.swing.JLabel userIDprompt;
     // End of variables declaration//GEN-END:variables
 }
