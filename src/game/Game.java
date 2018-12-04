@@ -294,6 +294,8 @@ public class Game
 							if(map.locId2Point.get(newLoc).type == Location.Type.ROOM)
 							{
 								// Send enable suggestion again
+								String newSuggestionMessage = "0:2:1";
+								currentPlayerClient.out.writeUTF(newSuggestionMessage);
 							}
 							break;
 						case 4:
