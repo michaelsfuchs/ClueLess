@@ -54,6 +54,15 @@ public class GameBoard extends javax.swing.JFrame {
         startNewGameButton = new javax.swing.JButton();
         gameIDfield = new javax.swing.JTextField();
         gameIDprompt = new javax.swing.JLabel();
+        Lobby = new javax.swing.JPanel();
+        lobbyWelcome = new javax.swing.JLabel();
+        startGameBox = new javax.swing.JPanel();
+        startGamePrompt = new javax.swing.JLabel();
+        startGamePrompt1 = new javax.swing.JLabel();
+        startGameButton = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        playersInLobby = new javax.swing.JList<>();
         Gameboard = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -61,9 +70,9 @@ public class GameBoard extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        cardList = new javax.swing.JList<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        textUpdateBox = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -112,15 +121,6 @@ public class GameBoard extends javax.swing.JFrame {
         Hallway8 = new javax.swing.JButton();
         Hallway9 = new javax.swing.JButton();
         Hallway10 = new javax.swing.JButton();
-        Lobby = new javax.swing.JPanel();
-        lobbyWelcome = new javax.swing.JLabel();
-        startGameBox = new javax.swing.JPanel();
-        startGamePrompt = new javax.swing.JLabel();
-        startGamePrompt1 = new javax.swing.JLabel();
-        startGameButton = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        playersInLobby = new javax.swing.JList<>();
         Winning = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         Losing = new javax.swing.JPanel();
@@ -273,6 +273,98 @@ public class GameBoard extends javax.swing.JFrame {
 
         getContentPane().add(Welcome, "card3");
 
+        lobbyWelcome.setFont(new java.awt.Font("Old English Text MT", 0, 60)); // NOI18N
+        lobbyWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lobbyWelcome.setText("Welcome:");
+
+        startGameBox.setBackground(new java.awt.Color(153, 153, 153));
+        startGameBox.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        startGamePrompt.setText("Click start when you are ready to play!");
+
+        startGamePrompt1.setText("Note: you need at least 3 players");
+
+        startGameButton.setText("START GAME!!");
+        startGameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startGameButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout startGameBoxLayout = new javax.swing.GroupLayout(startGameBox);
+        startGameBox.setLayout(startGameBoxLayout);
+        startGameBoxLayout.setHorizontalGroup(
+            startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startGameBoxLayout.createSequentialGroup()
+                .addContainerGap(58, Short.MAX_VALUE)
+                .addGroup(startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(startGamePrompt, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startGameBoxLayout.createSequentialGroup()
+                        .addComponent(startGamePrompt1)
+                        .addGap(28, 28, 28)))
+                .addGap(46, 46, 46))
+            .addGroup(startGameBoxLayout.createSequentialGroup()
+                .addGap(123, 123, 123)
+                .addComponent(startGameButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        startGameBoxLayout.setVerticalGroup(
+            startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(startGameBoxLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(startGamePrompt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(startGamePrompt1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(startGameButton)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel5.setText("Players currently in the game:");
+
+        playersInLobby.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        playersInLobby.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(playersInLobby);
+
+        javax.swing.GroupLayout LobbyLayout = new javax.swing.GroupLayout(Lobby);
+        Lobby.setLayout(LobbyLayout);
+        LobbyLayout.setHorizontalGroup(
+            LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LobbyLayout.createSequentialGroup()
+                .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(LobbyLayout.createSequentialGroup()
+                        .addGap(226, 226, 226)
+                        .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lobbyWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(LobbyLayout.createSequentialGroup()
+                        .addGap(417, 417, 417)
+                        .addComponent(startGameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(241, Short.MAX_VALUE))
+        );
+        LobbyLayout.setVerticalGroup(
+            LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LobbyLayout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addComponent(lobbyWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(startGameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(301, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(Lobby, "card4");
+
         jPanel1.setBackground(new java.awt.Color(0, 0, 255));
 
         jTextArea3.setColumns(20);
@@ -286,15 +378,15 @@ public class GameBoard extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Your Cards:");
 
-        jList1.setBackground(new java.awt.Color(0, 0, 255));
-        jList1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jList1.setForeground(new java.awt.Color(255, 153, 153));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        cardList.setBackground(new java.awt.Color(0, 0, 255));
+        cardList.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        cardList.setForeground(new java.awt.Color(255, 153, 153));
+        cardList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(cardList);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -326,10 +418,10 @@ public class GameBoard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("This will be the UI text display box along the bottom.");
-        jScrollPane1.setViewportView(jTextArea1);
+        textUpdateBox.setColumns(20);
+        textUpdateBox.setRows(5);
+        textUpdateBox.setText("This will be the UI text display box along the bottom.");
+        jScrollPane1.setViewportView(textUpdateBox);
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 255));
 
@@ -994,98 +1086,6 @@ public class GameBoard extends javax.swing.JFrame {
 
         getContentPane().add(Gameboard, "card2");
 
-        lobbyWelcome.setFont(new java.awt.Font("Old English Text MT", 0, 60)); // NOI18N
-        lobbyWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lobbyWelcome.setText("Welcome:");
-
-        startGameBox.setBackground(new java.awt.Color(153, 153, 153));
-        startGameBox.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        startGamePrompt.setText("Click start when you are ready to play!");
-
-        startGamePrompt1.setText("Note: you need at least 3 players");
-
-        startGameButton.setText("START GAME!!");
-        startGameButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startGameButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout startGameBoxLayout = new javax.swing.GroupLayout(startGameBox);
-        startGameBox.setLayout(startGameBoxLayout);
-        startGameBoxLayout.setHorizontalGroup(
-            startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startGameBoxLayout.createSequentialGroup()
-                .addContainerGap(58, Short.MAX_VALUE)
-                .addGroup(startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(startGamePrompt, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, startGameBoxLayout.createSequentialGroup()
-                        .addComponent(startGamePrompt1)
-                        .addGap(28, 28, 28)))
-                .addGap(46, 46, 46))
-            .addGroup(startGameBoxLayout.createSequentialGroup()
-                .addGap(123, 123, 123)
-                .addComponent(startGameButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        startGameBoxLayout.setVerticalGroup(
-            startGameBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(startGameBoxLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(startGamePrompt, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(startGamePrompt1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(startGameButton)
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel5.setText("Players currently in the game:");
-
-        playersInLobby.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        playersInLobby.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane4.setViewportView(playersInLobby);
-
-        javax.swing.GroupLayout LobbyLayout = new javax.swing.GroupLayout(Lobby);
-        Lobby.setLayout(LobbyLayout);
-        LobbyLayout.setHorizontalGroup(
-            LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(LobbyLayout.createSequentialGroup()
-                .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(LobbyLayout.createSequentialGroup()
-                        .addGap(226, 226, 226)
-                        .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lobbyWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 759, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(LobbyLayout.createSequentialGroup()
-                        .addGap(417, 417, 417)
-                        .addComponent(startGameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(241, Short.MAX_VALUE))
-        );
-        LobbyLayout.setVerticalGroup(
-            LobbyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(LobbyLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addComponent(lobbyWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 56, 56)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(startGameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(301, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(Lobby, "card4");
-
         jLabel7.setFont(new java.awt.Font("Old English Text MT", 0, 60)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("Congratulations! You've won!!");
@@ -1385,6 +1385,11 @@ public class GameBoard extends javax.swing.JFrame {
         });
     }
     
+    /**
+     * This function will add a player to the list of players in the game while
+     * users are waiting in the lobby.
+     * @param playerName 
+     */
     public void addPlayer(String playerName){
         //playersInLobby.add();
         System.out.println("Need to add function to add players to lobby list");
@@ -1397,8 +1402,8 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public void setupGameBoard(String[] suspect,String cards[]){
         
-        this.jTextArea1.setEditable(false);
-        this.jTextArea1.setText("Setting up everything for you :)");
+        this.textUpdateBox.setEditable(false);
+        this.textUpdateBox.setText("Setting up everything for you :)");
         
         // Initialize the suspect list in Detective Notes
         this.DNsuspect1.setText(suspect[0]);
@@ -1410,10 +1415,22 @@ public class GameBoard extends javax.swing.JFrame {
         
         // Display cards given to the user
         //String cards[] = {"Conservatory","Rope","Mrs. Maraple","Dragons"};
-        this.jList1.setListData(cards);
+        this.cardList.setListData(cards);
     }
     
+    /**
+     * Show text updates along the bottom of the screen. 
+     * @param updateMSG 
+     */
+    public void pushTextUpdate(String updateMSG){
+        this.textUpdateBox.append(updateMSG);
+    }
     
+    /**
+     * This function switches between panels to make the appropriate screen
+     * visible to the user.
+     * @param screenID 
+     */
     public void switchScreens(String screenID){
         switch(screenID){
             case "Lobby":
@@ -1618,6 +1635,7 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JButton Study;
     private javax.swing.JPanel Welcome;
     private javax.swing.JPanel Winning;
+    private javax.swing.JList<String> cardList;
     private javax.swing.JTextField gameIDfield;
     private javax.swing.JLabel gameIDprompt;
     private javax.swing.JLabel jLabel1;
@@ -1630,7 +1648,6 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1639,7 +1656,6 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JLabel lobbyWelcome;
     private javax.swing.JList<String> playersInLobby;
@@ -1648,6 +1664,7 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JLabel startGamePrompt;
     private javax.swing.JLabel startGamePrompt1;
     private javax.swing.JButton startNewGameButton;
+    private javax.swing.JTextArea textUpdateBox;
     private javax.swing.JTextField userIDfield;
     private javax.swing.JLabel userIDprompt;
     // End of variables declaration//GEN-END:variables
