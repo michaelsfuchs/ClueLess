@@ -181,10 +181,9 @@ public class Game
 					String msgOut = i + ":6:";
 							
 					if(players[i].isConnected)
-					{
-						Client disprovingPlayer = CGServer.clients.get(i);
-						
+					{						
 						// Send message to player choose one
+						ClientHandler disprovingPlayer = CGServer.clients.get(i);
 						String message = "0:11";
 						for(Card c : matches)
 						{
@@ -211,7 +210,7 @@ public class Game
 					}
 					
 					// Receive card, then show it to suggestor
-					Client suggestingPlayer = CGServer.clients.get(aPlayerID);
+					ClientHandler suggestingPlayer = CGServer.clients.get(aPlayerID);
 					suggestingPlayer.out.writeUTF(msgOut);
 					
 					// announce to everyone this player showed a card
@@ -234,7 +233,7 @@ public class Game
 			Player p = players[currentPlayer];
 			if(p.isAlive)
 			{
-				Client currentPlayerClient = CGServer.clients.get(currentPlayer);
+				ClientHandler currentPlayerClient = CGServer.clients.get(currentPlayer);
 				String availableMovesMessage = "0:2:";
 				
 				if(p.wasMoved)
@@ -320,6 +319,8 @@ public class Game
 							playerTurn = false;
 							break;
 						}
+						
+						currentPlayerClient.newMessages.remove(0);
 					}
 				}
 				

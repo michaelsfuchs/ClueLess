@@ -8,6 +8,8 @@ public class App
 	{
 		CGServer server = new CGServer(12345);
 		server.run();
+		
+		
 	}
 
 }
