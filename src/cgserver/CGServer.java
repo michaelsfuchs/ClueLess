@@ -61,6 +61,7 @@ public class CGServer extends Thread
                 c.start();
                 System.out.println("Client "+socket.getInetAddress().getHostName() +" accepted");
                 count+=1;
+                sendToAllClients("0:8:Game Started");
             }
             
             game.runFirstTurn();
