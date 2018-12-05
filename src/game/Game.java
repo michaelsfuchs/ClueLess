@@ -44,7 +44,7 @@ public class Game
 
 	}
 	
-	public void addPlayer(int aPlayerId)
+	public void addPlayer(int aPlayerId) throws IOException
 	{
 		if(numLivePlayers == 6)
 		{
@@ -63,7 +63,7 @@ public class Game
 		}
 		
 		// Announce that a new player joined
-		//sendToAll("Player aPlayerId Joined");
+		CGServer.sendToAllClients("0:12:"+aPlayerId);
 	}
 	
 	public void runFirstTurn()
@@ -287,7 +287,7 @@ public class Game
 
 						switch(msgId)
 						{
-						case 3:
+						case 3: // Move
 							int newLoc = Integer.parseInt(st.nextToken());
 							onReceiveMove(currentPlayer, newLoc);
 							if(map.locId2Point.get(newLoc).type == Location.Type.ROOM)
@@ -297,16 +297,15 @@ public class Game
 								currentPlayerClient.out.writeUTF(newSuggestionMessage);
 							}
 							break;
-						case 4:
+						case 4: // Suggestion
 							Card sugg[] = new Card[3];
 							for(int i=0;i<3;i++)
 							{
 								sugg[i] = new Card(Integer.parseInt(st.nextToken()),Integer.parseInt(st.nextToken()));
 							}
-							
 							onReceiveSuggestion(source, sugg[0], sugg[1], sugg[2]);
 							break;
-						case 5:
+						case 5: // Accusation
 							Card acc[] = new Card[3];
 							for(int i=0;i<3;i++)
 							{
@@ -315,7 +314,7 @@ public class Game
 							onReceiveAccusation(source, acc[0], acc[1], acc[2]);
 							playerTurn = false;
 							break;
-						case 9:
+						case 9: // End Turn
 							playerTurn = false;
 							break;
 						}
