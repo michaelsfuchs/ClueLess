@@ -16,6 +16,12 @@ public class Location
 		this.connections = new ArrayList<Location>();
 	}
 	
+	Location()
+	{
+		occupancy = 0;
+		this.connections = new ArrayList<Location>();
+	}
+	
 	enum Type
 	{
 		HALLWAY,
