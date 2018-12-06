@@ -4,6 +4,8 @@
  *
  * @author nachiket
  */
+import clueLess.GameBoard;
+import clueLess.clueLess;
 import java.net.*; 
 import java.io.*; 
   
@@ -14,11 +16,12 @@ public class ClientCon extends Thread
     public DataInputStream  in   = null; 
     public DataOutputStream out     = null; 
     public String address = "" ;
+    public GameBoard gb;
     //public String myUserName="";
     //public String myIpAddress="";
     public int port = 0;
     // constructor to put ip address and port 
-    public ClientCon(String address, int port) 
+    public ClientCon(String address, int port, GameBoard gb) 
     { 
         // establish a connection 
         try
@@ -33,9 +36,11 @@ public class ClientCon extends Thread
             in  = new DataInputStream(socket.getInputStream()); 
             // sends output to the socket 
             out    = new DataOutputStream(socket.getOutputStream());
+            this.gb=gb;
         } 
         catch(Exception u) 
         { 
+            
         }
         
     } 
@@ -51,6 +56,7 @@ public class ClientCon extends Thread
                 if(!received.isEmpty() || !(received == null) || !received.equals("")){
                    String processedMsg = processRequest(received);
                    //write to updates area the processedMsg
+                   gb.pushTextUpdate(processedMsg);
                    received="";
                 }
             }
@@ -107,7 +113,7 @@ public class ClientCon extends Thread
         return finalmsg;
     }
     
-    public static String processRequest(String msgtoproc) throws UnknownHostException{
+    public String processRequest(String msgtoproc) throws UnknownHostException{
         String ret= "# No Msg ";
         String msgsplit[] = msgtoproc.split(":");
         String msgid = msgsplit[1];
@@ -143,6 +149,10 @@ public class ClientCon extends Thread
         if(msgid.contains("12")){
             //Inform that new player has joined
             ret="Player has joined :" + msgsplit[2];
+            if( clueLess.playerID == -1)
+            {
+                clueLess.playerID = Integer.parseInt(msgsplit[2]);
+            }
         }
         return ret;   
     }

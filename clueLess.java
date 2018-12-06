@@ -12,9 +12,10 @@ package clueLess;
 public class clueLess {
     public static ClientCon client;
     public static int playerID;
+    public static GameBoard gb;
     
-    public static void clueLess() {
-    
+    public clueLess() {
+        playerID = -1;
     }
     /**
      * ClueLess is the main game application. It's responsible for managing hand 
@@ -25,7 +26,7 @@ public class clueLess {
     public static void main(String args[]){
     
         // Initialize the UI
-        GameBoard gb = new GameBoard();
+        gb = new GameBoard();
         gb.setVisible(true);
        
         // May switch between screens by sending a string as appropriate.
@@ -62,7 +63,7 @@ public class clueLess {
         System.out.println("Creating new server");
         int port = ClientCon.connectMaster();
         System.out.println("SERVER PORT IS :" + port);
-        client=new ClientCon("localhost",port);
+        client=new ClientCon("localhost",port,gb);
         client.start();
         //Display message that gameID is port
         return port;
@@ -74,7 +75,7 @@ public class clueLess {
      */
     public static void joinGame(int gameID){
         System.out.println("Connecting to existing server");
-        client=new ClientCon("localhost",gameID);
+        client=new ClientCon("localhost",gameID,gb);
         client.start();
     }
     
