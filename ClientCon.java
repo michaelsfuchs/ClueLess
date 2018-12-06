@@ -1,3 +1,5 @@
+package clueLess;
+
 
 
 /**
@@ -145,9 +147,10 @@ public class ClientCon extends Thread
         if(msgid.contains("11")){
             //Inform that player of cards that can be disapproved
             ret="New Player has joined with player ID : "+msgsplit[2];
+            gb.addPlayer(msgsplit[2]);
         }
         if(msgid.contains("12")){
-            //Inform that new player has joined
+            //Assigns player id to the player
             ret="Player has joined :" + msgsplit[2];
             if( clueLess.playerID == -1)
             {
