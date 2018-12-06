@@ -6,6 +6,8 @@
 package clueLess;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -14,7 +16,9 @@ import java.util.HashMap;
 public class GameBoard extends javax.swing.JFrame {
 
     private int gameID;
+    private int userCount=1;
     private String userID;
+    private String users[]= new String[6];
     
     /**
      * Creates new form GameBoard
@@ -123,6 +127,11 @@ public class GameBoard extends javax.swing.JFrame {
         Hallway10 = new javax.swing.JButton();
         Winning = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        GamePopup = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        turnOptions = new javax.swing.JList<>();
+        jLabel3 = new javax.swing.JLabel();
         Losing = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
 
@@ -360,7 +369,7 @@ public class GameBoard extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(startGameBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(301, Short.MAX_VALUE))
+                .addContainerGap(291, Short.MAX_VALUE))
         );
 
         getContentPane().add(Lobby, "card4");
@@ -1113,6 +1122,45 @@ public class GameBoard extends javax.swing.JFrame {
 
         getContentPane().add(Winning, "card5");
 
+        jLabel10.setFont(new java.awt.Font("Old English Text MT", 0, 24)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("It's your turn!");
+
+        turnOptions.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane5.setViewportView(turnOptions);
+
+        jLabel3.setText("Please select from the following move options:");
+
+        javax.swing.GroupLayout GamePopupLayout = new javax.swing.GroupLayout(GamePopup);
+        GamePopup.setLayout(GamePopupLayout);
+        GamePopupLayout.setHorizontalGroup(
+            GamePopupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GamePopupLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(GamePopupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+        GamePopupLayout.setVerticalGroup(
+            GamePopupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GamePopupLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(GamePopup, "card6");
+
         jLabel9.setFont(new java.awt.Font("Old English Text MT", 0, 60)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Sorry! You lost the game.. ");
@@ -1341,6 +1389,9 @@ public class GameBoard extends javax.swing.JFrame {
         clueLess.sendUserName(userID);
         switchScreens("Lobby");
         lobbyWelcome.setText("Welcome: "+ userID);
+        users[0]=userID;
+        this.playersInLobby.setListData(users);
+        
     }//GEN-LAST:event_userIDfieldActionPerformed
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
@@ -1391,8 +1442,9 @@ public class GameBoard extends javax.swing.JFrame {
      * @param playerName 
      */
     public void addPlayer(String playerName){
-        //playersInLobby.add();
-        System.out.println("Need to add function to add players to lobby list");
+        users[userCount]=playerName;
+        this.playersInLobby.setListData(users);
+        userCount=userCount+1;
     }
     
     /**
@@ -1403,7 +1455,7 @@ public class GameBoard extends javax.swing.JFrame {
     public void setupGameBoard(String[] suspect,String cards[]){
         
         this.textUpdateBox.setEditable(false);
-        this.textUpdateBox.setText("Setting up everything for you :)");
+        this.textUpdateBox.setText("Setting up everything for you :)" + "\n");
         
         // Initialize the suspect list in Detective Notes
         this.DNsuspect1.setText(suspect[0]);
@@ -1423,7 +1475,7 @@ public class GameBoard extends javax.swing.JFrame {
      * @param updateMSG 
      */
     public void pushTextUpdate(String updateMSG){
-        this.textUpdateBox.append(updateMSG);
+        this.textUpdateBox.append(updateMSG + "\n");
     }
     
     /**
@@ -1613,6 +1665,7 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JButton DiningRoom;
     private javax.swing.JPanel EnterUserID;
     private javax.swing.JPanel GameOps;
+    private javax.swing.JPanel GamePopup;
     private javax.swing.JPanel Gameboard;
     private javax.swing.JButton Hall;
     private javax.swing.JButton Hallway1;
@@ -1639,9 +1692,11 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JTextField gameIDfield;
     private javax.swing.JLabel gameIDprompt;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1656,6 +1711,7 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JLabel lobbyWelcome;
     private javax.swing.JList<String> playersInLobby;
@@ -1665,6 +1721,7 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JLabel startGamePrompt1;
     private javax.swing.JButton startNewGameButton;
     private javax.swing.JTextArea textUpdateBox;
+    private javax.swing.JList<String> turnOptions;
     private javax.swing.JTextField userIDfield;
     private javax.swing.JLabel userIDprompt;
     // End of variables declaration//GEN-END:variables

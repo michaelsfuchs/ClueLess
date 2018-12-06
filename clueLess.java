@@ -36,8 +36,11 @@ public class clueLess {
             "Mrs. Peacock","Miss Scarlet","Mrs. White"};
         String cards[] = {"Conservatory","Rope","Prof. Plum","Mrs. Peacock"};
         gb.setupGameBoard(suspects,cards);
-
-
+        
+        // add players
+        gb.addPlayer("T-Rex");
+        gb.addPlayer("Goldie");
+        
         // During a user's turn they will have multiple move options
         // Those options must be opened by the room ID
         // Below is a sample. This are currently from left to right, but will
@@ -79,6 +82,7 @@ public class clueLess {
      * @param userID 
      */
     public static void sendUserName(String userID){
+        //gb.addPlayer(userID);
         // add handling code here for networking end.
     }
     
