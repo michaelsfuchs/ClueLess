@@ -11,10 +11,11 @@ package clueLess;
  */
 public class clueLess {
     public static ClientCon client;
-    public static int playerID;
-    public static GameBoard gb;
+    public static int playerID = -1;
+    public static GameBoard gb = null;
     
     public clueLess() {
+        client = null;
         playerID = -1;
     }
     /**
@@ -60,12 +61,14 @@ public class clueLess {
      * @return gameID
      */
     public static int startNewGame(){
+        
         System.out.println("Creating new server");
         int port = ClientCon.connectMaster();
         System.out.println("SERVER PORT IS :" + port);
         client=new ClientCon("localhost",port,gb);
         client.start();
         //Display message that gameID is port
+        gb.pushTextUpdate("Your Game ID is : "+port);
         return port;
     }
     

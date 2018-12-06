@@ -25,6 +25,8 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public GameBoard() {
         initComponents();
+		this.pack();
+        this.setLocationRelativeTo(null);
         closeRoomSelection();
         
         
