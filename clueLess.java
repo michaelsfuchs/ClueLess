@@ -10,10 +10,12 @@ package clueLess;
  * @author Alisha R. Hunt
  */
 public class clueLess {
+    public static ClientCon client;
+    public static int playerID;
     
     public static void clueLess() {
     
-}
+    }
     /**
      * ClueLess is the main game application. It's responsible for managing hand 
      * off between the game board or UI, and the sockets communicating with the 
@@ -60,9 +62,9 @@ public class clueLess {
         System.out.println("Creating new server");
         int port = ClientCon.connectMaster();
         System.out.println("SERVER PORT IS :" + port);
-        ClientCon c=new ClientCon("localhost",port);
-        c.start();
-        
+        client=new ClientCon("localhost",port);
+        client.start();
+        //Display message that gameID is port
         return port;
     }
     
@@ -72,8 +74,8 @@ public class clueLess {
      */
     public static void joinGame(int gameID){
         System.out.println("Connecting to existing server");
-        ClientCon c=new ClientCon("localhost",gameID);
-        c.start();
+        client=new ClientCon("localhost",gameID);
+        client.start();
     }
     
     /**
@@ -82,8 +84,8 @@ public class clueLess {
      * @param userID 
      */
     public static void sendUserName(String userID){
-        //gb.addPlayer(userID);
         // add handling code here for networking end.
+        client.writeToServer(userID);
     }
     
     /**
@@ -112,28 +114,54 @@ public class clueLess {
      * @param roomID 
      */
     public static void playerMove(int roomID){
-        
+        try{
+           String move = playerID+":3:"+roomID;
+           client.writeToServer(move);
+        }
+        catch(Exception e){
+            
+        }
     }
     
     /**
      * Called when a player makes a suggestion. 
      */
-    public static void playerMakesSuggestion(){
-        
+    public static void playerMakesSuggestion(String weapon,String room,String suspect){
+        try{
+           String suggestion = playerID+":4:0:"+suspect+":1:"+room+":2:"+weapon;
+           client.writeToServer(suggestion);
+        }
+        catch(Exception e){
+            
+        }
     }
     
     /**
      * Called when a player makes an accusation. Needs to return a boolean value
      * to the player UI to know if the accusation was true or not. 
      */
-    public static void playerMakesAccusation(){
-        
+    public static void playerMakesAccusation(String weapon,String room,String suspect){
+        try{
+           String accusation = playerID+":5:0:"+suspect+":1:"+room+":2:"+weapon;
+           client.writeToServer(accusation);
+        }
+        catch(Exception e){
+            
+        }
     }
     
     /**
      * Called when a player is forced to reveal a card to disprove a suggestion.
+     * @param cardTypeToReveal
+     * @param cardNumber
      */
-    public static void playerCardReveal(){
-        
+    public static void playerCardReveal(String cardTypeToReveal, String cardNumber){
+        try{
+            String cardReveal = playerID + ":6:"+cardTypeToReveal+":"+cardNumber;
+            client.writeToServer(cardReveal);
+        }
+        catch(Exception e){
+            
+        }
     }
 }
