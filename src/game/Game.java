@@ -62,8 +62,20 @@ public class Game
 			numLivePlayers++;			
 		}
 		
-		// Announce that a new player joined
-		CGServer.sendToAllClients("0:12:"+aPlayerId);
+		// Wait for new player's message with their name;
+		ClientHandler newPlayerClient = CGServer.clients.get(aPlayerId);
+		while(newPlayerClient.newMessages.isEmpty());
+		String msgIn = newPlayerClient.newMessages.get(0);
+		players[aPlayerId].customName = msgIn;
+		newPlayerClient.newMessages.remove(0);
+		
+		String msgOut = "0:12";
+		for(int p = 0;p<numLivePlayers;p++)
+		{
+			msgOut = msgOut+":"+aPlayerId+":"+players[aPlayerId].customName;
+		}
+		CGServer.sendToAllClients(msgOut);
+
 	}
 	
 	public void runFirstTurn()

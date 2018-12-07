@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Player
 {
 	int playerID;
+	String customName;
 	Location currentLoc;
 	boolean isAlive;
 	boolean isConnected;
