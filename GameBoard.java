@@ -1764,12 +1764,19 @@ public class GameBoard extends javax.swing.JFrame {
      * updates the cards shown for each user to reflect those dealt to them.
      * @param GB 
      */
-    public void setupGameBoard(String[] suspect,String cards[]){
+    public void setupGameBoard(){
         
         this.cardList.setEnabled(false);
         this.textUpdateBox.setEditable(false);
         this.textUpdateBox.setText("Setting up everything for you :)" + "\n");
         
+    }
+    
+    /**
+     * This function initializes the suspect list. Needs 6 names.
+     * @param suspect 
+     */
+    public void genSuspectList(String[] suspect){
         // Initialize the suspect list in Detective Notes
         this.DNsuspect1.setText(suspect[0]);
         this.DNsuspect2.setText(suspect[1]);
@@ -1777,10 +1784,45 @@ public class GameBoard extends javax.swing.JFrame {
         this.DNsuspect4.setText(suspect[3]);
         this.DNsuspect5.setText(suspect[4]);
         this.DNsuspect6.setText(suspect[5]);
-        
+    }
+    
+    /**
+     * This function initializes the card list for the player.
+     * @param cards 
+     */
+    public void setCardList(String cards[]){
         // Display cards given to the user
         //String cards[] = {"Conservatory","Rope","Mrs. Maraple","Dragons"};
         this.cardList.setListData(cards);
+    }
+    
+    /**
+     * This function generates the pop-up the displays a user's move options.
+     * They can only make a suggestion in their current position if they were
+     * moved there by another user. This is signified by the stayNSuggest flag.
+     * Otherwise they have the choice of moving or making an accusation.
+     * @param stayNSuggest
+     * @param availableMoves 
+     */
+    public void startTurn(boolean stayNSuggest, int availableMoves[]){
+        GamePopup.setVisible(true);
+        turnMenu.setVisible(true);
+        opAccusation.setEnabled(true);
+        opMovePlayer.setEnabled(true);
+        
+        if(stayNSuggest){
+            opSuggestion.setEnabled(false);
+        }
+        opEndTurn.setEnabled(false);
+    }
+    
+    /**
+     * This function is a shortcut for ending a user's turn after they've
+     */
+    public void endTurn(){
+        GamePopup.setVisible(true);
+        turnMenu.setVisible(true);
+        opEndTurn.setEnabled(true);
     }
     
     /**

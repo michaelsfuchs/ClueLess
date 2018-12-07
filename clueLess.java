@@ -34,12 +34,7 @@ public class clueLess {
         // strings are "Welcome", "Lobby", "Gameboard", "Winning", and "Losing"
         // Note that a false accusation is a message, not a losing screen
         gb.switchScreens("Welcome");
-        
-        // This initializes the gameboard, please send the names of all 6 suspects
-        String suspects[] = {"Col. Mustard","Prof. Plum","Mr. Green",
-            "Mrs. Peacock","Miss Scarlet","Mrs. White"};
-        String cards[] = {"Conservatory","Rope","Prof. Plum","Mrs. Peacock"};
-        gb.setupGameBoard(suspects,cards);
+        gb.setupGameBoard();
         
         // add players
         gb.addPlayer("T-Rex");
@@ -93,6 +88,22 @@ public class clueLess {
     }
     
     /**
+     * This function initializes the cards shown for each user.
+     * @param cards 
+     */
+    public static void initCards(String cards[]){
+        gb.setCardList(cards);
+    }
+    
+    /**
+     * This function initializes the suspect list in the detective notesheet.
+     * @param suspects 
+     */
+    public static void initSuspectList(String suspects[]){
+        gb.genSuspectList(suspects);
+    }
+    
+    /**
      * This function will cue the UI that it's the user's turn, giving it the
      * available move options the player has and letting the UI know if they may
      * make a suggestion in their current room (if moved by another player)
@@ -100,7 +111,7 @@ public class clueLess {
      * @param availableMoves 
      */
     public static void cueUsersTurn(boolean stayNSuggest, int availableMoves[]){
-        
+        gb.startTurn(stayNSuggest,availableMoves);
     }
     
     /**
