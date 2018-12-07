@@ -60,7 +60,7 @@ public class clueLess {
      * Initializes the sockets for a new game connection.
      * @return gameID
      */
-    public static int startNewGame(){
+    public static int startNewGame(GameBoard gb){
         
         System.out.println("Creating new server");
         int port = ClientCon.connectMaster();
@@ -76,7 +76,7 @@ public class clueLess {
      * This initializes the sockets for joining a pre-existing game.
      * @param gameID 
      */
-    public static void joinGame(int gameID){
+    public static void joinGame(int gameID, GameBoard gb){
         System.out.println("Connecting to existing server");
         client=new ClientCon("localhost",gameID,gb);
         client.start();
@@ -89,7 +89,7 @@ public class clueLess {
      */
     public static void sendUserName(String userID){
         // add handling code here for networking end.
-        client.writeToServer(userID);
+        //client.writeToServer(userID);
     }
     
     /**
@@ -167,5 +167,31 @@ public class clueLess {
         catch(Exception e){
             
         }
+    }
+    
+    /**
+     * Send a message to the server that a player ended their turn.
+     */
+    public static void endTurn(){
+        
+    }
+    
+    /**
+     * The server should call this function when a player solves the game by 
+     * making a correction accusation. This ends the game.
+     * @param gb 
+     */
+    public static void endGameWinning(GameBoard gb){
+        gb.switchScreens("Winning");
+    }
+    
+    /**
+     * The server should call this function for a player who has lost, but only
+     * at the very end of the game. Players who make false accusations should
+     * only receive text updates.
+     * @param gb 
+     */
+    public static void endGameLosing(GameBoard gb){
+        gb.switchScreens("Losing");
     }
 }
