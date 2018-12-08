@@ -101,18 +101,7 @@ public class clueLess {
      */
     
     public static void initCards(int suspects[],int rooms[],int weapons[]){
-        String cards[] = new String[suspects.length+rooms.length+weapons.length];
-        for(int i = 0 ; i<suspects.length ; i++ ){
-            cards[i] = ""+suspects[i];
-        }
-        for(int i = 0 ; i<rooms.length ; i++ ){
-            cards[i] = ""+suspects[i];
-        }
-        for(int i = 0 ; i<weapons.length ; i++ ){
-            cards[i] = ""+weapons[i];
-        }
-        
-        gb.setCardList(cards);
+        gb.setCardList(suspects,rooms,weapons);
     }
     
     /**

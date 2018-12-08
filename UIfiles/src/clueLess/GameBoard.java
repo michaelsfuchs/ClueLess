@@ -1719,6 +1719,8 @@ public class GameBoard extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(this, "You need 3 to 6 players to play the game","Player Quota Error" , JOptionPane.ERROR_MESSAGE);
         }
+        int temp[] = {1, 5, 7};
+        startTurn(true,temp);
     }//GEN-LAST:event_startGameButtonActionPerformed
 
     private void opSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opSuggestionActionPerformed
@@ -1853,10 +1855,20 @@ public class GameBoard extends javax.swing.JFrame {
      * This function initializes the card list for the player.
      * @param cards 
      */
-    public void setCardList(String cards[]){
+    public void setCardList(int suspects[], int rooms[], int weapons[]){
         // Display cards given to the user
-        //String cards[] = {"Conservatory","Rope","Mrs. Maraple","Dragons"};
-        this.cardList.setListData(cards);
+        String cards[] = new String[suspects.length+rooms.length+weapons.length];
+        int X = 0; 
+        for(int i = 0 ; i<suspects.length ; i++, X++ ){
+           cards[X] = suspectDef[i];
+       }
+       for(int i = 0 ; i<rooms.length ; i++, X++ ){
+           cards[X] = roomDef[i];
+       }
+       for(int i = 0 ; i<weapons.length ; i++, X++ ){
+           cards[X] = weaponDef[i];
+       }
+        cardList.setListData(cards);
     }
     
     /**
@@ -1871,16 +1883,25 @@ public class GameBoard extends javax.swing.JFrame {
         GamePopup.setVisible(true);
         turnMenu.setVisible(true);
         opAccusation.setEnabled(true);
-        opMovePlayer.setEnabled(true);
         
+       if(availableMoves != null)
+       {
+            opMovePlayer.setEnabled(true);
+            opEndTurn.setEnabled(false);
+       }
+       else
+       {
+            opMovePlayer.setEnabled(false);
+            opEndTurn.setEnabled(true);
+       }
         if(stayNSuggest){
             opSuggestion.setEnabled(false);
         }
-        opEndTurn.setEnabled(false);
         
         for(int i=0; i<availableMoves.length;i++){
             openRoomSelection(availableMoves[i]);
         }
+        
     }
     
     /**
