@@ -103,9 +103,9 @@ public class clueLess {
      * @param cards 
      */
     
-    /*public static void initCards(int cards[]){
-        gb.setCardList(cards);
-    }*/
+    public static void initCards(int cards[]){
+        //gb.setCardList(cards);
+    }
     
     /**
      * This function initializes the suspect list in the detective notesheet.

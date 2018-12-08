@@ -122,6 +122,9 @@ public class ClientCon extends Thread
         String ret = msgtoproc;
         String msgsplit[] = msgtoproc.split(":");
         String msgid = "-1"; 
+        if(msgtoproc.contains("Start Game")){
+            gb.switchScreens("GameBoard");
+        }
         if(msgsplit.length>1){
             msgid = msgsplit[1];
         }
@@ -164,6 +167,11 @@ public class ClientCon extends Thread
             //Inform the player of their initial hand
             //Call inithand function
             ret="Initial hand is : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
+            int cards[] = new int[3];
+            //cards[0] = returnS(msgsplit);
+            //cards[1] = returnR(msgsplit);
+            //cards[2] = returnW(msgsplit);
+            clueLess.initCards(cards);
         }
         if(msgid.equals("11")){
             //Inform that player of cards that can be disapproved
