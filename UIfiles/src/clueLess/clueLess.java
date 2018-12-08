@@ -46,10 +46,7 @@ public class clueLess {
         // Those options must be opened by the room ID
         // Below is a sample. This are currently from left to right, but will
         // be aligned with Michael's numbering system soon.
-        int openMoves[]= {2,6,21};
-        gb.openRoomSelection(openMoves[0]);
-        gb.openRoomSelection(openMoves[1]);
-        gb.openRoomSelection(openMoves[2]);
+        
 
     }
     
@@ -63,7 +60,7 @@ public class clueLess {
         System.out.println("Creating new server");
         int port = ClientCon.connectMaster();
         System.out.println("SERVER PORT IS :" + port);
-        client=new ClientCon("localhost",port,gb);
+        client=new ClientCon("ec2-3-17-66-140.us-east-2.compute.amazonaws.com",port,gb);
         System.out.println("Waiting to read playerID");
         playerID=Integer.parseInt(client.in.readUTF());
         System.out.println("PlayerID is : "+playerID);
@@ -81,7 +78,7 @@ public class clueLess {
      */
     public static void joinGame(int gameID, GameBoard gb) throws IOException{
         System.out.println("Connecting to existing server");
-        client=new ClientCon("localhost",gameID,gb);
+        client=new ClientCon("ec2-3-17-66-140.us-east-2.compute.amazonaws.com",gameID,gb);
         System.out.println("Waiting to read playerID");
         playerID=Integer.parseInt(client.in.readUTF());
         System.out.println("PlayerID is : "+playerID);
