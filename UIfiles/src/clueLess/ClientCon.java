@@ -8,9 +8,11 @@ package clueLess;
  */
 import clueLess.GameBoard;
 import clueLess.clueLess;
+import static clueLess.clueLess.gb;
 import java.net.*; 
 import java.io.*; 
 import java.util.Arrays;
+import javax.swing.JOptionPane;
   
 public class ClientCon extends Thread
 { 
@@ -43,7 +45,7 @@ public class ClientCon extends Thread
         } 
         catch(Exception u) 
         { 
-            
+            JOptionPane.showMessageDialog(gb, "Cannot Connect to the Game ID provided", "Invalid port ID", JOptionPane.ERROR_MESSAGE);
         }
         
     } 
@@ -123,7 +125,7 @@ public class ClientCon extends Thread
         String msgsplit[] = msgtoproc.split(":");
         String msgid = "-1"; 
         if(msgtoproc.contains("Start Game")){
-            gb.switchScreens("GameBoard");
+            clueLess.switchScreens("GameBoard");
         }
         if(msgsplit.length>1){
             msgid = msgsplit[1];
@@ -167,11 +169,22 @@ public class ClientCon extends Thread
             //Inform the player of their initial hand
             //Call inithand function
             ret="Initial hand is : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
-            int cards[] = new int[3];
-            //cards[0] = returnS(msgsplit);
-            //cards[1] = returnR(msgsplit);
-            //cards[2] = returnW(msgsplit);
-            clueLess.initCards(cards);
+            int weapons[] = new int[0];
+            int rooms[] = new int[0];
+            int suspects[] = new int[0];
+            
+            for(int i=3;i<msgsplit.length;i=i+2){
+                if(msgsplit[i-1].equals("0")){
+                    suspects = addElement(suspects,Integer.parseInt(msgsplit[i]));
+                }
+                if(msgsplit[i-1].equals("1")){
+                    rooms = addElement(rooms,Integer.parseInt(msgsplit[i])); 
+                }
+                if(msgsplit[i-1].equals("2")){
+                    weapons = addElement(rooms,Integer.parseInt(msgsplit[i]));
+                }
+            }
+            clueLess.initCards(suspects, rooms, weapons);
         }
         if(msgid.equals("11")){
             //Inform that player of cards that can be disapproved
@@ -185,11 +198,11 @@ public class ClientCon extends Thread
             for(int i=3;i<msgsplit.length;i=i+2){
                 ret=ret + msgsplit[i-1]+" Player Name : "+msgsplit[i];
                 if(!Arrays.asList(gb.users).contains(msgsplit[i])){
-                    gb.addPlayer(msgsplit[i]);
+                    clueLess.gbaddPlayer(msgsplit[i]);
                 }
                 
             }    
-            
+            clueLess.initSuspectList(gb.users);
         }
         return ret;   
     }

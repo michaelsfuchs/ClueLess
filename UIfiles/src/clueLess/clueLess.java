@@ -103,8 +103,19 @@ public class clueLess {
      * @param cards 
      */
     
-    public static void initCards(int cards[]){
-        //gb.setCardList(cards);
+    public static void initCards(int suspects[],int rooms[],int weapons[]){
+        String cards[] = new String[suspects.length+rooms.length+weapons.length];
+        for(int i = 0 ; i<suspects.length ; i++ ){
+            cards[i] = ""+suspects[i];
+        }
+        for(int i = 0 ; i<rooms.length ; i++ ){
+            cards[i] = ""+suspects[i];
+        }
+        for(int i = 0 ; i<weapons.length ; i++ ){
+            cards[i] = ""+weapons[i];
+        }
+        
+        gb.setCardList(cards);
     }
     
     /**
@@ -115,6 +126,14 @@ public class clueLess {
         gb.genSuspectList(suspects);
     }
     
+    
+    public static void gbaddPlayer(String playerName){
+        gb.addPlayer(playerName);
+    }
+    
+    public static void switchScreens(String screen){
+        gb.switchScreens(screen);
+    }
     /**
      * This function will cue the UI that it's the user's turn, giving it the
      * available move options the player has and letting the UI know if they may
