@@ -49,18 +49,16 @@ public class ClientHandler extends Thread{
                   
                 System.out.println(received); 
                   
-                if(received.equals("Start Game")){ 
-                    CGServer.startGame = true;
-                    break; 
+                if(received.equals("Start Game") && CGServer.startGame != true){ 
+                    CGServer.startGame = true; 
                 } 
-                
-                if(received.contains("UserID:")){ 
+                else if(received.contains("UserID:")){ 
                     String username = received.split(":")[1];
                     CGServer.game.addPlayer(playerID,username); 
                 }
-                
-                newMessages.add(received);
-                 
+                else{
+                    newMessages.add(received);
+                }
             } catch (SocketException e) {
                 System.out.println("Client : "+playerID+" has disconnected");
                 try {

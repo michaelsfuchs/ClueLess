@@ -173,12 +173,15 @@ public class ClientCon extends Thread
             gb.addPlayer(msgsplit[2]);
         }
         if(msgid.equals("12")){
-            //Assigns player id to the player
-            ret="Player has joined PlayerID : " + msgsplit[2]+" Player Name : "+msgsplit[msgsplit.length-1];
-            //if( clueLess.playerID == -1)
-            //{
-              //  clueLess.playerID = Integer.parseInt(msgsplit[2]);
-            //}
+            ret = "Player has joined PlayerID : ";
+            for(int i=3;i<msgsplit.length;i=i+2){
+                ret=ret + msgsplit[i-1]+" Player Name : "+msgsplit[i];
+                if(!Arrays.asList(gb.users).contains(msgsplit[i])){
+                    gb.addPlayer(msgsplit[i]);
+                }
+                
+            }    
+            
         }
         return ret;   
     }
@@ -189,6 +192,11 @@ public class ClientCon extends Thread
         return result;
     }
     
+    public String[] addElement(String[] org, String added) {
+        String[] result = Arrays.copyOf(org, org.length +1);
+        result[org.length] = added;
+        return result;
+    }
     public void writeToServer(String line)
     {
         //while (!line.contains(":W")) 

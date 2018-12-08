@@ -39,8 +39,8 @@ public class clueLess {
         gb.setupGameBoard();
         
         // add players
-        gb.addPlayer("T-Rex");
-        gb.addPlayer("Goldie");
+        //gb.addPlayer("T-Rex");
+        //gb.addPlayer("Goldie");
         
         // During a user's turn they will have multiple move options
         // Those options must be opened by the room ID
@@ -186,6 +186,15 @@ public class clueLess {
         try{
             String cardReveal = playerID + ":6:"+cardTypeToReveal+":"+cardNumber;
             client.writeToServer(cardReveal);
+        }
+        catch(Exception e){
+            
+        }
+    }
+    
+    public static void writeMsg(String msg){
+        try{
+            client.writeToServer(msg);
         }
         catch(Exception e){
             

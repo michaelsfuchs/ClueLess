@@ -4,10 +4,14 @@
  * and open the template in the editor.
  */
 package clueLess;
+import java.io.IOException;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,7 +22,7 @@ public class GameBoard extends javax.swing.JFrame {
     private int gameID;
     private int userCount=1;
     private String userID;
-    private String users[]= new String[6];
+    public String users[]= new String[6];
     
     /**
      * Creates new form GameBoard
@@ -1640,27 +1644,37 @@ public class GameBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_Hallway20ActionPerformed
 
     private void startNewGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewGameButtonActionPerformed
-        //Send a new game message to the backend
-        gameID = clueLess.startNewGame(this);
-        GameOps.setVisible(false);
-        gameIDfield.setVisible(false);
-        gameIDprompt.setVisible(false);
-        startNewGameButton.setVisible(false);
-        EnterUserID.setVisible(true);
-        userIDfield.setVisible(true);
+        try {
+            //Send a new game message to the backend
+            gameID = clueLess.startNewGame(this);
+            GameOps.setVisible(false);
+            gameIDfield.setVisible(false);
+            gameIDprompt.setVisible(false);
+            startNewGameButton.setVisible(false);
+            EnterUserID.setVisible(true);
+            userIDfield.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Your Game ID is : "+gameID,"GAME ID" , JOptionPane.PLAIN_MESSAGE);
+        } catch (IOException ex) {
+            Logger.getLogger(GameBoard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_startNewGameButtonActionPerformed
 
     private void gameIDfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameIDfieldActionPerformed
-        // Send Game ID to join a game. Need to verify that the game code is valid
-        System.out.println(evt.getActionCommand());
-        gameID = Integer.parseInt(gameIDfield.getText());
-        clueLess.joinGame(gameID,this);
-        GameOps.setVisible(false);
-        gameIDfield.setVisible(false);
-        gameIDprompt.setVisible(false);
-        startNewGameButton.setVisible(false);
-        EnterUserID.setVisible(true);
-        userIDfield.setVisible(true);
+        try {
+            // Send Game ID to join a game. Need to verify that the game code is valid
+            System.out.println(evt.getActionCommand());
+            gameID = Integer.parseInt(gameIDfield.getText());
+            clueLess.joinGame(gameID,this);
+            GameOps.setVisible(false);
+            gameIDfield.setVisible(false);
+            gameIDprompt.setVisible(false);
+            startNewGameButton.setVisible(false);
+            EnterUserID.setVisible(true);
+            userIDfield.setVisible(true);
+            this.playersInLobby.setListData(users);
+        } catch (IOException ex) {
+            Logger.getLogger(GameBoard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_gameIDfieldActionPerformed
 
     private void userIDfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userIDfieldActionPerformed
@@ -1669,14 +1683,20 @@ public class GameBoard extends javax.swing.JFrame {
         clueLess.sendUserName(userID);
         switchScreens("Lobby");
         lobbyWelcome.setText("Welcome: "+ userID);
-        users[0]=userID;
+        //users[0]=userID;
         this.playersInLobby.setListData(users);
         
     }//GEN-LAST:event_userIDfieldActionPerformed
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
         // TODO add your handling code here:
-        switchScreens("GameBoard");
+        if(users.length>=3){
+            switchScreens("GameBoard");
+            clueLess.writeMsg("Start Game");
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "You need 3 to 6 players to play the game","Player Quota Error" , JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_startGameButtonActionPerformed
 
     private void opSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opSuggestionActionPerformed
