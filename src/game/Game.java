@@ -67,7 +67,7 @@ public class Game
 		//System.out.println("Attempt to read player name");		
 		players[aPlayerId].customName = username;
 		
-		String msgOut = "0:12";
+		String msgOut = "6:12";
 		for(int p = 0;p<numLivePlayers;p++)
 		{
 			msgOut = msgOut+":"+aPlayerId+":"+players[aPlayerId].customName;
@@ -79,6 +79,8 @@ public class Game
 	
 	public void runFirstTurn()
 	{
+		System.out.println("Running First Turn");
+		
 		// Live players must move automatically to the hallway next to their home square
 		Location[] homeLocations = new Location[6];
 		homeLocations[0] = map.board[0][3];
@@ -113,41 +115,57 @@ public class Game
 			}
 		}
 		
-		//SendTurnUpdates;
 		//Send all players their hands
+		
 		for(int playerIdx = 0; playerIdx < numPlayers; playerIdx++)
 		{
 			if(players[playerIdx].isAlive)
 			{
 				//sendToPlayer(msg.hand);
+				String handMsg = "6:10";
+				for(Card c : players[playerIdx].hand)
+				{
+					handMsg = handMsg+":"+c.type+":"+c.cardID;
+				}
+				try
+				{
+					CGServer.sendToOneClient(playerIdx, handMsg);
+				}
+				catch(Exception e){}
 			}
 		}
+		System.out.println("Sent all hands, first turn  done");
 	}
 	
 	public void onReceiveMove(int aPlayerId, int locId) throws IOException
 	{
+		System.out.println("Player"+aPlayerId+"  Moved to locId:"+locId);
+		
 		players[aPlayerId].currentLoc.occupancy--;
 		players[aPlayerId].currentLoc = map.locId2Point.get(locId);
 		players[aPlayerId].currentLoc.occupancy++;
 		
-		CGServer.sendToAllClients("0:1:" + aPlayerId + ":" + locId);
+		CGServer.sendToAllClients("6:1:" + aPlayerId + ":" + locId);
 	}
 			
 	public void onReceiveAccusation(int aPlayerId, Card aSuspect, Card aLocation, Card aWeapon) throws IOException
 	{
+		System.out.println("Player"+aPlayerId+"  Accused: "+ aSuspect.cardID);
+
+		
 		if( aSuspect.equals(caseFile[0]) &&
 			aLocation.equals(caseFile[1]) &&
 			aWeapon.equals(caseFile[2]))
 		{
 			// Announce player winner, end game
-			CGServer.sendToAllClients("0:8:Player " + aPlayerId + " Has Won!");
+			CGServer.sendToAllClients("6:8:Player " + aPlayerId + " Has Won!");
 			isGameRunning = false;
 		}
 		else
 		{
 			players[aPlayerId].isAlive = false;
 			//Announce loser
-			CGServer.sendToAllClients("0:8:Player " + aPlayerId + " Has Lost!");
+			CGServer.sendToAllClients("6:8:Player " + aPlayerId + " Has Lost!");
 
 		}
 	}
@@ -155,7 +173,7 @@ public class Game
 	// Card[] order is Player, Room, Weapon
 	public void onReceiveSuggestion(int aPlayerID, Card aSuspect, Card aLocation, Card aWeapon) throws IOException
 	{
-		// First send message to everyone what the suggestion was		
+		System.out.println("Player"+aPlayerID+"  Suggested: "+ aSuspect.cardID +" Location:"+aLocation.cardID +" Weapon: "+aWeapon.cardID);
 		
 		// move from old room to new room
 		Player p = players[aSuspect.cardID];
@@ -195,7 +213,7 @@ public class Game
 					{						
 						// Send message to player choose one
 						ClientHandler disprovingPlayer = CGServer.clients.get(i);
-						String message = "0:11";
+						String message = "6:11";
 						for(Card c : matches)
 						{
 							message = message + ":" + c.type + ":" + c.cardID;
@@ -225,7 +243,7 @@ public class Game
 					suggestingPlayer.out.writeUTF(msgOut);
 					
 					// announce to everyone this player showed a card
-					CGServer.sendToAllClients("0:8:Player " + i + " disproved the suggestion");
+					CGServer.sendToAllClients("6:8:Player " + i + " disproved the suggestion");
 					break;
 				}
 			}
@@ -241,11 +259,13 @@ public class Game
 		while(isGameRunning)
 		{
 			// current player
+			System.out.println("Player: "+currentPlayer+" Turn begin");
+			
 			Player p = players[currentPlayer];
 			if(p.isAlive)
 			{
 				ClientHandler currentPlayerClient = CGServer.clients.get(currentPlayer);
-				String availableMovesMessage = "0:2:";
+				String availableMovesMessage = "6:2:";
 				
 				if(p.wasMoved)
 				{
@@ -275,11 +295,13 @@ public class Game
 				
 				//Send moves
 				currentPlayerClient.out.writeUTF(availableMovesMessage);
-				
-				// Wait for responses for a certain timeout, then process message
+				System.out.println("options sent, wait for responses");
+
 				boolean playerTurn = true;
 				while(playerTurn)
 				{
+					Thread.sleep(10);
+					//System.out.println(currentPlayerClient.newMessages.isEmpty());
 					if(!currentPlayerClient.newMessages.isEmpty())
 					{
 //						TimedBlockingReceiveProcessMessage();
@@ -291,10 +313,12 @@ public class Game
 //						}
 						
 						String msgIn = currentPlayerClient.newMessages.get(0);
-						
+						System.out.println("msg:"+msgIn);
+
 						StringTokenizer st = new StringTokenizer(msgIn, ":"); 
 		                int source = Integer.parseInt(st.nextToken()); 
 		                int msgId = Integer.parseInt(st.nextToken()); 
+		    			System.out.println("process message.  source: "+source+"   msgID: "+msgId);
 
 						switch(msgId)
 						{
@@ -304,11 +328,15 @@ public class Game
 							if(map.locId2Point.get(newLoc).type == Location.Type.ROOM)
 							{
 								// Send enable suggestion again
-								String newSuggestionMessage = "0:2:1";
+								String newSuggestionMessage = "6:2:1";
 								currentPlayerClient.out.writeUTF(newSuggestionMessage);
 							}
 							break;
 						case 4: // Suggestion
+							
+							// First send message to everyone what the suggestion was
+							CGServer.sendToAllClients(msgIn);
+							
 							Card sugg[] = new Card[3];
 							for(int i=0;i<3;i++)
 							{
@@ -338,7 +366,7 @@ public class Game
 			
 			currentPlayer = (currentPlayer+1) % numPlayers;
 		}
-		} catch(IOException e){
+		} catch(Exception e){
 		
 		}
 	}

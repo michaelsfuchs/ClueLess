@@ -15,18 +15,18 @@ public class ClientHandler extends Thread{
    public DataInputStream in=null;
    public DataOutputStream out=null;
    public Boolean isloggedin=true;
-   public CGServer CGServer;
+   public CGServer server;
    public ArrayList<String> newMessages = new ArrayList<String>();
    public int playerID;
    
-   public ClientHandler (int playerID, java.net.Socket socket, CGServer CGServer) throws IOException
+   public ClientHandler (int playerID, java.net.Socket socket, CGServer server) throws IOException
    {
       this.playerID = playerID; 
       this.userName = userName;
       this.socket = socket;
       this.in=new DataInputStream(socket.getInputStream());
       this.out=new DataOutputStream(socket.getOutputStream());
-      this.CGServer=CGServer;
+      this.server=server;
    }
     public java.net.Socket getSocket()
    {
@@ -49,14 +49,16 @@ public class ClientHandler extends Thread{
                 System.out.println(received); 
                   
                 if(received.equals("Start Game") && CGServer.startGame != true){ 
-                    CGServer.startGame = true; 
+                    System.out.println("start hame message received"); 
+                	CGServer.startGame = true; 
                 } 
                 else if(received.contains("UserID:")){ 
                     String username = received.split(":")[1];
-                    CGServer.game.addPlayer(playerID,username); 
+                    server.game.addPlayer(playerID,username); 
                 }
                 else{
                     newMessages.add(received);
+        			System.out.println(newMessages.isEmpty());
                 }
             } catch (SocketException e) {
                 System.out.println("Client : "+playerID+" has disconnected");
