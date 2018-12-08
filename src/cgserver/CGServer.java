@@ -49,19 +49,30 @@ public class CGServer extends Thread
     
     @Override
     public void run(){
-        try{
+    	try{
+            System.out.println("Started server thread");
             int count = 0;    
-            while(count<6 && !startGame){
+            while(count<6 && startGame == false){
+                System.out.println("------------------------------------------");
                 socket = server.accept();
-                String uname=socket.getInetAddress().getHostName();
-                String ipadd=socket.getInetAddress().getHostAddress();
-                ClientHandler c=new ClientHandler(count,socket);
+                System.out.println("Accepted a client");
+                ClientHandler c=new ClientHandler(count,socket,this);
+                
+                System.out.println("Created clienthandler object");
                 clients.put(count, c);
-                game.addPlayer(count);
+                System.out.println("Added client to clients list");
+                
+                c.out.writeUTF(""+(count));
+                
+                System.out.println("Calling client handler thread");
                 c.start();
+                
                 System.out.println("Client "+socket.getInetAddress().getHostName() +" accepted");
                 count+=1;
-                sendToAllClients("0:8:Game Started");
+                
+                System.out.println("Added player to game");
+                //game.addPlayer(count);
+                sendToAllClients("M:0:Game Started");    
             }
             
             game.runFirstTurn();

@@ -3,28 +3,32 @@ package cgserver;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientHandler extends Thread{
    private String userName;
-   private String ipAddress;
-   private java.net.Socket socket = null;
+   private Socket socket = null;
    public DataInputStream in=null;
    public DataOutputStream out=null;
    public Boolean isloggedin=true;
-   
+   public CGServer CGServer;
    public ArrayList<String> newMessages = new ArrayList<String>();
+   public int playerID;
    
-   public ClientHandler (int playerID, java.net.Socket socket) throws IOException
+   public ClientHandler (int playerID, java.net.Socket socket, CGServer CGServer) throws IOException
    {
+      this.playerID = playerID; 
       this.userName = userName;
-      this.ipAddress = ipAddress;
       this.socket = socket;
       this.in=new DataInputStream(socket.getInputStream());
       this.out=new DataOutputStream(socket.getOutputStream());
+      this.CGServer=CGServer;
    }
-
-   public java.net.Socket getSocket()
+    public java.net.Socket getSocket()
    {
        return this.socket;
    }
@@ -40,45 +44,35 @@ public class ClientHandler extends Thread{
             try
             { 
                 // receive the string 
-                received = new String(in.readUTF()); 
+                received = in.readUTF(); 
                   
                 System.out.println(received); 
                   
-                if(received.equals("Start Game")){ 
-                    CGServer.startGame = true;
-                    break; 
+                if(received.equals("Start Game") && CGServer.startGame != true){ 
+                    CGServer.startGame = true; 
                 } 
-                  
-                newMessages.add(received);
-                
-                // break the string into message and recipient part 
-                //StringTokenizer st = new StringTokenizer(received, "#"); 
-                //String recipient = st.nextToken(); 
-                //String MsgToSend = st.nextToken(); 
-                
-                //System.out.println("RECIPIENT IS :"+recipient);
-                //System.out.println("MSG IS:"+MsgToSend);
-                // search for the recipient in the connected devices list. 
-                // ar is the vector storing client of active users 
-                //for (Client mc : CGServer.clients.values())  
-               //{ 
-                    // if the recipient is found, write on its 
-                    // output stream 
-                    //if (mc.userName.equals(recipient))  
-                    //{ 
-                        //System.out.println("USERNAME IS:"+ mc.userName);
-                        //CGServer.processRequest(MsgToSend);
-                        //mc.out.writeUTF(CGServer.processRequest(MsgToSend)); 
-                        //break;
-                        //CGServer.msgrecd=true;
-                        //CGServer.newMsg=MsgToSend;
-                    //} 
-               // } 
-            } catch (IOException e) { 
-                  
-                e.printStackTrace(); 
+                else if(received.contains("UserID:")){ 
+                    String username = received.split(":")[1];
+                    CGServer.game.addPlayer(playerID,username); 
+                }
+                else{
+                    newMessages.add(received);
+                }
+            } catch (SocketException e) {
+                System.out.println("Client : "+playerID+" has disconnected");
+                try {
+                    in.close();
+                    out.close();
+                    socket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
             } 
+            catch(IOException i){
+                
+            }
               
         } 
    }
-}
+} 

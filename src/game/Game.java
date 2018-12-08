@@ -44,8 +44,10 @@ public class Game
 
 	}
 	
-	public void addPlayer(int aPlayerId) throws IOException
+	public void addPlayer(int aPlayerId, String username) throws IOException
 	{
+		System.out.println("AddPlayer Called");
+		
 		if(numLivePlayers == 6)
 		{
 			//System.out.println("Game Full");
@@ -62,12 +64,8 @@ public class Game
 			numLivePlayers++;			
 		}
 		
-		// Wait for new player's message with their name;
-		ClientHandler newPlayerClient = CGServer.clients.get(aPlayerId);
-		while(newPlayerClient.newMessages.isEmpty());
-		String msgIn = newPlayerClient.newMessages.get(0);
-		players[aPlayerId].customName = msgIn;
-		newPlayerClient.newMessages.remove(0);
+		//System.out.println("Attempt to read player name");		
+		players[aPlayerId].customName = username;
 		
 		String msgOut = "0:12";
 		for(int p = 0;p<numLivePlayers;p++)
@@ -75,6 +73,7 @@ public class Game
 			msgOut = msgOut+":"+aPlayerId+":"+players[aPlayerId].customName;
 		}
 		CGServer.sendToAllClients(msgOut);
+		System.out.println("send message:"+msgOut);
 
 	}
 	
@@ -131,7 +130,7 @@ public class Game
 		players[aPlayerId].currentLoc = map.locId2Point.get(locId);
 		players[aPlayerId].currentLoc.occupancy++;
 		
-		CGServer.sendToAllClients("0#1:" + aPlayerId + ":" + locId);
+		CGServer.sendToAllClients("0:1:" + aPlayerId + ":" + locId);
 	}
 			
 	public void onReceiveAccusation(int aPlayerId, Card aSuspect, Card aLocation, Card aWeapon) throws IOException
@@ -141,14 +140,14 @@ public class Game
 			aWeapon.equals(caseFile[2]))
 		{
 			// Announce player winner, end game
-			CGServer.sendToAllClients("0#8:Player " + aPlayerId + " Has Won!");
+			CGServer.sendToAllClients("0:8:Player " + aPlayerId + " Has Won!");
 			isGameRunning = false;
 		}
 		else
 		{
 			players[aPlayerId].isAlive = false;
 			//Announce loser
-			CGServer.sendToAllClients("0#8:Player " + aPlayerId + " Has Lost!");
+			CGServer.sendToAllClients("0:8:Player " + aPlayerId + " Has Lost!");
 
 		}
 	}
@@ -226,7 +225,7 @@ public class Game
 					suggestingPlayer.out.writeUTF(msgOut);
 					
 					// announce to everyone this player showed a card
-					CGServer.sendToAllClients("0#8:Player " + i + " disproved the suggestion");
+					CGServer.sendToAllClients("0:8:Player " + i + " disproved the suggestion");
 					break;
 				}
 			}
