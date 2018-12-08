@@ -132,6 +132,16 @@ public class Game
 			if(players[playerIdx].isAlive)
 			{
 				//sendToPlayer(msg.hand);
+				String handMsg = "0:10";
+				for(Card c : players[playerIdx].hand)
+				{
+					handMsg = handMsg+":"+c.type+":"+c.cardID;
+				}
+				try
+				{
+					CGServer.sendToOneClient(playerIdx, handMsg);
+				}
+				catch(Exception e){}
 			}
 		}
 	}
