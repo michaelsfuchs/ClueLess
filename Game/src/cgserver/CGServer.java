@@ -52,26 +52,31 @@ public class CGServer extends Thread
         try{
             System.out.println("Started server thread");
             int count = 0;    
+            server.setSoTimeout(1000);
             while(count<6 && startGame == false){
-                System.out.println("------------------------------------------");
-                socket = server.accept();
-                System.out.println("Accepted a client");
-                ClientHandler c=new ClientHandler(count,socket,this);
-                
-                System.out.println("Created clienthandler object");
-                clients.put(count, c);
-                System.out.println("Added client to clients list");
-                
-                c.out.writeUTF(""+(count));
-                
-                System.out.println("Calling client handler thread");
-                c.start();
-                
-                System.out.println("Client "+socket.getInetAddress().getHostName() +" accepted");
-                count+=1;
-                
-                System.out.println("Added player to game");
-                //game.addPlayer(count);
+                try
+                {
+                  socket = server.accept();
+                  System.out.println("------------------------------------------");
+                  System.out.println("Accepted a client");
+                  ClientHandler c=new ClientHandler(count,socket,this);
+
+                  System.out.println("Created clienthandler object");
+                  clients.put(count, c);
+                  System.out.println("Added client to clients list");
+
+                  c.out.writeUTF(""+(count));
+
+                  System.out.println("Calling client handler thread");
+                  c.start();
+
+                  System.out.println("Client "+socket.getInetAddress().getHostName() +" accepted");
+                  count+=1;
+                }
+                catch(Exception e)
+                {
+                  // no available socket yet, keep polling
+                }
             }
             
             sendToAllClients("M:0:Game Started");    
