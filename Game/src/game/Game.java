@@ -142,7 +142,7 @@ public class Game
 		players[aPlayerId].currentLoc = map.locId2Point.get(locId);
 		players[aPlayerId].currentLoc.occupancy++;
 		
-		CGServer.sendToAllClients("0#1:" + aPlayerId + ":" + locId);
+		CGServer.sendToAllClients("0:1:" + aPlayerId + ":" + locId);
 	}
 			
 	public void onReceiveAccusation(int aPlayerId, Card aSuspect, Card aLocation, Card aWeapon) throws IOException
@@ -152,14 +152,14 @@ public class Game
 			aWeapon.equals(caseFile[2]))
 		{
 			// Announce player winner, end game
-			CGServer.sendToAllClients("0#8:Player " + aPlayerId + " Has Won!");
+			CGServer.sendToAllClients("0:8:Player " + aPlayerId + " Has Won!");
 			isGameRunning = false;
 		}
 		else
 		{
 			players[aPlayerId].isAlive = false;
 			//Announce loser
-			CGServer.sendToAllClients("0#8:Player " + aPlayerId + " Has Lost!");
+			CGServer.sendToAllClients("0:8:Player " + aPlayerId + " Has Lost!");
 
 		}
 	}
@@ -237,7 +237,7 @@ public class Game
 					suggestingPlayer.out.writeUTF(msgOut);
 					
 					// announce to everyone this player showed a card
-					CGServer.sendToAllClients("0#8:Player " + i + " disproved the suggestion");
+					CGServer.sendToAllClients("0:8:Player " + i + " disproved the suggestion");
 					break;
 				}
 			}
