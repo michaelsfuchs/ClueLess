@@ -1,0 +1,2 @@
+game.CardType
+game.Card
