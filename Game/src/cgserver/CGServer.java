@@ -72,9 +72,9 @@ public class CGServer extends Thread
                 
                 System.out.println("Added player to game");
                 //game.addPlayer(count);
-                sendToAllClients("M:0:Game Started");    
             }
             
+            sendToAllClients("M:0:Game Started");    
             game.runFirstTurn();
             game.runGame();
         }
