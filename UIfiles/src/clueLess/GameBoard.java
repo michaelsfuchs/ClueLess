@@ -23,6 +23,9 @@ public class GameBoard extends javax.swing.JFrame {
     private int userCount=0;
     private String userID;
     public String users[]= new String[6];
+    private String suspectDef[] = {"Col. Mustard","Prof. Plum","Mr. Green","Mrs. Peacock","Miss Scarlet","Mrs.White"};
+    private String roomDef[] = {"Study","Library","Conservatory","Hall","Billiard Room","Ballroom","Lounge","Dining Room","Kitchen"};
+    private String weaponDef[] = {"Knife","Candlestick","Pistol","Rope","Lead Pipe","Wrench"};
     
     /**
      * Creates new form GameBoard
@@ -1709,7 +1712,7 @@ public class GameBoard extends javax.swing.JFrame {
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
         // TODO add your handling code here:
-        if(userCount>=3){
+        if(userCount>=1){
             switchScreens("GameBoard");
             clueLess.writeMsg("Start Game");
         }
@@ -1808,6 +1811,18 @@ public class GameBoard extends javax.swing.JFrame {
         this.cardList.setEnabled(false);
         this.textUpdateBox.setEditable(false);
         this.textUpdateBox.setText("Setting up everything for you :)" + "\n");
+        for(int i=0; i<6;i++){
+            suspectDropdown.add(suspectDef[i]);
+            suspectDropdown2.add(suspectDef[i]);
+        }
+        for(int i=0; i<9;i++){
+            roomDropdown.add(roomDef[i]);
+            roomDropdown2.add(roomDef[i]);
+        }
+        for(int i=0;i<9;i++){
+            weaponDropdown.add(weaponDef[i]);
+            weaponDropdown2.add(weaponDef[i]);
+        }
         
     }
     
@@ -1817,14 +1832,13 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public void genSuspectList(String[] suspect){
         // Initialize the suspect list in Detective Notes
-        String defaults[] = {"Col. Mustard","Prof. Plum","Mr. Green","Mrs. Peacock","Miss Scarlet","Mrs.White"};
         for (int i = 0; i<suspect.length;i++){
             
             }
         if(suspect.length<6){
             int numNPCs = 6-suspect.length;
             for(int i = numNPCs; i<6;i++){
-                suspect[i] = defaults[i];
+                suspect[i] = suspectDef[i];
             }
         }
         this.DNsuspect1.setText(suspect[0]);
@@ -1833,7 +1847,6 @@ public class GameBoard extends javax.swing.JFrame {
         this.DNsuspect4.setText(suspect[3]);
         this.DNsuspect5.setText(suspect[4]);
         this.DNsuspect6.setText(suspect[5]);
-        users=suspect;
     }
     
     /**

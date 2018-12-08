@@ -116,7 +116,7 @@ public class clueLess {
     }
     
     /**
-     * This function initializes the suspect list in the detective notesheet.
+     * This function initializes the suspect list in the detective note sheet.
      * @param suspects 
      */
     public static void initSuspectList(String suspects[]){
