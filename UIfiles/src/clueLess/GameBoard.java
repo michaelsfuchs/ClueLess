@@ -1948,68 +1948,68 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public void openRoomSelection(int roomID){
         switch(roomID){
-            case 1: 
+            case 0:
                 Study.setEnabled(true);
                 break;
+            case 1: 
+                Library.setEnabled(true);
+                break;
             case 2: 
-                Hallway11.setEnabled(true);
+                Conservatory.setEnabled(true);
                 break;
             case 3:
                 Hall.setEnabled(true);
                 break;
             case 4:
-                Hallway16.setEnabled(true);
-                break;
-            case 5:
-                Lounge.setEnabled(true);
-                break;
-            case 6:
-                Hallway9.setEnabled(true);
-                break;
-            case 7:
-                Hallway14.setEnabled(true);
-                break;
-            case 8:
-                Hallway19.setEnabled(true);
-                break;
-            case 9:
-                Library.setEnabled(true);
-                break;
-            case 10:
-                Hallway12.setEnabled(true);
-                break;
-            case 11:
                 BilliardRoom.setEnabled(true);
                 break;
-            case 12:
-                Hallway17.setEnabled(true);
+            case 5:
+                Ballroom.setEnabled(true);
                 break;
-            case 13:
+            case 6:
+                Lounge.setEnabled(true);
+                break;
+            case 7:
                 DiningRoom.setEnabled(true);
                 break;
-            case 14:
+            case 8:
+                Kitchen.setEnabled(true);
+                break;
+            case 9:
+                Hallway9.setEnabled(true);
+                break;
+            case 10:
                 Hallway10.setEnabled(true);
+                break;
+            case 11:
+                Hallway11.setEnabled(true);
+                break;
+            case 12:
+                Hallway12.setEnabled(true);
+                break;
+            case 13:
+                Hallway13.setEnabled(true);
+                break;
+            case 14:
+                Hallway14.setEnabled(true);
                 break;
             case 15:
                 Hallway15.setEnabled(true);
                 break;
             case 16:
-                Hallway20.setEnabled(true);
+                Hallway16.setEnabled(true);
                 break;
             case 17:
-                Conservatory.setEnabled(true);
+                Hallway17.setEnabled(true);
                 break;
             case 18:
-                Hallway13.setEnabled(true);
-                break;
-            case 19:
-                Ballroom.setEnabled(true);
-                break;
-            case 20:
                 Hallway18.setEnabled(true);
                 break;
-            case 21:
-                Kitchen.setEnabled(true);
+            case 19:
+                Hallway19.setEnabled(true);
+                break;
+            case 20:
+                Hallway20.setEnabled(true);
                 break;
             default: System.out.println("That is not a valid room code. \n");
                 break;
