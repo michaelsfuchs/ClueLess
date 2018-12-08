@@ -173,7 +173,7 @@ public class ClientCon extends Thread
             gb.addPlayer(msgsplit[2]);
         }
         if(msgid.equals("12")){
-            ret = "Player has joined PlayerID : ";
+            ret = " PlayerID : ";
             for(int i=3;i<msgsplit.length;i=i+2){
                 ret=ret + msgsplit[i-1]+" Player Name : "+msgsplit[i];
                 if(!Arrays.asList(gb.users).contains(msgsplit[i])){

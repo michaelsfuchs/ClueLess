@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 public class GameBoard extends javax.swing.JFrame {
 
     private int gameID;
-    private int userCount=1;
+    private int userCount=0;
     private String userID;
     public String users[]= new String[6];
     
@@ -1675,6 +1675,9 @@ public class GameBoard extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GameBoard.class.getName()).log(Level.SEVERE, null, ex);
         }
+        catch(NumberFormatException nf){
+            JOptionPane.showMessageDialog(this, "Invalid Game ID", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_gameIDfieldActionPerformed
 
     private void userIDfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userIDfieldActionPerformed
@@ -1690,7 +1693,7 @@ public class GameBoard extends javax.swing.JFrame {
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
         // TODO add your handling code here:
-        if(users.length>=3){
+        if(userCount>=3){
             switchScreens("GameBoard");
             clueLess.writeMsg("Start Game");
         }

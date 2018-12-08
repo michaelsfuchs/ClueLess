@@ -83,7 +83,7 @@ public class Game
 		for(int p = 0;p<numLivePlayers;p++)
 		{
 			//msgOut = msgOut+":"+aPlayerId+":"+players[aPlayerId].customName;
-                        msgOut = msgOut+":"+p+":"+players[p].customName;
+                        msgOut = msgOut+":"+p+":"+players[p].customName+" ";
 		}
 		CGServer.sendToAllClients(msgOut);
 
