@@ -302,6 +302,7 @@ public class Game
 				boolean playerTurn = true;
 				while(playerTurn)
 				{
+					Thread.sleep(10);
 					if(!currentPlayerClient.newMessages.isEmpty())
 					{
 //						TimedBlockingReceiveProcessMessage();
@@ -360,7 +361,7 @@ public class Game
 			
 			currentPlayer = (currentPlayer+1) % numPlayers;
 		}
-		} catch(IOException e){
+		} catch(Exception e){
 		
 		}
 	}
