@@ -82,7 +82,8 @@ public class Game
 		String msgOut = "M:12";
 		for(int p = 0;p<numLivePlayers;p++)
 		{
-			msgOut = msgOut+":"+aPlayerId+":"+players[aPlayerId].customName;
+			//msgOut = msgOut+":"+aPlayerId+":"+players[aPlayerId].customName;
+                        msgOut = msgOut+":"+p+":"+players[p].customName;
 		}
 		CGServer.sendToAllClients(msgOut);
 
