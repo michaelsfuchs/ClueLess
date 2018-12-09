@@ -132,7 +132,7 @@ public class Game
 			if(players[playerIdx].isAlive)
 			{
 				//sendToPlayer(msg.hand);
-				String handMsg = "0:10";
+				String handMsg = "6:10";
 				for(Card c : players[playerIdx].hand)
 				{
 					handMsg = handMsg+":"+c.type+":"+c.cardID;
@@ -152,7 +152,7 @@ public class Game
 		players[aPlayerId].currentLoc = map.locId2Point.get(locId);
 		players[aPlayerId].currentLoc.occupancy++;
 		
-		CGServer.sendToAllClients("0:1:" + aPlayerId + ":" + locId);
+		CGServer.sendToAllClients("6:1:" + aPlayerId + ":" + locId);
 	}
 			
 	public void onReceiveAccusation(int aPlayerId, Card aSuspect, Card aLocation, Card aWeapon) throws IOException
@@ -162,16 +162,18 @@ public class Game
 			aWeapon.equals(caseFile[2]))
 		{
 			// Announce player winner, end game
-			CGServer.sendToAllClients("0:8:Player " + aPlayerId + " Has Won!");
+			CGServer.sendToAllClients("6:8:Player " + aPlayerId + " Has Won!");
 			isGameRunning = false;
 		}
 		else
 		{
 			players[aPlayerId].isAlive = false;
 			//Announce loser
-			CGServer.sendToAllClients("0:8:Player " + aPlayerId + " Has Lost!");
+			CGServer.sendToAllClients("6:8:Player " + aPlayerId + " Has Lost!");
 
 		}
+		CGServer.sendToAllClients("6:13:"+aPlayerId+":"+aSuspect.type+":"+
+				aSuspect.cardID+":"+aLocation.type+":"+aLocation.cardID+":"+aWeapon.type+":"+aWeapon.cardID);
 	}
 	
 	// Card[] order is Player, Room, Weapon
@@ -222,7 +224,7 @@ public class Game
 						{						
 							// Send message to player choose one
 							ClientHandler disprovingPlayer = CGServer.clients.get(i);
-							String message = "0:11";
+							String message = "6:11";
 							for(Card c : matches)
 							{
 								message = message + ":" + c.type + ":" + c.cardID;
@@ -255,7 +257,7 @@ public class Game
 						suggestingPlayer.out.writeUTF(msgOut);
 
 						// announce to everyone this player showed a card
-						CGServer.sendToAllClients("0:8:Player " + i + " disproved the suggestion");
+						CGServer.sendToAllClients("6:8:Player " + i + " disproved the suggestion");
 						break;
 					}
 				}
@@ -277,7 +279,7 @@ public class Game
 			if(p.isAlive)
 			{
 				ClientHandler currentPlayerClient = CGServer.clients.get(currentPlayer);
-				String availableMovesMessage = "0:2:";
+				String availableMovesMessage = "6:2:";
 				
 				if(p.wasMoved)
 				{
