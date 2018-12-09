@@ -207,6 +207,13 @@ public class clueLess {
      */
     public static void showCard(int CardType, int CardID){
         // insert code to send message here.
+        try{
+            String showCard = playerID+":6:"+CardType+":"+CardID;
+            client.writeToServer(showCard);
+        }
+        catch(Exception e){
+            
+        }
     }
 
     
@@ -215,7 +222,7 @@ public class clueLess {
      * @param cardTypeToReveal
      * @param cardNumber
      */
-    public static void playerCardReveal(String cardTypeToReveal, String cardNumber){
+    public static void playerCardReveal(int cardTypeToReveal, int cardNumber){
         try{
             String cardReveal = playerID + ":6:"+cardTypeToReveal+":"+cardNumber;
             client.writeToServer(cardReveal);
@@ -238,7 +245,7 @@ public class clueLess {
      * Send a message to the server that a player ended their turn.
      */
     public static void endTurn(){
-        
+        client.writeToServer(playerID+":9");
     }
     
     /**
