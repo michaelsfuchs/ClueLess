@@ -187,7 +187,7 @@ public class ClientCon extends Thread
             clueLess.initCards(suspects, rooms, weapons);
         }
         if(msgid.equals("11")){
-            //Inform that player of cards that can be disapproved
+            //Inform that player of cards that can disprove a suggestion
             //New function
             
             ret="New Player has joined with player ID : "+msgsplit[2];

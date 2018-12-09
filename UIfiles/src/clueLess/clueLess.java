@@ -184,6 +184,25 @@ public class clueLess {
     }
     
     /**
+     * This function is called to ask a player to disprove a suggestion.
+     * @param cardType
+     * @param cardID 
+     */
+    public static void disprovePlayerSuggestion(int cardType[],int cardID[]){
+        gb.disproveSuggestion(cardType, cardID);
+    }
+    
+    /**
+     * The function sends the user's card choice back to the server.
+     * @param CardType
+     * @param CardID 
+     */
+    public static void showCard(int CardType, int CardID){
+        // insert code to send message here.
+    }
+
+    
+    /**
      * Called when a player is forced to reveal a card to disprove a suggestion.
      * @param cardTypeToReveal
      * @param cardNumber

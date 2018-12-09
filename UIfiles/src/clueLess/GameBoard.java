@@ -28,6 +28,8 @@ public class GameBoard extends javax.swing.JFrame {
     private String weaponDef[] = {"Knife","Candlestick","Pistol","Rope","Lead Pipe","Wrench"};
     
     private int moveOpts[];
+    private int cardTypeRefs[];
+    private int cardIDRefs[];
     
     /**
      * Creates new form GameBoard
@@ -166,6 +168,11 @@ public class GameBoard extends javax.swing.JFrame {
         roomlabel2 = new java.awt.Label();
         weaponlabel2 = new java.awt.Label();
         makeSuggestion = new java.awt.Button();
+        disproveSugMenu = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        cardDropdown = new java.awt.Choice();
+        textArea1 = new java.awt.TextArea();
+        disproveButton = new java.awt.Button();
         Winning = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         Losing = new javax.swing.JPanel();
@@ -1364,6 +1371,52 @@ public class GameBoard extends javax.swing.JFrame {
 
         GamePopup.add(suggestionMenu, "card2");
 
+        jLabel12.setFont(new java.awt.Font("Old English Text MT", 0, 14)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel12.setText("Please choose a card to disprove the following suggestion");
+
+        disproveButton.setLabel("Disprove");
+        disproveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                disproveButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout disproveSugMenuLayout = new javax.swing.GroupLayout(disproveSugMenu);
+        disproveSugMenu.setLayout(disproveSugMenuLayout);
+        disproveSugMenuLayout.setHorizontalGroup(
+            disproveSugMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(disproveSugMenuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(disproveSugMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
+                    .addComponent(textArea1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, disproveSugMenuLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cardDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(121, 121, 121))
+            .addGroup(disproveSugMenuLayout.createSequentialGroup()
+                .addGap(161, 161, 161)
+                .addComponent(disproveButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        disproveSugMenuLayout.setVerticalGroup(
+            disproveSugMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(disproveSugMenuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
+                .addComponent(textArea1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45)
+                .addComponent(cardDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(disproveButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        GamePopup.add(disproveSugMenu, "card2");
+
         javax.swing.GroupLayout GameboardLayout = new javax.swing.GroupLayout(Gameboard);
         Gameboard.setLayout(GameboardLayout);
         GameboardLayout.setHorizontalGroup(
@@ -1550,126 +1603,147 @@ public class GameBoard extends javax.swing.JFrame {
         // TODO add your handling code here:
         clueLess.playerMove(2);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_ConservatoryActionPerformed
 
     private void StudyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudyActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(0);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_StudyActionPerformed
 
     private void LibraryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LibraryActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(1);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_LibraryActionPerformed
 
     private void BallroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BallroomActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(5);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_BallroomActionPerformed
 
     private void BilliardRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BilliardRoomActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(4);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_BilliardRoomActionPerformed
 
     private void HallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HallActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(3);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_HallActionPerformed
 
     private void KitchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KitchenActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(8);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_KitchenActionPerformed
 
     private void DiningRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiningRoomActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(7);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_DiningRoomActionPerformed
 
     private void LoungeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoungeActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(6);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_LoungeActionPerformed
 
     private void Hallway12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway12ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(12);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway12ActionPerformed
 
     private void Hallway11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway11ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(11);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway11ActionPerformed
 
     private void Hallway13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway13ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(13);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway13ActionPerformed
 
     private void Hallway18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway18ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(18);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway18ActionPerformed
 
     private void Hallway17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway17ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(17);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway17ActionPerformed
 
     private void Hallway16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway16ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(16);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway16ActionPerformed
 
     private void Hallway14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway14ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(14);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway14ActionPerformed
 
     private void Hallway9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway9ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(9);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway9ActionPerformed
 
     private void Hallway19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway19ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(19);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway19ActionPerformed
 
     private void Hallway10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway10ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(10);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway10ActionPerformed
 
     private void Hallway15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway15ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(15);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway15ActionPerformed
 
     private void Hallway20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway20ActionPerformed
         // TODO add your handling code here:
         clueLess.playerMove(20);
         closeRoomSelection();
+        allowSuggestion();
     }//GEN-LAST:event_Hallway20ActionPerformed
 
     private void startNewGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewGameButtonActionPerformed
@@ -1771,6 +1845,11 @@ public class GameBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelAccusationActionPerformed
 
     private void makeSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeSuggestionActionPerformed
+        // Change back to the turn options menu
+        suggestionMenu.setVisible(false);
+        turnMenu.setVisible(true);
+        opSuggestion.setEnabled(false);
+        opEndTurn.setEnabled(true);
         // pull the indexes for the current selections and send out
         int tempSuspect = suspectDropdown2.getSelectedIndex();
         int tempRoom = roomDropdown2.getSelectedIndex();
@@ -1779,12 +1858,24 @@ public class GameBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_makeSuggestionActionPerformed
 
     private void makeAccusationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeAccusationActionPerformed
+        // Change back to the turn options menu
+        accusationMenu.setVisible(false);
+        GamePopup.setVisible(false);
         // pull the indexes for the current selections and send out
         int tempSuspect = suspectDropdown.getSelectedIndex();
         int tempRoom = roomDropdown.getSelectedIndex();
         int tempWeapon = weaponDropdown.getSelectedIndex();
         clueLess.playerMakesAccusation(tempWeapon, tempRoom, tempSuspect);
     }//GEN-LAST:event_makeAccusationActionPerformed
+
+    private void disproveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disproveButtonActionPerformed
+        // TODO add your handling code here:
+        //String cardShown = cardDropdown.getSelectedItem();
+        int cardIdx =cardDropdown.getSelectedIndex();
+        int tempCardType = cardTypeRefs[cardIdx];
+        int tempCardID = cardIDRefs[cardIdx];
+        clueLess.showCard(tempCardType,tempCardID);
+    }//GEN-LAST:event_disproveButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1852,7 +1943,7 @@ public class GameBoard extends javax.swing.JFrame {
             roomDropdown.add(roomDef[i]);
             roomDropdown2.add(roomDef[i]);
         }
-        for(int i=0;i<9;i++){
+        for(int i=0;i<6;i++){
             weaponDropdown.add(weaponDef[i]);
             weaponDropdown2.add(weaponDef[i]);
         }
@@ -1938,12 +2029,36 @@ public class GameBoard extends javax.swing.JFrame {
     }
     
     /**
-     * This function is a shortcut for ending a user's turn after they've
+     * This function is a shortcut for post-move options.
      */
-    public void endTurn(){
+    public void allowSuggestion(){
         GamePopup.setVisible(true);
         turnMenu.setVisible(true);
-        opEndTurn.setEnabled(true);
+        opSuggestion.setEnabled(true);
+    }
+    
+    /**
+     * This function requests a user disprove a suggestion.
+     */
+    public void disproveSuggestion(int cardType[], int cardID[]){
+        GamePopup.setVisible(true);
+        disproveSugMenu.setVisible(true);
+        
+        // Populate the card options for the user to choose
+        for(int i=0;i<cardType.length;i++){
+            if(cardType[i]==0){ // Card is suspect
+                cardDropdown.add(suspectDef[cardID[i]]);
+            }
+            else if(cardType[i]==1){ // Card is room
+                cardDropdown.add(roomDef[cardID[i]]);
+            }
+            else{ // Card is weapon
+                cardDropdown.add(weaponDef[cardID[i]]);
+            }
+        }
+        cardTypeRefs=cardType;
+        cardIDRefs=cardID;
+        
     }
     
     /**
@@ -2180,12 +2295,16 @@ public class GameBoard extends javax.swing.JFrame {
     private javax.swing.JPanel accusationMenu;
     private javax.swing.JLabel accusationWarning;
     private java.awt.Button cancelAccusation;
+    private java.awt.Choice cardDropdown;
     private javax.swing.JList<String> cardList;
+    private java.awt.Button disproveButton;
+    private javax.swing.JPanel disproveSugMenu;
     private javax.swing.JTextField gameIDfield;
     private javax.swing.JLabel gameIDprompt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
@@ -2228,6 +2347,7 @@ public class GameBoard extends javax.swing.JFrame {
     private java.awt.Choice suspectDropdown2;
     private java.awt.Label suspectlabel;
     private java.awt.Label suspectlabel2;
+    private java.awt.TextArea textArea1;
     private javax.swing.JTextArea textUpdateBox;
     private javax.swing.JPanel turnMenu;
     private javax.swing.JTextField userIDfield;
