@@ -2046,6 +2046,9 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public void disproveSuggestion(int cardType[], int cardID[]){
         GamePopup.setVisible(true);
+        turnMenu.setVisible(false);
+        accusationMenu.setVisible(false);
+        suggestionMenu.setVisible(false);
         disproveSugMenu.setVisible(true);
         
         // Populate the card options for the user to choose
