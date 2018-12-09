@@ -26,6 +26,7 @@ public class GameBoard extends javax.swing.JFrame {
     private int moveOpts[];
     private int cardTypeRefs[];
     private int cardIDRefs[];
+    private int playerLocation;
     
     /**
      * Creates new form GameBoard
@@ -1600,149 +1601,128 @@ public class GameBoard extends javax.swing.JFrame {
 
     private void ConservatoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConservatoryActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(2);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=2;
+        updateLocation();
     }//GEN-LAST:event_ConservatoryActionPerformed
 
     private void StudyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudyActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(0);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=0;
+        updateLocation();
     }//GEN-LAST:event_StudyActionPerformed
 
     private void LibraryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LibraryActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(1);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=1;
+        updateLocation();
     }//GEN-LAST:event_LibraryActionPerformed
 
     private void BallroomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BallroomActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(5);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=5;
+        updateLocation();
     }//GEN-LAST:event_BallroomActionPerformed
 
     private void BilliardRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BilliardRoomActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(4);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=4;
+        updateLocation();
     }//GEN-LAST:event_BilliardRoomActionPerformed
 
     private void HallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HallActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(3);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=3;
+        updateLocation();
     }//GEN-LAST:event_HallActionPerformed
 
     private void KitchenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KitchenActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(8);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=8;
+        updateLocation();
     }//GEN-LAST:event_KitchenActionPerformed
 
     private void DiningRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DiningRoomActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(7);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=7;
+        updateLocation();
     }//GEN-LAST:event_DiningRoomActionPerformed
 
     private void LoungeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoungeActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(6);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=6;
+        updateLocation();
     }//GEN-LAST:event_LoungeActionPerformed
 
     private void Hallway12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway12ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(12);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=12;
+        updateLocation();
     }//GEN-LAST:event_Hallway12ActionPerformed
 
     private void Hallway11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway11ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(11);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=11;
+        updateLocation();
     }//GEN-LAST:event_Hallway11ActionPerformed
 
     private void Hallway13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway13ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(13);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=13;
+        updateLocation();
     }//GEN-LAST:event_Hallway13ActionPerformed
 
     private void Hallway18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway18ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(18);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=18;
+        updateLocation();
     }//GEN-LAST:event_Hallway18ActionPerformed
 
     private void Hallway17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway17ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(17);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=17;
+        updateLocation();
     }//GEN-LAST:event_Hallway17ActionPerformed
 
     private void Hallway16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway16ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(16);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=16;
+        updateLocation();
     }//GEN-LAST:event_Hallway16ActionPerformed
 
     private void Hallway14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway14ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(14);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=14;
+        updateLocation();
     }//GEN-LAST:event_Hallway14ActionPerformed
 
     private void Hallway9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway9ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(9);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=9;
+        updateLocation();
     }//GEN-LAST:event_Hallway9ActionPerformed
 
     private void Hallway19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway19ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(19);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=19;
+        updateLocation();
     }//GEN-LAST:event_Hallway19ActionPerformed
 
     private void Hallway10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway10ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(10);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=10;
+        updateLocation();
     }//GEN-LAST:event_Hallway10ActionPerformed
 
     private void Hallway15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway15ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(15);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=15;
+        updateLocation();
     }//GEN-LAST:event_Hallway15ActionPerformed
 
     private void Hallway20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Hallway20ActionPerformed
         // TODO add your handling code here:
-        clueLess.playerMove(20);
-        closeRoomSelection();
-        allowSuggestion();
+        playerLocation=20;
+        updateLocation();
     }//GEN-LAST:event_Hallway20ActionPerformed
 
     private void startNewGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewGameButtonActionPerformed
@@ -1813,6 +1793,8 @@ public class GameBoard extends javax.swing.JFrame {
         // The user decided to make a suggestion!
         turnMenu.setVisible(false);
         suggestionMenu.setVisible(true);
+        roomDropdown2.setEnabled(false);
+        roomDropdown2.select(playerLocation);
     }//GEN-LAST:event_opSuggestionActionPerformed
 
     private void opMovePlayerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opMovePlayerActionPerformed
@@ -2039,10 +2021,20 @@ public class GameBoard extends javax.swing.JFrame {
     /**
      * This function is a shortcut for post-move options.
      */
-    public void allowSuggestion(){
+    public void updateLocation(){
+        clueLess.playerMove(playerLocation);
+        closeRoomSelection();
+        
+        // return to turn options menu
         GamePopup.setVisible(true);
         turnMenu.setVisible(true);
+        
+        if(playerLocation<9){
         opSuggestion.setEnabled(true);
+        }else{
+            opSuggestion.setEnabled(false);
+        }
+        
         opMovePlayer.setEnabled(false);
     }
     

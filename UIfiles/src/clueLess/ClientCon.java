@@ -132,16 +132,20 @@ public class ClientCon extends Thread
         }
         System.out.println("Read message : "+msgtoproc);
         if(msgid.equals("0")){
-            //Inform that player has moved to a location
+            //Inform players that the game was started.
+            System.out.println("Msg Rcvd: game start msg \n");
             ret=msgsplit[2];
+            clueLess.switchScreens("GameBoard");
         }
         if(msgid.equals("1")){
             //Inform that player has moved to a location
+            System.out.println("Msg Rcvd: player location update \n");
             ret="Player "+ msgsplit[2]+" has moved to location "+msgsplit[3];
             clueLess.updatePlayerLocation(Integer.parseInt(msgsplit[2]),Integer.parseInt(msgsplit[3]));
         }
         if(msgid.equals("2")){
             //Inform the turn options to the player
+            System.out.println("Msg Rcvd: player move options \n");
             String finalmsg="";
             int [] availableMoves = new int[0];
             for(int i=3 ; i<msgsplit.length ; i++){
@@ -159,15 +163,17 @@ public class ClientCon extends Thread
         }
         if(msgid.equals("4")){
             //Inform the player that a suggestion has been made by another player
+            System.out.println("Msg Rcvd: suggestion from another player \n");
             ret="Suggestion: "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit)+" has been made by player: "+msgsplit[0];
         }
         if(msgid.equals("8")){
             //Inform the player that he or she loses
+            System.out.println("Msg Rcvd: false accusation \n");
             ret="YOU LOSE";
         }
         if(msgid.equals("10")){
             //Inform the player of their initial hand
-            //Call inithand function
+            System.out.println("Msg Rcvd: init cards \n");
             ret="Initial hand is : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
             
             int cardType[] = new int[(msgsplit.length-2)/2];
@@ -183,7 +189,7 @@ public class ClientCon extends Thread
         }
         if(msgid.equals("11")){
             //Inform that player of cards that can disprove a suggestion
-            //New function
+            System.out.println("Msg Rcvd: disprove suggestion with card \n");
             
             int numCards = ((msgsplit.length-2)/2);
             int cardType[] = new int[numCards];
@@ -199,6 +205,7 @@ public class ClientCon extends Thread
             ret="Need to disprove suggestion : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
         }
         if(msgid.equals("12")){
+            System.out.println("Msg Rcvd: player added \n");
             ret = " PlayerID : ";
             for(int i=3;i<msgsplit.length;i=i+2){
                 ret=ret + msgsplit[i-1]+" Player Name : "+msgsplit[i];
