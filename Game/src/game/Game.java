@@ -177,84 +177,87 @@ public class Game
 	// Card[] order is Player, Room, Weapon
 	public void onReceiveSuggestion(int aPlayerID, Card aSuspect, Card aLocation, Card aWeapon) throws IOException
 	{
-		// First send message to everyone what the suggestion was		
-		
-		// move from old room to new room
-		Player p = players[aSuspect.cardID];
-		Location l = map.locId2Point.get(aLocation.cardID);
-		p.currentLoc.occupancy--;
-		p.currentLoc = l;
-		
-		weapons[aWeapon.cardID].currentLoc = l;
-		
-		// Enable that player's "was moved" field
-		p.wasMoved = true;
-		
-		for(int i = aPlayerID+1, count = 0; count < numPlayers-1; i=(i+1)%numPlayers, count++)
-		{
-			if(players[i].isAlive)
-			{				
-				// Find matches in that players hand if they exist
-				ArrayList<Card> matches = new ArrayList<Card>(3);
-				if(players[i].hand.contains(aSuspect))
-				{
-					matches.add(aSuspect);
-				}		
-				if(players[i].hand.contains(aLocation))
-				{
-					matches.add(aLocation);
-				}
-				if(players[i].hand.contains(aWeapon))
-				{
-					matches.add(aWeapon);
-				}
-				
-				if(!matches.isEmpty())
-				{
-					String msgOut = i + ":6:";
-							
-					if(players[i].isConnected)
-					{						
-						// Send message to player choose one
-						ClientHandler disprovingPlayer = CGServer.clients.get(i);
-						String message = "0:11";
-						for(Card c : matches)
-						{
-							message = message + ":" + c.type + ":" + c.cardID;
-						}
-						disprovingPlayer.out.writeUTF(message);
-						
-						// Wait for response
-						while(disprovingPlayer.newMessages.isEmpty())
-						{
-							Thread.sleep(10);
-						}						
-						String msg = disprovingPlayer.newMessages.get(0);
-						disprovingPlayer.newMessages.remove(0);
-						
-						int cardType = Integer.parseInt(msg.substring(msg.length()-3));
-						int cardID = Integer.parseInt(msg.substring(msg.length()-1));
-						msgOut = msgOut + cardType + ":" + cardID;
-					}
-					else
+		try{
+			// First send message to everyone what the suggestion was		
+
+			// move from old room to new room
+			Player p = players[aSuspect.cardID];
+			Location l = map.locId2Point.get(aLocation.cardID);
+			p.currentLoc.occupancy--;
+			p.currentLoc = l;
+
+			weapons[aWeapon.cardID].currentLoc = l;
+
+			// Enable that player's "was moved" field
+			p.wasMoved = true;
+
+			for(int i = aPlayerID+1, count = 0; count < numPlayers-1; i=(i+1)%numPlayers, count++)
+			{
+				if(players[i].isAlive)
+				{				
+					// Find matches in that players hand if they exist
+					ArrayList<Card> matches = new ArrayList<Card>(3);
+					if(players[i].hand.contains(aSuspect))
 					{
-						// Choose a random one since the player is dead and gone
-						// and is now a "Bot"
-						int randomCard = (int)Math.floor(Math.random()*matches.size());
-						Card c = matches.get(randomCard);
-						msgOut = msgOut + c.type + ":" + c.cardID;
+						matches.add(aSuspect);
+					}		
+					if(players[i].hand.contains(aLocation))
+					{
+						matches.add(aLocation);
 					}
-					
-					// Receive card, then show it to suggestor
-					ClientHandler suggestingPlayer = CGServer.clients.get(aPlayerID);
-					suggestingPlayer.out.writeUTF(msgOut);
-					
-					// announce to everyone this player showed a card
-					CGServer.sendToAllClients("0:8:Player " + i + " disproved the suggestion");
-					break;
+					if(players[i].hand.contains(aWeapon))
+					{
+						matches.add(aWeapon);
+					}
+
+					if(!matches.isEmpty())
+					{
+						String msgOut = i + ":6:";
+
+						if(players[i].isConnected)
+						{						
+							// Send message to player choose one
+							ClientHandler disprovingPlayer = CGServer.clients.get(i);
+							String message = "0:11";
+							for(Card c : matches)
+							{
+								message = message + ":" + c.type + ":" + c.cardID;
+							}
+							disprovingPlayer.out.writeUTF(message);
+
+							// Wait for response
+							while(disprovingPlayer.newMessages.isEmpty())
+							{
+								Thread.sleep(10);
+							}						
+							String msg = disprovingPlayer.newMessages.get(0);
+							disprovingPlayer.newMessages.remove(0);
+
+							int cardType = Integer.parseInt(msg.substring(msg.length()-3));
+							int cardID = Integer.parseInt(msg.substring(msg.length()-1));
+							msgOut = msgOut + cardType + ":" + cardID;
+						}
+						else
+						{
+							// Choose a random one since the player is dead and gone
+							// and is now a "Bot"
+							int randomCard = (int)Math.floor(Math.random()*matches.size());
+							Card c = matches.get(randomCard);
+							msgOut = msgOut + c.type + ":" + c.cardID;
+						}
+
+						// Receive card, then show it to suggestor
+						ClientHandler suggestingPlayer = CGServer.clients.get(aPlayerID);
+						suggestingPlayer.out.writeUTF(msgOut);
+
+						// announce to everyone this player showed a card
+						CGServer.sendToAllClients("0:8:Player " + i + " disproved the suggestion");
+						break;
+					}
 				}
 			}
 		}
+		catch(Exception e){}
 	}
 	
 	public void runGame()
