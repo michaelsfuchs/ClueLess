@@ -95,13 +95,14 @@ public class clueLess {
         client.writeToServer("UserID:"+userID);
     }
     
-    /**
-     * This function initializes the cards shown for each user.
-     * @param cards 
-     */
     
-    public static void initCards(int suspects[],int rooms[],int weapons[]){
-        gb.setCardList(suspects,rooms,weapons);
+    /**
+     * This function initializes the cards shown for each player.
+     * @param roomType
+     * @param roomID 
+     */
+    public static void initCards(int cardType[], int cardID[]){
+        gb.setCardList(cardType,cardID);
     }
     
     /**
@@ -112,11 +113,18 @@ public class clueLess {
         gb.genSuspectList(suspects);
     }
     
-    
-    public static void gbaddPlayer(String playerName){
+    /**
+     * Add player to the lobby list.
+     * @param playerName 
+     */
+    public static void addPlayer(String playerName){
         gb.addPlayer(playerName);
     }
     
+    /**
+     * Switch the screen shown in the UI.
+     * @param screen 
+     */
     public static void switchScreens(String screen){
         gb.switchScreens(screen);
     }

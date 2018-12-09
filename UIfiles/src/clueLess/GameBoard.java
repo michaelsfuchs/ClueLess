@@ -1975,21 +1975,25 @@ public class GameBoard extends javax.swing.JFrame {
     
     /**
      * This function initializes the card list for the player.
-     * @param cards 
+     * @param roomType
+     * @param roomID 
      */
-    public void setCardList(int suspects[], int rooms[], int weapons[]){
-        // Display cards given to the user
-        String cards[] = new String[suspects.length+rooms.length+weapons.length];
-        int X = 0; 
-        for(int i = 0 ; i<suspects.length ; i++, X++ ){
-           cards[X] = suspectDef[i];
-       }
-       for(int i = 0 ; i<rooms.length ; i++, X++ ){
-           cards[X] = roomDef[i];
-       }
-       for(int i = 0 ; i<weapons.length ; i++, X++ ){
-           cards[X] = weaponDef[i];
-       }
+    public void setCardList(int cardType[], int cardID[]){
+        String cards[] = new String[cardType.length];
+        
+        // Populate the card options for the user to choose
+        for(int i=0;i<cardType.length;i++){
+            if(cardType[i]==0){ // Card is suspect
+                cards[i] = suspectDef[cardID[i]];
+            }
+            else if(cardType[i]==1){ // Card is room
+                cards[i] = roomDef[cardID[i]];
+            }
+            else{ // Card is weapon
+                cards[i] = weaponDef[cardID[i]];
+            }
+            //System.out.println(cards[i]);
+        }
         cardList.setListData(cards);
     }
     
@@ -2035,6 +2039,7 @@ public class GameBoard extends javax.swing.JFrame {
         GamePopup.setVisible(true);
         turnMenu.setVisible(true);
         opSuggestion.setEnabled(true);
+        opMovePlayer.setEnabled(false);
     }
     
     /**

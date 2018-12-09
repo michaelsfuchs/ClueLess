@@ -169,36 +169,40 @@ public class ClientCon extends Thread
             //Inform the player of their initial hand
             //Call inithand function
             ret="Initial hand is : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
-            int weapons[] = new int[0];
-            int rooms[] = new int[0];
-            int suspects[] = new int[0];
             
-            for(int i=3;i<msgsplit.length;i=i+2){
-                if(msgsplit[i-1].equals("0")){
-                    suspects = addElement(suspects,Integer.parseInt(msgsplit[i]));
-                }
-                if(msgsplit[i-1].equals("1")){
-                    rooms = addElement(rooms,Integer.parseInt(msgsplit[i])); 
-                }
-                if(msgsplit[i-1].equals("2")){
-                    weapons = addElement(rooms,Integer.parseInt(msgsplit[i]));
-                }
+            int cardType[] = new int[msgsplit.length];
+            int cardID[] = new int[msgsplit.length];
+            
+            int x=0;
+            for(int ii=3;ii<msgsplit.length;ii=ii+2,x++){
+                cardType[x] = Integer.parseInt(msgsplit[ii-1]);
+                cardID[x] = Integer.parseInt(msgsplit[ii]);
             }
-            clueLess.initCards(suspects, rooms, weapons);
+            clueLess.initCards(cardType,cardID);
+            
         }
         if(msgid.equals("11")){
             //Inform that player of cards that can disprove a suggestion
             //New function
             
-            ret="New Player has joined with player ID : "+msgsplit[2];
-            gb.addPlayer(msgsplit[2]);
+            int cardType[] = new int[msgsplit.length];
+            int cardID[] = new int[msgsplit.length];
+            
+            int x=0;
+            for(int ii=3;ii<msgsplit.length;ii=ii+2,x++){
+                cardType[x] = Integer.parseInt(msgsplit[ii-1]);
+                cardID[x] = Integer.parseInt(msgsplit[ii]);
+            }
+            clueLess.disprovePlayerSuggestion(cardType,cardID);
+            
+            ret="Need to disprove suggestion : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
         }
         if(msgid.equals("12")){
             ret = " PlayerID : ";
             for(int i=3;i<msgsplit.length;i=i+2){
                 ret=ret + msgsplit[i-1]+" Player Name : "+msgsplit[i];
                 if(!Arrays.asList(gb.users).contains(msgsplit[i])){
-                    clueLess.gbaddPlayer(msgsplit[i]);
+                    clueLess.addPlayer(msgsplit[i]);
                 }
                 
             }    
