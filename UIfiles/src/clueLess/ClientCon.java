@@ -174,7 +174,7 @@ public class ClientCon extends Thread
         if(msgid.equals("8")){
             //Inform the player that he or she loses
             System.out.println("Msg Rcvd: false accusation \n");
-            ret="YOU LOSE";
+            ret=msgtoproc;
         }
         if(msgid.equals("10")){
             //Inform the player of their initial hand
