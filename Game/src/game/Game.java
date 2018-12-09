@@ -18,6 +18,7 @@ public class Game
 	
 	int currentPlayer = 0;
 	int numLivePlayers = 0;
+	int numConnectedPlayers = 0;
 	
 	Player[] players = new Player[numPlayers];
 	Weapon[] weapons = new Weapon[numWeapons];
@@ -47,7 +48,7 @@ public class Game
 	
 	public void addPlayer(int aPlayerId,String username) throws IOException
 	{
-		if(numLivePlayers == 6)
+		if(numConnectedPlayers == 6)
 		{
 			//System.out.println("Game Full");
 		}
@@ -60,7 +61,8 @@ public class Game
 			players[aPlayerId].isAlive = true;
 			players[aPlayerId].isConnected = true;
 			
-			numLivePlayers++;			
+			numLivePlayers++;
+			numConnectedPlayers++;			
 		}
 		
 		// Wait for new player's message with their name;
@@ -80,7 +82,7 @@ public class Game
                 players[aPlayerId].customName = username;
                 
 		String msgOut = "M:12";
-		for(int p = 0;p<numLivePlayers;p++)
+		for(int p = 0;p<numConnectedPlayers;p++)
 		{
 			//msgOut = msgOut+":"+aPlayerId+":"+players[aPlayerId].customName;
                         msgOut = msgOut+":"+p+":"+players[p].customName+" ";
@@ -168,6 +170,8 @@ public class Game
 		else
 		{
 			players[aPlayerId].isAlive = false;
+			numLivePlayers--;
+			
 			//Announce loser
 			CGServer.sendToAllClients("6:8:Player " + aPlayerId + " Has Lost!");
 
@@ -279,6 +283,20 @@ public class Game
 			if(p.isAlive)
 			{
 				ClientHandler currentPlayerClient = CGServer.clients.get(currentPlayer);
+				
+				// if theres only player, and this person is alive, they win
+				if(numLivePlayers <= 1)
+				{
+					//Announce loser
+					CGServer.sendToAllClients("6:8:Player " + currentPlayer + " Has Won!");
+
+					CGServer.sendToAllClients("6:13:"+currentPlayer+":"+caseFile[0].type+":"+
+							caseFile[0].cardID+":"+caseFile[1].type+":"+caseFile[1].cardID+":"+
+							caseFile[2].type+":"+caseFile[2].cardID);
+					
+					isGameRunning = false;
+				}
+				
 				String availableMovesMessage = "6:2:";
 				
 				if(p.wasMoved)
