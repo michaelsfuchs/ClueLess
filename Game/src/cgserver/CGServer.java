@@ -29,7 +29,8 @@ public class CGServer extends Thread
     private int port = 0;
     public HashMap<Integer,ClientHandler> clients=new HashMap<Integer,ClientHandler>();
     public boolean startGame = false;
-    
+    public int count;
+    Boolean endGame = true;
     Game game = new Game(this);
     
     // constructor with port 
@@ -51,14 +52,18 @@ public class CGServer extends Thread
     public void run(){
         try{
             System.out.println("Started server thread");
-            int count = 0;    
+            count = 0;    
             server.setSoTimeout(1000);
             while(count<6 && startGame == false){
                 try
                 {
+                  if(endGame == true){
+                      endServer();
+                      break;
+                  }  
                   socket = server.accept();
                   System.out.println("------------------------------------------");
-                  System.out.println("Accepted a client");
+                  System.out.println("Accepted a client on : "+port);
                   ClientHandler c=new ClientHandler(count,socket,this);
 
                   System.out.println("Created clienthandler object");
@@ -79,9 +84,11 @@ public class CGServer extends Thread
                 }
             }
             
-            sendToAllClients("M:0:Game Started");    
-            game.runFirstTurn();
-            game.runGame();
+            if(endGame == false){
+                sendToAllClients("M:0:Game Started");    
+                game.runFirstTurn();
+                game.runGame();
+            }
         }
         catch(Exception e){
             
@@ -100,6 +107,13 @@ public class CGServer extends Thread
         for(ClientHandler c : clients.values()){
             c.writeMsg(msg);
         }
+    }
+    
+    public void endServer() throws IOException{
+        System.out.println("Stopping Server");
+        in.close();
+        out.close();
+        socket.close();
     }
 } 
 

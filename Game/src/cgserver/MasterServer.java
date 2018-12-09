@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -23,15 +24,20 @@ public class MasterServer {
     private DataInputStream in       =  null; 
     private DataOutputStream out     = null;
     private int port = 0;
-    ArrayList<Integer> portsblocked=new ArrayList<Integer>();
-    
+    HashMap<CGServer,Integer> serverMap = new HashMap<CGServer,Integer>();
     public MasterServer() throws IOException{
         server= new ServerSocket(5000);
         try{
             System.out.println("MASTER SERVER STARTED");
-            int count = 0;    
+            int count = 0;  
             while(true){
-                
+                for(CGServer endedServer : serverMap.keySet()){
+                    if(endedServer.endGame == true ){
+                        endedServer.interrupt();
+                        System.out.println("Server on port "+serverMap.get(endedServer)+" has ended");
+                        serverMap.remove(endedServer);
+                    }
+                }
                 socket = server.accept();
                 System.out.println("RECEIVED NEW REQUEST");
                 //Generate a port for the a new server
@@ -39,19 +45,17 @@ public class MasterServer {
                 //make the server port 4 digit
                 int randport=r.nextInt(1000);
                 System.out.println("Random port is :"+randport);
-                for(int i=0; i < portsblocked.size() ; i++){
-                    int c = portsblocked.get(i);
-                    if(c == randport){
-                        randport = r.nextInt();
+                for(int i=0; i < serverMap.values().size() ; i++){
+                    if(serverMap.containsValue(randport)){
+                        randport = r.nextInt(1000);
                     }
                 }
                 port = 9000 + randport;
-                portsblocked.add(randport);
-                
                 System.out.println("ALLOCATED SERVER ON PORT :"+ port);
                 //Run a new server
                 
                 CGServer newSv=new CGServer(port);          
+                serverMap.put(newSv, port);
                 out = new DataOutputStream(socket.getOutputStream());                
                 out.writeUTF(""+port);
                 newSv.start();
