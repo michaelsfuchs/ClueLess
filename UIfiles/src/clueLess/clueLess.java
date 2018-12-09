@@ -15,6 +15,7 @@ public class clueLess {
     public static ClientCon client;
     public static int playerID = -1;
     public static GameBoard gb = null;
+    public static String serverIP;
     
     public clueLess() {
         client = null;
@@ -28,6 +29,7 @@ public class clueLess {
      */
     public static void main(String args[]){
     
+        serverIP = args[0];
         // Initialize the UI
         gb = new GameBoard();
         gb.setVisible(true);
@@ -58,16 +60,17 @@ public class clueLess {
      */
     public static int startNewGame(GameBoard gb) throws IOException{        
         System.out.println("Creating new server");
-        int port = ClientCon.connectMaster();
+        int port = ClientCon.connectMaster(serverIP);
         System.out.println("SERVER PORT IS :" + port);
-        client=new ClientCon("ec2-3-17-66-140.us-east-2.compute.amazonaws.com",port,gb);
+        //client=new ClientCon("ec2-3-17-66-140.us-east-2.compute.amazonaws.com",port,gb);
+        /*client=new ClientCon("localhost",port,gb);
         System.out.println("Waiting to read playerID");
         playerID=Integer.parseInt(client.in.readUTF());
         System.out.println("PlayerID is : "+playerID);
-        client.start();
+        client.start(); */
+        int gameID = joinGame(port,gb);
+        return gameID;
         //Display message that gameID is port
-        gb.pushTextUpdate("Your Game ID is : "+port);
-        return port;
     }
     
     /**
@@ -76,13 +79,16 @@ public class clueLess {
      * @param gb 
      * @throws java.io.IOException 
      */
-    public static void joinGame(int gameID, GameBoard gb) throws IOException{
-        System.out.println("Connecting to existing server");
-        client=new ClientCon("ec2-3-17-66-140.us-east-2.compute.amazonaws.com",gameID,gb);
+    public static int joinGame(int gameID, GameBoard gb) throws IOException{
+        System.out.println("Connecting to server");
+        //client=new ClientCon("ec2-3-17-66-140.us-east-2.compute.amazonaws.com",gameID,gb);
+        client=new ClientCon(serverIP,gameID,gb);
         System.out.println("Waiting to read playerID");
         playerID=Integer.parseInt(client.in.readUTF());
         System.out.println("PlayerID is : "+playerID);
         client.start();
+        gb.pushTextUpdate("Your Game ID is : "+gameID);
+        return gameID;
     }
     
     /**

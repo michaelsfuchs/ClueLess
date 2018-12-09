@@ -266,10 +266,11 @@ public class ClientCon extends Thread
         } 
     }
     
-    public static int connectMaster(){
+    public static int connectMaster(String ipj){
         try{
             //connects to the master server
-            Socket masterSocket=new Socket("ec2-3-17-66-140.us-east-2.compute.amazonaws.com",5000);
+            //Socket masterSocket=new Socket("ec2-3-17-66-140.us-east-2.compute.amazonaws.com",5000);
+            Socket masterSocket=new Socket("localhost",5000);
             DataInputStream inp = new DataInputStream(masterSocket.getInputStream());
             DataOutputStream outp = new DataOutputStream(masterSocket.getOutputStream());
             
