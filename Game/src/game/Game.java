@@ -225,7 +225,10 @@ public class Game
 						disprovingPlayer.out.writeUTF(message);
 						
 						// Wait for response
-						while(disprovingPlayer.newMessages.isEmpty());
+						while(disprovingPlayer.newMessages.isEmpty())
+						{
+							Thread.sleep(10);
+						}						
 						String msg = disprovingPlayer.newMessages.get(0);
 						disprovingPlayer.newMessages.remove(0);
 						
