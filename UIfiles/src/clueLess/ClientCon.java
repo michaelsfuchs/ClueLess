@@ -166,6 +166,11 @@ public class ClientCon extends Thread
             System.out.println("Msg Rcvd: suggestion from another player \n");
             ret="Suggestion: "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit)+" has been made by player: "+msgsplit[0];
         }
+        if(msgid.equals("6")){
+            //Inform the player that a player has revealed a card
+            System.out.println("Msg Rcvd: player has revealed a card \n");
+            ret="Player : "+msgsplit[0]+" has revealed card : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
+        }
         if(msgid.equals("8")){
             //Inform the player that he or she loses
             System.out.println("Msg Rcvd: false accusation \n");
@@ -215,6 +220,9 @@ public class ClientCon extends Thread
                 
             }    
             clueLess.initSuspectList(gb.users);
+        }
+        if(msgid.equals("13")){
+            ret = "Game has ended" ;
         }
         return ret;   
     }
