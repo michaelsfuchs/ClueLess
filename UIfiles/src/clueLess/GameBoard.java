@@ -27,6 +27,8 @@ public class GameBoard extends javax.swing.JFrame {
     private String roomDef[] = {"Study","Library","Conservatory","Hall","Billiard Room","Ballroom","Lounge","Dining Room","Kitchen"};
     private String weaponDef[] = {"Knife","Candlestick","Pistol","Rope","Lead Pipe","Wrench"};
     
+    private int moveOpts[];
+    
     /**
      * Creates new form GameBoard
      */
@@ -1215,6 +1217,11 @@ public class GameBoard extends javax.swing.JFrame {
 
         makeAccusation.setLabel("MAKE ACCUSATION!");
         makeAccusation.setName("accusationButton"); // NOI18N
+        makeAccusation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makeAccusationActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout accusationMenuLayout = new javax.swing.GroupLayout(accusationMenu);
         accusationMenu.setLayout(accusationMenuLayout);
@@ -1296,6 +1303,11 @@ public class GameBoard extends javax.swing.JFrame {
 
         makeSuggestion.setLabel("Make suggestion");
         makeSuggestion.setName("accusationButton"); // NOI18N
+        makeSuggestion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makeSuggestionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout suggestionMenuLayout = new javax.swing.GroupLayout(suggestionMenu);
         suggestionMenu.setLayout(suggestionMenuLayout);
@@ -1733,6 +1745,9 @@ public class GameBoard extends javax.swing.JFrame {
         // The user decided to move their player!
         turnMenu.setVisible(false);
         GamePopup.setVisible(false);
+        for(int i=0;i<moveOpts.length;i++){
+            openRoomSelection(moveOpts[i]);
+        }
         //this.openRoomSelection();
     }//GEN-LAST:event_opMovePlayerActionPerformed
 
@@ -1754,6 +1769,22 @@ public class GameBoard extends javax.swing.JFrame {
         accusationMenu.setVisible(false);
         turnMenu.setVisible(true);
     }//GEN-LAST:event_cancelAccusationActionPerformed
+
+    private void makeSuggestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeSuggestionActionPerformed
+        // pull the indexes for the current selections and send out
+        int tempSuspect = suspectDropdown2.getSelectedIndex();
+        int tempRoom = roomDropdown2.getSelectedIndex();
+        int tempWeapon = weaponDropdown2.getSelectedIndex();
+        clueLess.playerMakesSuggestion(tempWeapon, tempRoom, tempSuspect);
+    }//GEN-LAST:event_makeSuggestionActionPerformed
+
+    private void makeAccusationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeAccusationActionPerformed
+        // pull the indexes for the current selections and send out
+        int tempSuspect = suspectDropdown.getSelectedIndex();
+        int tempRoom = roomDropdown.getSelectedIndex();
+        int tempWeapon = weaponDropdown.getSelectedIndex();
+        clueLess.playerMakesAccusation(tempWeapon, tempRoom, tempSuspect);
+    }//GEN-LAST:event_makeAccusationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1810,9 +1841,9 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public void setupGameBoard(){
         
-        this.cardList.setEnabled(false);
-        this.textUpdateBox.setEditable(false);
-        this.textUpdateBox.setText("Setting up everything for you :)" + "\n");
+        cardList.setEnabled(false);
+        textUpdateBox.setEditable(false);
+        textUpdateBox.setText("Setting up everything for you :)" + "\n");
         for(int i=0; i<6;i++){
             suspectDropdown.add(suspectDef[i]);
             suspectDropdown2.add(suspectDef[i]);
@@ -1898,10 +1929,12 @@ public class GameBoard extends javax.swing.JFrame {
             opSuggestion.setEnabled(false);
         }
         
+        moveOpts = availableMoves;
+        /*
         for(int i=0; i<availableMoves.length;i++){
             openRoomSelection(availableMoves[i]);
         }
-        
+        */
     }
     
     /**

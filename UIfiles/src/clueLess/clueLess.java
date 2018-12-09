@@ -153,12 +153,13 @@ public class clueLess {
         catch(Exception e){
             
         }
+        
     }
     
     /**
      * Called when a player makes a suggestion. 
      */
-    public static void playerMakesSuggestion(String weapon,String room,String suspect){
+    public static void playerMakesSuggestion(int weapon,int room,int suspect){
         try{
            String suggestion = playerID+":4:0:"+suspect+":1:"+room+":2:"+weapon;
            client.writeToServer(suggestion);
@@ -172,7 +173,7 @@ public class clueLess {
      * Called when a player makes an accusation. Needs to return a boolean value
      * to the player UI to know if the accusation was true or not. 
      */
-    public static void playerMakesAccusation(String weapon,String room,String suspect){
+    public static void playerMakesAccusation(int weapon,int room,int suspect){
         try{
            String accusation = playerID+":5:0:"+suspect+":1:"+room+":2:"+weapon;
            client.writeToServer(accusation);

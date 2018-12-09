@@ -1744,6 +1744,9 @@
                     <Property name="label" type="java.lang.String" value="MAKE ACCUSATION!"/>
                     <Property name="name" type="java.lang.String" value="accusationButton" noResource="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="makeAccusationActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -1867,6 +1870,9 @@
                     <Property name="label" type="java.lang.String" value="Make suggestion"/>
                     <Property name="name" type="java.lang.String" value="accusationButton" noResource="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="makeSuggestionActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
