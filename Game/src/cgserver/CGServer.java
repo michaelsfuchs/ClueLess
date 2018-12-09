@@ -26,11 +26,11 @@ public class CGServer extends Thread
     private ServerSocket    server   = null; 
     private DataInputStream in       =  null; 
     private DataOutputStream out     = null;
-    private int port = 0;
+    public int port = 0;
     public HashMap<Integer,ClientHandler> clients=new HashMap<Integer,ClientHandler>();
     public boolean startGame = false;
     public int count;
-    Boolean endGame = true;
+    public Boolean endGame = true;
     Game game = new Game(this);
     
     // constructor with port 

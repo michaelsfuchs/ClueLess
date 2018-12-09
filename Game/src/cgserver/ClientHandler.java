@@ -60,20 +60,7 @@ public class ClientHandler extends Thread{
                     newMessages.add(received);
                 }
             } catch (SocketException e) {
-                System.out.println("Client : "+playerID+" has disconnected");
-                            CGServer.count = CGServer.count - 1;
-                            try {
-                                if(CGServer.count <=0){
-                                    in.close();
-                                    out.close();
-                                    socket.close();
-                                    CGServer.endGame = true;
-                                }
-                            }
-                             catch (IOException ex) {
-                                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                    break;
+                System.out.println("Client : "+playerID+" has disconnected");                
             } 
             catch(IOException i){
                 

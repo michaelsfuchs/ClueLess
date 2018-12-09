@@ -31,13 +31,6 @@ public class MasterServer {
             System.out.println("MASTER SERVER STARTED");
             int count = 0;  
             while(true){
-                for(CGServer endedServer : serverMap.keySet()){
-                    if(endedServer.endGame == true ){
-                        endedServer.interrupt();
-                        System.out.println("Server on port "+serverMap.get(endedServer)+" has ended");
-                        serverMap.remove(endedServer);
-                    }
-                }
                 socket = server.accept();
                 System.out.println("RECEIVED NEW REQUEST");
                 //Generate a port for the a new server
