@@ -1,2 +1,0 @@
-game.CardType
-game.Card
