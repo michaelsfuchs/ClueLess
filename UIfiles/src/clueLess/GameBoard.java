@@ -1857,6 +1857,8 @@ public class GameBoard extends javax.swing.JFrame {
         int tempCardType = cardTypeRefs[cardIdx];
         int tempCardID = cardIDRefs[cardIdx];
         clueLess.showCard(tempCardType,tempCardID);
+        disproveSugMenu.setVisible(false);
+        GamePopup.setVisible(false);
     }//GEN-LAST:event_disproveButtonActionPerformed
 
     /**
