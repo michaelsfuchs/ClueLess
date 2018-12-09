@@ -334,12 +334,12 @@ public class Game
 						case 3: // Move
 							int newLoc = Integer.parseInt(st.nextToken());
 							onReceiveMove(currentPlayer, newLoc);
-							if(map.locId2Point.get(newLoc).type == Location.Type.ROOM)
-							{
-								// Send enable suggestion again
-								String newSuggestionMessage = "0:2:1";
-								currentPlayerClient.out.writeUTF(newSuggestionMessage);
-							}
+// 							if(map.locId2Point.get(newLoc).type == Location.Type.ROOM)
+// 							{
+// 								// Send enable suggestion again
+// 								String newSuggestionMessage = "0:2:1";
+// 								currentPlayerClient.out.writeUTF(newSuggestionMessage);
+// 							}
 							break;
 						case 4: // Suggestion
 							Card sugg[] = new Card[3];
