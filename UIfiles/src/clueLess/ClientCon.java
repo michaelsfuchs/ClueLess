@@ -185,8 +185,9 @@ public class ClientCon extends Thread
             //Inform that player of cards that can disprove a suggestion
             //New function
             
-            int cardType[] = new int[msgsplit.length];
-            int cardID[] = new int[msgsplit.length];
+            int numCards = (msgsplit.length/2);
+            int cardType[] = new int[numCards];
+            int cardID[] = new int[numCards];
             
             int x=0;
             for(int ii=3;ii<msgsplit.length;ii=ii+2,x++){
