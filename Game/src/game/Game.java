@@ -183,7 +183,11 @@ public class Game
 			// move from old room to new room
 			Player p = players[aSuspect.cardID];
 			Location l = map.locId2Point.get(aLocation.cardID);
-			p.currentLoc.occupancy--;
+			
+			if(p.currentLoc != null)
+			{
+				p.currentLoc.occupancy--;
+			}			
 			p.currentLoc = l;
 
 			weapons[aWeapon.cardID].currentLoc = l;
@@ -233,7 +237,7 @@ public class Game
 							String msg = disprovingPlayer.newMessages.get(0);
 							disprovingPlayer.newMessages.remove(0);
 
-							int cardType = Integer.parseInt(msg.substring(msg.length()-3));
+							int cardType = Integer.parseInt(msg.substring(msg.length()-3,msg.length()-2));
 							int cardID = Integer.parseInt(msg.substring(msg.length()-1));
 							msgOut = msgOut + cardType + ":" + cardID;
 						}
