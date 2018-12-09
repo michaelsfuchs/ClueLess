@@ -2029,10 +2029,13 @@ public class GameBoard extends javax.swing.JFrame {
         GamePopup.setVisible(true);
         turnMenu.setVisible(true);
         
+        // Check if the location is a room (<9) or a hallway (>=9)
         if(playerLocation<9){
-        opSuggestion.setEnabled(true);
+            opSuggestion.setEnabled(true);
+            opEndTurn.setEnabled(false);
         }else{
             opSuggestion.setEnabled(false);
+            opEndTurn.setEnabled(true);
         }
         
         opMovePlayer.setEnabled(false);
