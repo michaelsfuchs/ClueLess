@@ -30,7 +30,7 @@ public class CGServer extends Thread
     public HashMap<Integer,ClientHandler> clients=new HashMap<Integer,ClientHandler>();
     public boolean startGame = false;
     public int count;
-    public Boolean endGame = true;
+    public Boolean endGame = false;
     Game game = new Game(this);
     
     // constructor with port 
