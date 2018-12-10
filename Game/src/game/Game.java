@@ -302,7 +302,7 @@ public class Game
 				if(p.wasMoved)
 				{
 					// Enable option to make suggestion for that room
-					availableMovesMessage = availableMovesMessage + "1:";
+					availableMovesMessage = availableMovesMessage + "1";
 				}
 				else
 				{
