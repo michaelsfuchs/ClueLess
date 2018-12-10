@@ -1831,6 +1831,7 @@ public class GameBoard extends javax.swing.JFrame {
         suggestionMenu.setVisible(false);
         turnMenu.setVisible(true);
         opSuggestion.setEnabled(false);
+        opMovePlayer.setEnabled(false);
         opEndTurn.setEnabled(true);
         // pull the indexes for the current selections and send out
         int tempSuspect = suspectDropdown2.getSelectedIndex();
@@ -1907,6 +1908,33 @@ public class GameBoard extends javax.swing.JFrame {
         users[userCount]=playerName;
         this.playersInLobby.setListData(users);
         userCount=userCount+1;
+    }
+    
+    /**
+     * Returns the suspect string represented by a given number.
+     * @param suspectIndex
+     * @return 
+     */
+    public String getSuspect(int suspectIndex){
+        return users[suspectIndex];
+    }
+    
+    /**
+     * Returns the weapon string represented by a given number.
+     * @param weaponIndex
+     * @return 
+     */
+    public String getWeapon(int weaponIndex){
+        return weaponDef[weaponIndex];
+    }
+    
+    /**
+     * Returns the room string represented by the given number
+     * @param roomIndex
+     * @return 
+     */
+    public String getRoom(int roomIndex){
+        return roomDef[roomIndex];
     }
     
     /**

@@ -79,12 +79,12 @@ public class ClientCon extends Thread
     server and call relevant functions 
     to affect UI changes
     */
-    public static String returnR(String msgsplit[]){
+    public String returnR(String msgsplit[]){
         String finalmsg="";
         String room = null;
         for(int i=2;i<msgsplit.length;i=i+2){
             if(msgsplit[i].contains("1")){
-                room=msgsplit[i+1];
+                room=gb.getRoom(Integer.parseInt(msgsplit[i+1]));
                 finalmsg=finalmsg+" Room: "+room;
             }
         }
@@ -92,13 +92,13 @@ public class ClientCon extends Thread
         return finalmsg;
     }
     
-    public static String returnS(String msgsplit[]){
+    public String returnS(String msgsplit[]){
         String finalmsg="";
         String suspect = null;
         for(int i=2;i<msgsplit.length;i=i+2){
 
             if(msgsplit[i].contains("0")){
-                suspect=msgsplit[i+1];
+                suspect=gb.getSuspect(Integer.parseInt(msgsplit[i+1]));
                 finalmsg=finalmsg+" Suspect: "+suspect;
             }
         }
@@ -106,13 +106,13 @@ public class ClientCon extends Thread
         return finalmsg;
     }
     
-    public static String returnW(String msgsplit[]){
+    public String returnW(String msgsplit[]){
         String finalmsg="";
         String weapon = null;
         for(int i=2;i<msgsplit.length;i=i+2){
 
             if(msgsplit[i].contains("2")){
-                weapon=msgsplit[i+1];
+                weapon=gb.getWeapon(Integer.parseInt(msgsplit[i+1]));
                 finalmsg=finalmsg+" Weapon: "+weapon;
             }
         }
@@ -140,8 +140,10 @@ public class ClientCon extends Thread
         if(msgid.equals("1")){
             //Inform that player has moved to a location
             System.out.println("Msg Rcvd: player location update \n");
-            ret="Player "+ msgsplit[2]+" has moved to location "+msgsplit[3];
-            clueLess.updatePlayerLocation(Integer.parseInt(msgsplit[2]),Integer.parseInt(msgsplit[3]));
+            int temp1 = Integer.parseInt(msgsplit[2]);
+            int temp2 = Integer.parseInt(msgsplit[3]);
+            ret="Player "+ gb.getSuspect(temp1)+" has moved to the "+gb.getRoom(temp2);
+            clueLess.updatePlayerLocation(temp1,temp2);
         }
         if(msgid.equals("2")){
             //Inform the turn options to the player
@@ -149,7 +151,7 @@ public class ClientCon extends Thread
             String finalmsg="";
             int [] availableMoves = new int[0];
             for(int i=3 ; i<msgsplit.length ; i++){
-                finalmsg=finalmsg+" "+msgsplit[i];
+                finalmsg=finalmsg+" "+gb.getRoom(Integer.parseInt(msgsplit[i]));
                 availableMoves = addElement(availableMoves,Integer.parseInt(msgsplit[i]));
             }
             //cueTurn function has to be called
@@ -169,7 +171,8 @@ public class ClientCon extends Thread
         if(msgid.equals("6")){
             //Inform the player that a player has revealed a card
             System.out.println("Msg Rcvd: player has revealed a card \n");
-            ret="Player : "+msgsplit[0]+" has revealed card : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
+            String user = gb.getSuspect(Integer.parseInt(msgsplit[0]));
+            ret="Player : "+user+" has revealed card : "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
         }
         if(msgid.equals("8")){
             //Inform the player that he or she loses
