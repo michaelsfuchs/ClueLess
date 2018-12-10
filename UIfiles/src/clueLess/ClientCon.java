@@ -225,7 +225,16 @@ public class ClientCon extends Thread
             
         }
         if(msgid.equals("13")){
-            ret = "Game has ended" ;
+            String playerWon;
+            if(Integer.parseInt(msgsplit[2]) == clueLess.playerID){
+                ret = "You won with cards "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
+                clueLess.endGameWinning(gb);
+            }
+            else{
+                ret = "Player "+msgsplit[2]+" won with cards "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
+                clueLess.endGameLosing(gb);
+            }
+            
         }
         return ret;   
     }
