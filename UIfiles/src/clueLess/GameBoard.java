@@ -1921,8 +1921,8 @@ public class GameBoard extends javax.swing.JFrame {
         textUpdateBox.setText("Setting up everything for you :)" + "\n");
         
         for(int i=0; i<6;i++){
-            suspectDropdown.add(suspectDef[i]);
-            suspectDropdown2.add(suspectDef[i]);
+            suspectDropdown.add(users[i]);
+            suspectDropdown2.add(users[i]);
         }
         for(int i=0; i<9;i++){
             roomDropdown.add(roomDef[i]);
@@ -1943,15 +1943,12 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public void genSuspectList(String[] suspect){
         // Initialize the suspect list in Detective Notes
-        for (int i = 0; i<suspect.length;i++){
-            
-            }
-        if(suspect.length<6){
-            int numNPCs = 6-suspect.length;
-            for(int i = numNPCs; i<6;i++){
+        for(int i = 0; i<6;i++){
+            if(suspect[i]==null){
                 suspect[i] = suspectDef[i];
             }
-        }
+        }            
+        
         this.DNsuspect1.setText(suspect[0]);
         this.DNsuspect2.setText(suspect[1]);
         this.DNsuspect3.setText(suspect[2]);
@@ -1971,7 +1968,7 @@ public class GameBoard extends javax.swing.JFrame {
         // Populate the card options for the user to choose
         for(int i=0;i<cardType.length;i++){
             if(cardType[i]==0){ // Card is suspect
-                cards[i] = suspectDef[cardID[i]];
+                cards[i] = users[cardID[i]];
             }
             else if(cardType[i]==1){ // Card is room
                 cards[i] = roomDef[cardID[i]];
@@ -2056,10 +2053,12 @@ public class GameBoard extends javax.swing.JFrame {
         accusationMenu.setVisible(false);
         suggestionMenu.setVisible(false);
         
+        //Clear card dropdown
+        cardDropdown.removeAll();
         // Populate the card options for the user to choose
         for(int i=0;i<cardType.length;i++){
             if(cardType[i]==0){ // Card is suspect
-                cardDropdown.add(suspectDef[cardID[i]]);
+                cardDropdown.add(users[cardID[i]]);
             }
             else if(cardType[i]==1){ // Card is room
                 cardDropdown.add(roomDef[cardID[i]]);

@@ -29,7 +29,7 @@ public class clueLess {
      */
     public static void main(String args[]){
     
-        serverIP = args[0];
+        serverIP = "localhost"; //args[0];
         // Initialize the UI
         gb = new GameBoard();
         gb.setVisible(true);
@@ -38,8 +38,7 @@ public class clueLess {
         // strings are "Welcome", "Lobby", "Gameboard", "Winning", and "Losing"
         // Note that a false accusation is a message, not a losing screen
         gb.switchScreens("Welcome");
-        gb.setupGameBoard();
-        
+                
         // add players
         //gb.addPlayer("T-Rex");
         //gb.addPlayer("Goldie");
@@ -134,6 +133,16 @@ public class clueLess {
     public static void switchScreens(String screen){
         gb.switchScreens(screen);
     }
+    
+    /**
+     * This function is used to initialize the gameboard.
+     */
+    public static void startGame(){
+        clueLess.initSuspectList(gb.users);
+        gb.setupGameBoard();
+        gb.switchScreens("GameBoard");
+    }
+    
     /**
      * This function will cue the UI that it's the user's turn, giving it the
      * available move options the player has and letting the UI know if they may

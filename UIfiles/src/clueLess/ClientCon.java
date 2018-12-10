@@ -135,7 +135,7 @@ public class ClientCon extends Thread
             //Inform players that the game was started.
             System.out.println("Msg Rcvd: game start msg \n");
             ret=msgsplit[2];
-            clueLess.switchScreens("GameBoard");
+            clueLess.startGame();
         }
         if(msgid.equals("1")){
             //Inform that player has moved to a location
@@ -219,7 +219,7 @@ public class ClientCon extends Thread
                 }
                 
             }    
-            clueLess.initSuspectList(gb.users);
+            
         }
         if(msgid.equals("13")){
             ret = "Game has ended" ;
