@@ -185,7 +185,9 @@ public class Game
 	{
 		try{
 			// First send message to everyone what the suggestion was		
-
+			CGServer.sendToAllClients("6:4:"+aPlayerID+":"+aSuspect.type+":"+
+				aSuspect.cardID+":"+aLocation.type+":"+aLocation.cardID+":"+aWeapon.type+":"+aWeapon.cardID);
+			
 			// move from old room to new room
 			Player p = players[aSuspect.cardID];
 			Location l = map.locId2Point.get(aLocation.cardID);
@@ -203,7 +205,7 @@ public class Game
 
 			for(int i = aPlayerID+1, count = 0; count < numPlayers-1; i=(i+1)%numPlayers, count++)
 			{
-				if(players[i].isAlive)
+				if(!players[i].hand.isEmpty())
 				{				
 					// Find matches in that players hand if they exist
 					ArrayList<Card> matches = new ArrayList<Card>(3);
