@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -15,18 +16,26 @@ import javax.swing.JOptionPane;
  */
 public class GameBoard extends javax.swing.JFrame {
 
+    //LinkedHashMap<String, String> roomContains = new LinkedHashMap<String, String>();
+    private int roomContains[][] = new int[21][0];
+    
     private int gameID;
     private int userCount=0;
     private String userID;
     public String users[]= new String[6];
-    private String suspectDef[] = {"Col. Mustard","Prof. Plum","Mr. Green","Mrs. Peacock","Miss Scarlet","Mrs.White"};
-    private String roomDef[] = {"Study","Library","Conservatory","Hall","Billiard Room","Ballroom","Lounge","Dining Room","Kitchen"};
+    private String suspectDef[] = {"Col. Mustard","Prof. Plum","Mr. Green",
+        "Mrs. Peacock","Miss Scarlet","Mrs.White"};
+    private String roomDef[] = {"Study","Library","Conservatory","Hall",
+        "Billiard Room","Ballroom","Lounge","Dining Room","Kitchen","Hallway9",
+        "Hallway10","Hallway11","Hallway12","Hallway13","Hallway14","Hallway15",
+        "Hallway16","Hallway17","Hallway18","Hallway19","Hallway20"};
     private String weaponDef[] = {"Knife","Candlestick","Pistol","Rope","Lead Pipe","Wrench"};
     
     private int moveOpts[];
     private int cardTypeRefs[];
     private int cardIDRefs[];
     private int playerLocation;
+    private int playerLocations[] = new int[6];
     
     /**
      * Creates new form GameBoard
@@ -38,16 +47,13 @@ public class GameBoard extends javax.swing.JFrame {
         closeRoomSelection();
         hideMenus();
         
-        
-
-        // Creating a map for the room values
-        /*Map<String, String> rightHereMap = new HashMap<String, String>()
-{
-    {
-        put("key1", "value1");
-        put("key2", "value2");
-    }
-};*/
+        /*// Creating a map of rooms
+        for(int i=0;i<9;i++){
+            roomContains.put(roomDef[i],roomDef[i]);
+        }
+        for(int i=9;i<21;i++){
+            roomContains.put(roomDef[i],"");
+        }*/
     }
 
     /**
@@ -2048,7 +2054,7 @@ public class GameBoard extends javax.swing.JFrame {
     /**
      * This function is a shortcut for post-move options.
      */
-    public void updateLocation(){
+    private void updateLocation(){
         clueLess.playerMove(playerLocation);
         closeRoomSelection();
         
@@ -2066,6 +2072,16 @@ public class GameBoard extends javax.swing.JFrame {
         }
         
         opMovePlayer.setEnabled(false);
+        
+    }
+    
+    /**
+     * This function will update the players shown in rooms on the map.
+     * @param playerID
+     * @param roomID 
+     */
+    public void updateMap(int playerID, int roomID){
+        //Lobby.setName
     }
     
     /**
