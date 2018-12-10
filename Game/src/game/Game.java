@@ -185,7 +185,7 @@ public class Game
 	{
 		try{
 			// First send message to everyone what the suggestion was		
-			CGServer.sendToAllClients("6:4:"+aPlayerID+":"+aSuspect.type+":"+
+			CGServer.sendToAllClients("6:4:"+aSuspect.type+":"+
 				aSuspect.cardID+":"+aLocation.type+":"+aLocation.cardID+":"+aWeapon.type+":"+aWeapon.cardID);
 			
 			// move from old room to new room
