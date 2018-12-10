@@ -54,7 +54,7 @@ public class CGServer extends Thread
             System.out.println("Started server thread");
             count = 0;    
             server.setSoTimeout(1000);
-            while(count<6 && startGame == false){
+            while(count<=6 && startGame == false){
                 try
                 {
                   if(endGame == true){
