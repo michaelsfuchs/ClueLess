@@ -42,6 +42,9 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public GameBoard() {
         initComponents();
+        for(int i=0;i<6;i++){
+            playerLocations[i] = -1;
+        }
         this.pack();
         this.setLocationRelativeTo(null);
         closeRoomSelection();
@@ -2080,7 +2083,22 @@ public class GameBoard extends javax.swing.JFrame {
         Hallway16,Hallway17,Hallway18,Hallway19,Hallway20};
         
         temp = rooms[roomID].getText();
+        System.out.println("Adding player to room "+roomID);
         rooms[roomID].setText("<html>"+temp+"<br /"+Integer.toString(playerID)+"<html>");
+        
+        if(playerLocations[playerID] != -1){
+            int currplayerloc = playerLocations[playerID];
+            String temp2 = rooms[currplayerloc].getText();
+
+            if(temp2.contains(""+playerID)){
+                System.out.print("Removing player from "+currplayerloc);
+                String replace = temp2.replace(""+playerID, "");
+            }
+            
+            rooms[currplayerloc].setText(temp2);
+        }
+        
+        playerLocations[playerID]=roomID;
         /*
         switch(roomID){
             case 0:
@@ -2160,7 +2178,7 @@ public class GameBoard extends javax.swing.JFrame {
             
         }
         Library.setText("Library\n"+suspectDef[playerID]); */
-        playerLocations[playerID]=roomID;
+        
     }
     
     /**
