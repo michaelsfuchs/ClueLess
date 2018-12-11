@@ -166,6 +166,9 @@ public class Game
 			// Announce player winner, end game
 			CGServer.sendToAllClients("6:8:Player " + aPlayerId + " Has Won!");
 			isGameRunning = false;
+			
+			CGServer.sendToAllClients("6:13:"+aPlayerId+":"+aSuspect.type+":"+
+				aSuspect.cardID+":"+aLocation.type+":"+aLocation.cardID+":"+aWeapon.type+":"+aWeapon.cardID);
 		}
 		else
 		{
@@ -176,8 +179,7 @@ public class Game
 			CGServer.sendToAllClients("6:8:Player " + aPlayerId + " Has Lost!");
 
 		}
-		CGServer.sendToAllClients("6:13:"+aPlayerId+":"+aSuspect.type+":"+
-				aSuspect.cardID+":"+aLocation.type+":"+aLocation.cardID+":"+aWeapon.type+":"+aWeapon.cardID);
+		
 	}
 	
 	// Card[] order is Player, Room, Weapon
