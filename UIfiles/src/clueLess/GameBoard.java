@@ -1784,7 +1784,7 @@ public class GameBoard extends javax.swing.JFrame {
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
         // TODO add your handling code here:
-        if(userCount>=1){
+        if(userCount>=3){
             switchScreens("GameBoard");
             clueLess.writeMsg("Start Game");
         }
