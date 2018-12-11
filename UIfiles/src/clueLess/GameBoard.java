@@ -1458,7 +1458,7 @@ public class GameBoard extends javax.swing.JFrame {
                         .addComponent(DetectiveNotesPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cardPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(textUpdatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(textUpdatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 623, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -1485,8 +1485,8 @@ public class GameBoard extends javax.swing.JFrame {
             .addGroup(WinningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(WinningLayout.createSequentialGroup()
                     .addGap(420, 420, 420)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(584, Short.MAX_VALUE)))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(521, Short.MAX_VALUE)))
         );
 
         getContentPane().add(Winning, "card5");
@@ -1512,8 +1512,8 @@ public class GameBoard extends javax.swing.JFrame {
             .addGroup(LosingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(LosingLayout.createSequentialGroup()
                     .addGap(420, 420, 420)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(584, Short.MAX_VALUE)))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(498, Short.MAX_VALUE)))
         );
 
         getContentPane().add(Losing, "card6");

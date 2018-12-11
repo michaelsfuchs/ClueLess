@@ -29,7 +29,7 @@ public class clueLess {
      */
     public static void main(String args[]){
     
-        serverIP = "localhost"; //args[0];
+        serverIP = args[0]; //args[0];
         // Initialize the UI
         gb = new GameBoard();
         gb.setVisible(true);
