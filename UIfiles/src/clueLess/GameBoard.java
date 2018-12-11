@@ -2032,7 +2032,7 @@ public class GameBoard extends javax.swing.JFrame {
             opEndTurn.setEnabled(true);
        }
         if(stayNSuggest){
-            opSuggestion.setEnabled(false);
+            opSuggestion.setEnabled(true);
         }
         else{
             opSuggestion.setEnabled(false);
