@@ -116,6 +116,9 @@ public class Game
 		Deck deck = new Deck(numPlayers, numRooms, numWeapons);
 		caseFile = deck.caseFile;
 		
+		System.out.println("Solution: " + caseFile[0].type+":"+
+				caseFile[0].cardID+":"+caseFile[1].type+":"+caseFile[1].cardID+":"+caseFile[2].type+":"+caseFile[2].cardID);
+		
 		int currCard = 0;
 		for(int currPlayer = 0; 
 				currCard < deck.deck.size(); 
