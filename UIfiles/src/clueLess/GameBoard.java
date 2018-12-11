@@ -2090,12 +2090,13 @@ public class GameBoard extends javax.swing.JFrame {
             int currplayerloc = playerLocations[playerID];
             String temp2 = rooms[currplayerloc].getText();
 
+            String replace = null;
             if(temp2.contains(""+playerID)){
                 System.out.print("Removing player from "+currplayerloc);
-                String replace = temp2.replace(""+playerID, "");
+                replace = ""+temp2.replace(""+playerID, "");
             }
             
-            rooms[currplayerloc].setText(temp2);
+            rooms[currplayerloc].setText(replace);
         }
         
         playerLocations[playerID]=roomID;
