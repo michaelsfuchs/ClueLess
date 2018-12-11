@@ -23,13 +23,13 @@ public class GameBoard extends javax.swing.JFrame {
     private int userCount=0;
     private String userID;
     public String users[]= new String[6];
-    private String suspectDef[] = {"Col. Mustard","Prof. Plum","Mr. Green",
+    private final String suspectDef[] = {"Col. Mustard","Prof. Plum","Mr. Green",
         "Mrs. Peacock","Miss Scarlet","Mrs.White"};
-    private String roomDef[] = {"Study","Library","Conservatory","Hall",
+    private final String roomDef[] = {"Study","Library","Conservatory","Hall",
         "Billiard Room","Ballroom","Lounge","Dining Room","Kitchen","Hallway9",
         "Hallway10","Hallway11","Hallway12","Hallway13","Hallway14","Hallway15",
         "Hallway16","Hallway17","Hallway18","Hallway19","Hallway20"};
-    private String weaponDef[] = {"Knife","Candlestick","Pistol","Rope","Lead Pipe","Wrench"};
+    private final String weaponDef[] = {"Knife","Candlestick","Pistol","Rope","Lead Pipe","Wrench"};
     
     private int moveOpts[];
     private int cardTypeRefs[];
@@ -46,15 +46,7 @@ public class GameBoard extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         closeRoomSelection();
         hideMenus();
-        
-        /*// Creating a map of rooms
-        for(int i=0;i<9;i++){
-            roomContains.put(roomDef[i],roomDef[i]);
-        }
-        for(int i=9;i<21;i++){
-            roomContains.put(roomDef[i],"");
-        }*/
-    }
+            }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -826,7 +818,7 @@ public class GameBoard extends javax.swing.JFrame {
             }
         });
 
-        Conservatory.setText("Conservatory");
+        Conservatory.setText("<html>Conserv<br />atory<html>");
         Conservatory.setMaximumSize(new java.awt.Dimension(100, 100));
         Conservatory.setMinimumSize(new java.awt.Dimension(100, 100));
         Conservatory.setPreferredSize(new java.awt.Dimension(100, 100));
@@ -920,7 +912,7 @@ public class GameBoard extends javax.swing.JFrame {
             }
         });
 
-        Study.setText("Study");
+        Study.setText("Study\n");
         Study.setMaximumSize(new java.awt.Dimension(100, 100));
         Study.setMinimumSize(new java.awt.Dimension(100, 100));
         Study.setPreferredSize(new java.awt.Dimension(100, 100));
@@ -939,7 +931,7 @@ public class GameBoard extends javax.swing.JFrame {
             }
         });
 
-        DiningRoom.setText("Dining Room");
+        DiningRoom.setText("<html>Dining<br />Room</html>");
         DiningRoom.setMaximumSize(new java.awt.Dimension(100, 100));
         DiningRoom.setMinimumSize(new java.awt.Dimension(100, 100));
         DiningRoom.setPreferredSize(new java.awt.Dimension(100, 100));
@@ -965,7 +957,7 @@ public class GameBoard extends javax.swing.JFrame {
             }
         });
 
-        BilliardRoom.setText("Billiard Room");
+        BilliardRoom.setText("<html>Billiard<br /> Room</html>");
         BilliardRoom.setMaximumSize(new java.awt.Dimension(100, 100));
         BilliardRoom.setMinimumSize(new java.awt.Dimension(100, 100));
         BilliardRoom.setPreferredSize(new java.awt.Dimension(100, 100));
@@ -1784,7 +1776,7 @@ public class GameBoard extends javax.swing.JFrame {
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
         // TODO add your handling code here:
-        if(userCount>=1){
+        if(userCount>=3){
             switchScreens("GameBoard");
             clueLess.writeMsg("Start Game");
         }
@@ -2081,7 +2073,86 @@ public class GameBoard extends javax.swing.JFrame {
      * @param roomID 
      */
     public void updateMap(int playerID, int roomID){
-        //Lobby.setName
+        String temp;
+        switch(roomID){
+            case 0:
+                temp = Study.getText();
+                Study.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 1: 
+                temp = Library.getText();
+                Library.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 2: 
+                temp = Conservatory.getText();
+                Conservatory.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 3:
+                temp=Hall.getText();
+                Hall.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 4:
+                temp = BilliardRoom.getText();
+                BilliardRoom.setText("<html>"+temp+"<br /"+Integer.toString(playerID)+"<html>");
+                break;
+            case 5:
+                temp = Ballroom.getText();
+                Ballroom.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 6:
+                temp = Lounge.getText();
+                Lounge.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 7:
+                temp = DiningRoom.getText();
+                DiningRoom.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 8:
+                temp = Kitchen.getText();
+                Kitchen.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 9:
+                Hallway9.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 10:
+                Hallway10.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 11:
+                Hallway11.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 12:
+                Hallway12.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 13:
+                Hallway13.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 14:
+                Hallway14.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 15:
+                Hallway15.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 16:
+                Hallway16.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 17:
+                Hallway17.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 18:
+                Hallway18.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 19:
+                Hallway19.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            case 20:
+                Hallway20.setText(roomDef[roomID]+Integer.toString(playerID));
+                break;
+            default: System.out.println("That is not a valid room code. \n");
+                break;
+            
+        }
+        Library.setText("Library\n"+suspectDef[playerID]);
+        playerLocations[playerID]=roomID;
     }
     
     /**

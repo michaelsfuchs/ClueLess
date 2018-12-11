@@ -115,3 +115,4 @@ UIfiles/build/classes/clueLess/GameBoard$7.class
 *.class
 *.class
 *.properties
+/UIfiles/dist/

@@ -29,7 +29,7 @@ public class clueLess {
      */
     public static void main(String args[]){
     
-        serverIP = args[0]; //args[0];
+        serverIP = "ec2-3-17-66-140.us-east-2.compute.amazonaws.com"; //args[0];
         // Initialize the UI
         gb = new GameBoard();
         gb.setVisible(true);
@@ -161,7 +161,7 @@ public class clueLess {
      * @param roomID 
      */
     public static void updatePlayerLocation(int playerID, int roomID){
-        
+        gb.updateMap(playerID,roomID);
     }
     
     /**

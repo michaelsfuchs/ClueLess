@@ -231,10 +231,10 @@ public class ClientCon extends Thread
                 clueLess.endGameWinning(gb);
             }
             else{
-                ret = "Player "+msgsplit[2]+" won with cards "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
+                String temp = gb.getSuspect(Integer.parseInt(msgsplit[2]));
+                ret = "Player "+temp+" won with cards "+returnS(msgsplit)+returnR(msgsplit)+returnW(msgsplit);
                 clueLess.endGameLosing(gb);
             }
-            
         }
         return ret;   
     }
