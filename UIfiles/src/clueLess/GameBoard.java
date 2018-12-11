@@ -2074,6 +2074,14 @@ public class GameBoard extends javax.swing.JFrame {
      */
     public void updateMap(int playerID, int roomID){
         String temp;
+        javax.swing.JButton rooms[]={Study,Library,Conservatory,Hall,
+        BilliardRoom,Ballroom,Lounge,DiningRoom,Kitchen,Hallway9,
+        Hallway10,Hallway11,Hallway12,Hallway13,Hallway14,Hallway15,
+        Hallway16,Hallway17,Hallway18,Hallway19,Hallway20};
+        
+        temp = rooms[roomID].getText();
+        rooms[roomID].setText("<html>"+temp+"<br /"+Integer.toString(playerID)+"<html>");
+        /*
         switch(roomID){
             case 0:
                 temp = Study.getText();
@@ -2151,7 +2159,7 @@ public class GameBoard extends javax.swing.JFrame {
                 break;
             
         }
-        Library.setText("Library\n"+suspectDef[playerID]);
+        Library.setText("Library\n"+suspectDef[playerID]); */
         playerLocations[playerID]=roomID;
     }
     
